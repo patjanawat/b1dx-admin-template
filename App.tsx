@@ -5,19 +5,19 @@ import { StatCard } from './components/StatCard';
 import { OrdersTable } from './components/OrdersTable';
 import { LoginPage } from './components/LoginPage';
 import { ForgotPasswordPage } from './components/ForgotPasswordPage';
+import { ResetPasswordPage } from './components/ResetPasswordPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
 import { Button } from './components/ui/Button';
 
-type ViewState = 'login' | 'forgot-password' | 'dashboard';
+type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard';
 
 export default function Page() {
-  // Set initial state to 'forgot-password' to show the newly created component
-  const [view, setView] = useState<ViewState>('forgot-password');
+  // Set initial state to 'reset-password' to show the newly created component
+  const [view, setView] = useState<ViewState>('reset-password');
   const [orders] = useState(INITIAL_ORDERS);
   const [stats] = useState(STATS_DATA);
 
-  // If not authenticated, show login or forgot password
   if (view === 'login') {
     return (
       <LoginPage 
@@ -31,6 +31,15 @@ export default function Page() {
     return (
       <ForgotPasswordPage 
         onBackToLogin={() => setView('login')} 
+      />
+    );
+  }
+
+  if (view === 'reset-password') {
+    return (
+      <ResetPasswordPage 
+        onBackToLogin={() => setView('login')}
+        onResetSuccess={() => setView('login')}
       />
     );
   }
