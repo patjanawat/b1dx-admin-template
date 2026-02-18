@@ -7,14 +7,16 @@ import {
   Eye, 
   EyeOff, 
   LogIn, 
-  Circle 
+  Circle,
+  ChevronDown
 } from 'lucide-react';
 
 interface LoginPageProps {
   onLogin: () => void;
+  onForgotPassword: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onForgotPassword }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('admin@company.com');
   const [password, setPassword] = useState('password');
@@ -26,14 +28,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faff] flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-[#f8faff] flex flex-col items-center justify-center p-6 font-['Inter']">
       {/* Brand Logo & Title */}
-      <div className="flex flex-col items-center mb-8 text-center">
-        <div className="bg-[#1d8cf8] text-white p-4 rounded-2xl shadow-lg shadow-blue-100 mb-4">
-          <Rocket size={32} />
+      <div className="flex items-center gap-3 mb-10">
+        <div className="bg-[#1d8cf8] text-white p-2.5 rounded-xl shadow-lg shadow-blue-200">
+          <div className="bg-white/20 p-0.5 rounded-md">
+             <ChevronDown size={24} className="stroke-[3px]" />
+          </div>
         </div>
-        <h1 className="text-2xl font-bold text-[#1e293b]">OMS Admin</h1>
-        <p className="text-sm text-[#94a3b8] mt-1 font-medium">Order Management System</p>
+        <h1 className="text-2xl font-bold text-[#1e293b] tracking-tight">OMS Admin</h1>
       </div>
 
       {/* Login Card */}
@@ -94,9 +97,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               />
               <span className="text-sm font-medium text-[#64748b] group-hover:text-slate-800 transition-colors">Remember me</span>
             </label>
-            <a href="#" className="text-sm font-bold text-[#1d8cf8] hover:text-[#1a7cdb] transition-colors">
+            <button 
+              type="button"
+              onClick={onForgotPassword}
+              className="text-sm font-bold text-[#1d8cf8] hover:text-[#1a7cdb] transition-colors"
+            >
               Forgot password?
-            </a>
+            </button>
           </div>
 
           {/* Submit Button */}
