@@ -4,9 +4,10 @@ import { User, Settings, DollarSign, HelpCircle, LogOut } from 'lucide-react';
 
 interface ProfileDropdownProps {
   onProfileClick?: () => void;
+  onLogout?: () => void;
 }
 
-export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick }) => {
+export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick, onLogout }) => {
   const menuItems = [
     { label: 'My Profile', icon: User, onClick: onProfileClick },
     { label: 'Settings', icon: Settings },
@@ -48,7 +49,10 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick
 
       {/* Logout Button */}
       <div className="p-3 pt-2 border-t border-slate-100 bg-slate-50/20">
-        <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-50 text-rose-600 text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95">
+        <button 
+          onClick={onLogout}
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-50 text-rose-600 text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"
+        >
           Logout
           <LogOut size={14} />
         </button>

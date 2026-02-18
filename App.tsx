@@ -44,8 +44,15 @@ export default function Page() {
     );
   }
 
+  const handleLogout = () => {
+    setView('login');
+  };
+
   return (
-    <Layout onViewChange={(newView) => setView(newView as ViewState)}>
+    <Layout 
+      onViewChange={(newView) => setView(newView as ViewState)}
+      onLogout={handleLogout}
+    >
       {view === 'profile' ? (
         <UserProfilePage 
           onCancel={() => setView('dashboard')} 

@@ -6,9 +6,10 @@ import { TopBar } from './TopBar';
 interface LayoutProps {
   children: React.ReactNode;
   onViewChange?: (view: string) => void;
+  onLogout?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, onViewChange }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, onViewChange, onLogout }) => {
   return (
     <div className="flex h-screen overflow-hidden bg-[#f8f9fa]">
       {/* Sidebar - Handles its own width based on collapse state */}
@@ -16,7 +17,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, onViewChange }) => {
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Navigation Bar */}
-        <TopBar onViewChange={onViewChange} />
+        <TopBar onViewChange={onViewChange} onLogout={onLogout} />
         
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar">

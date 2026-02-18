@@ -18,9 +18,10 @@ type Theme = 'light' | 'dark' | 'system';
 
 interface TopBarProps {
   onViewChange?: (view: string) => void;
+  onLogout?: () => void;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ onViewChange }) => {
+export const TopBar: React.FC<TopBarProps> = ({ onViewChange, onLogout }) => {
   const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -222,6 +223,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onViewChange }) => {
                   onViewChange?.('profile');
                   setIsProfileOpen(false);
                 }} 
+                onLogout={onLogout}
               />
             </div>
           )}
