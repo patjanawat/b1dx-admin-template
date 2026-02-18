@@ -16,7 +16,11 @@ import { ShortcutsDropdown } from './ShortcutsDropdown';
 
 type Theme = 'light' | 'dark' | 'system';
 
-export const TopBar: React.FC = () => {
+interface TopBarProps {
+  onViewChange?: (view: string) => void;
+}
+
+export const TopBar: React.FC<TopBarProps> = ({ onViewChange }) => {
   const [isThemeOpen, setIsThemeOpen] = useState(false);
   const [isNotiOpen, setIsNotiOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -213,7 +217,12 @@ export const TopBar: React.FC = () => {
           
           {isProfileOpen && (
             <div className="absolute right-0 mt-2 z-50 animate-dropdown">
-              <ProfileDropdown />
+              <ProfileDropdown 
+                onProfileClick={() => {
+                  onViewChange?.('profile');
+                  setIsProfileOpen(false);
+                }} 
+              />
             </div>
           )}
         </div>
