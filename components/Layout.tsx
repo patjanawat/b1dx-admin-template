@@ -5,15 +5,16 @@ import { TopBar } from './TopBar';
 
 interface LayoutProps {
   children: React.ReactNode;
+  activeView?: string;
   onViewChange?: (view: string) => void;
   onLogout?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, onViewChange, onLogout }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, activeView, onViewChange, onLogout }) => {
   return (
     <div className="flex h-screen overflow-hidden bg-[#f8f9fa]">
       {/* Sidebar - Handles its own width based on collapse state */}
-      <Sidebar />
+      <Sidebar activeView={activeView} onViewChange={onViewChange} />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Navigation Bar */}

@@ -7,11 +7,12 @@ import { LoginPage } from './components/LoginPage';
 import { ForgotPasswordPage } from './components/ForgotPasswordPage';
 import { ResetPasswordPage } from './components/ResetPasswordPage';
 import { UserProfilePage } from './components/UserProfilePage';
+import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
 import { Button } from './components/ui/Button';
 
-type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile';
+type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
 
 export default function Page() {
   const [view, setView] = useState<ViewState>('dashboard');
@@ -50,6 +51,7 @@ export default function Page() {
 
   return (
     <Layout 
+      activeView={view}
       onViewChange={(newView) => setView(newView as ViewState)}
       onLogout={handleLogout}
     >
@@ -58,6 +60,8 @@ export default function Page() {
           onCancel={() => setView('dashboard')} 
           onSave={() => setView('dashboard')} 
         />
+      ) : view === 'processing-orders' ? (
+        <OrderManagementPage />
       ) : (
         <div className="flex flex-col gap-8">
           {/* Dashboard Header with Actions */}
