@@ -103,11 +103,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ onViewChange, activeView }) =>
 
   return (
     <aside 
-      className={`relative bg-white border-r border-slate-200 flex flex-col h-screen transition-all duration-300 ease-in-out z-40 shrink-0 dark:bg-slate-900 dark:border-slate-800 ${
+      className={`relative bg-card border-r border-border flex flex-col h-screen transition-all duration-300 ease-in-out z-40 shrink-0 ${
         isCollapsed ? 'w-20' : 'w-[260px]'
       }`}
     >
-      <div className="h-16 flex items-center px-5 border-b border-slate-50 dark:border-slate-800/50 overflow-hidden shrink-0">
+      <div className="h-16 flex items-center px-5 border-b border-border/50 overflow-hidden shrink-0">
         <div className="flex items-center gap-3 min-w-[220px]">
           <div className="bg-[#1d8cf8] text-white p-2 rounded-lg shrink-0 shadow-lg shadow-blue-100 dark:shadow-blue-900/20">
             <Rocket size={20} />
