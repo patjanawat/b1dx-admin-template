@@ -48,16 +48,16 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
   }, []);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-      <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100 bg-white sticky top-0 z-20">
-        <h3 className="text-lg font-semibold text-slate-900">Recent Orders</h3>
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
+      <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 sticky top-0 z-20">
+        <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Orders</h3>
         <div className="flex gap-2">
           <div className="relative" ref={filterRef}>
             <Button 
               variant={isFilterOpen ? "secondary" : "outline"}
               size="sm"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="gap-2"
+              className="gap-2 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300"
             >
               <Filter size={14} />
               Filter
@@ -71,7 +71,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
             )}
           </div>
 
-          <Button size="sm" className="gap-2">
+          <Button size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white border-0">
             <Plus size={16} />
             Create Order
           </Button>
@@ -80,36 +80,36 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
 
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[120px]">Order ID</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+          <TableRow className="dark:bg-slate-800/30">
+            <TableHead className="w-[120px] font-bold text-slate-500 dark:text-slate-400">Order ID</TableHead>
+            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Customer</TableHead>
+            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Date</TableHead>
+            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Status</TableHead>
+            <TableHead className="text-right font-bold text-slate-500 dark:text-slate-400">Amount</TableHead>
             <TableHead className="text-right"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {orders.map((order) => (
-            <TableRow key={order.id}>
-              <TableCell className="font-bold text-slate-900">{order.id}</TableCell>
+            <TableRow key={order.id} className="dark:border-slate-800/50">
+              <TableCell className="font-bold text-slate-900 dark:text-slate-200">{order.id}</TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold ${order.customerColor}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shadow-sm ${order.customerColor}`}>
                     {order.customerInitials}
                   </div>
-                  <span className="font-medium text-slate-700">{order.customerName}</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-300">{order.customerName}</span>
                 </div>
               </TableCell>
-              <TableCell className="text-slate-500">{order.date}</TableCell>
+              <TableCell className="text-slate-500 dark:text-slate-400 text-sm">{order.date}</TableCell>
               <TableCell>
                 <StatusBadge status={order.status} />
               </TableCell>
-              <TableCell className="text-right font-bold text-slate-900">
+              <TableCell className="text-right font-bold text-slate-900 dark:text-slate-200">
                 ${order.amount.toFixed(2)}
               </TableCell>
               <TableCell className="text-right">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Button variant="ghost" size="icon" className="h-8 w-8 dark:text-slate-500 dark:hover:text-slate-300">
                   <MoreHorizontal size={18} />
                 </Button>
               </TableCell>
@@ -118,14 +118,16 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
         </TableBody>
       </Table>
 
-      <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
-        <p className="text-xs text-slate-500 font-medium">Showing {orders.length} of 1,284 results</p>
+      <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/30 dark:bg-slate-800/20">
+        <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
+          Showing {orders.length} of 1,284 results
+        </p>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="gap-1">
+          <Button variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
             <ChevronLeft size={14} />
             Previous
           </Button>
-          <Button variant="outline" size="sm" className="gap-1">
+          <Button variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
             Next
             <ChevronRight size={14} />
           </Button>

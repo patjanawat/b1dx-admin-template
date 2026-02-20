@@ -67,17 +67,29 @@ export default function Page() {
           {/* Dashboard Header with Actions */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-col gap-1">
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900">Dashboard Overview</h1>
-              <p className="text-slate-500">Welcome back, Alex. Here's what's happening today.</p>
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white drop-shadow-sm">
+                Dashboard Overview
+              </h1>
+              <p className="text-slate-500 dark:text-slate-400 font-medium">
+                Welcome back, Alex. Here's what's happening today.
+              </p>
             </div>
             
             <div className="flex items-center gap-3">
-              <Button variant="outline" size="sm" className="hidden sm:flex gap-2 bg-white">
-                <Calendar size={16} />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="hidden sm:flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
+              >
+                <Calendar size={16} className="text-indigo-500" />
                 Oct 24, 2023
               </Button>
-              <Button variant="outline" size="sm" className="flex gap-2 bg-white">
-                <Download size={16} />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
+              >
+                <Download size={16} className="text-emerald-500" />
                 Export
               </Button>
             </div>
@@ -100,23 +112,23 @@ export default function Page() {
             {/* Sidebar Insights & Marketing section */}
             <div className="space-y-6">
               {/* Quick Insights Card */}
-              <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-slate-900 mb-4">Quick Insights</h3>
+              <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Quick Insights</h3>
                 <div className="space-y-4">
-                  <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
-                    <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-1">Peak Sales Hour</p>
-                    <p className="text-lg font-bold text-slate-800">2:00 PM - 4:00 PM</p>
+                  <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-900/30">
+                    <p className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">Peak Sales Hour</p>
+                    <p className="text-lg font-bold text-slate-800 dark:text-slate-200">2:00 PM - 4:00 PM</p>
                     <p className="text-xs text-indigo-500 mt-2 font-medium">↑ 14% more than average</p>
                   </div>
                   
-                  <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-                    <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">Top Region</p>
-                    <p className="text-lg font-bold text-slate-800">California, US</p>
+                  <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
+                    <p className="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">Top Region</p>
+                    <p className="text-lg font-bold text-slate-800 dark:text-slate-200">California, US</p>
                     <p className="text-xs text-emerald-500 mt-2 font-medium">32% of total volume</p>
                   </div>
 
                   <div className="pt-2">
-                    <button className="w-full text-center py-2 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                    <button className="w-full text-center py-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors">
                       View Detailed Analytics
                     </button>
                   </div>
@@ -124,7 +136,7 @@ export default function Page() {
               </div>
 
               {/* Upgrade Promo Card */}
-              <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-6 text-white shadow-lg shadow-indigo-100 overflow-hidden relative group">
+              <div className="bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-6 text-white shadow-lg shadow-indigo-100 dark:shadow-indigo-900/40 overflow-hidden relative group">
                 <div className="relative z-10">
                   <h3 className="text-lg font-bold mb-2">Upgrade to Pro</h3>
                   <p className="text-indigo-100 text-sm mb-4 leading-relaxed">Get advanced AI-driven stock forecasting and multi-warehouse support.</p>

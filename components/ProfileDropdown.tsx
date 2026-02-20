@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User, Settings, DollarSign, HelpCircle, LogOut } from 'lucide-react';
 
@@ -16,20 +15,20 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick
   ];
 
   return (
-    <div className="w-64 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
+    <div className="w-64 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden dark:bg-slate-900 dark:border-slate-800">
       {/* User Header */}
-      <div className="p-5 flex items-center gap-4 border-b border-slate-100 bg-slate-50/30">
+      <div className="p-5 flex items-center gap-4 border-b border-slate-100 bg-slate-50/30 dark:bg-slate-800/50 dark:border-slate-800">
         <div className="relative">
           <img
             src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces"
             alt="Alex Rivera"
-            className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md"
+            className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md dark:ring-slate-800"
           />
-          <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+          <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full dark:border-slate-900"></span>
         </div>
         <div className="min-w-0">
-          <p className="text-base font-bold text-slate-800 truncate leading-tight">Alex Rivera</p>
-          <p className="text-xs text-slate-400 truncate mt-0.5">alex.rivera@oms-admin.com</p>
+          <p className="text-base font-bold text-slate-800 truncate leading-tight dark:text-slate-100">Alex Rivera</p>
+          <p className="text-xs text-slate-400 truncate mt-0.5 dark:text-slate-500">alex.rivera@oms-admin.com</p>
         </div>
       </div>
 
@@ -39,19 +38,19 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick
           <button
             key={item.label}
             onClick={item.onClick}
-            className="w-full flex items-center gap-3 px-3.5 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-indigo-600 rounded-lg transition-all text-sm font-medium group"
+            className="w-full flex items-center gap-3 px-3.5 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-indigo-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-indigo-400 rounded-lg transition-all text-sm font-medium group"
           >
-            <item.icon size={18} className="text-slate-400 group-hover:text-indigo-500 transition-colors" />
+            <item.icon size={18} className="text-slate-400 group-hover:text-indigo-50 group-hover:text-indigo-500 transition-colors dark:group-hover:text-indigo-400" />
             <span>{item.label}</span>
           </button>
         ))}
       </div>
 
       {/* Logout Button */}
-      <div className="p-3 pt-2 border-t border-slate-100 bg-slate-50/20">
+      <div className="p-3 pt-2 border-t border-slate-100 bg-slate-50/20 dark:bg-slate-900 dark:border-slate-800">
         <button 
           onClick={onLogout}
-          className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-50 text-rose-600 text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-rose-50 text-rose-600 text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95 dark:bg-rose-900/20 dark:text-rose-400 dark:hover:bg-rose-600 dark:hover:text-white"
         >
           Logout
           <LogOut size={14} />
