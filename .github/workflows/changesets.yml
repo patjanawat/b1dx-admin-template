@@ -31,7 +31,7 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm -w install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Create Release PR
         uses: changesets/action@v1

@@ -37,7 +37,7 @@ jobs:
             turbo-${{ runner.os }}-
 
       - name: Install
-        run: pnpm -w install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm -w lint
