@@ -46,14 +46,9 @@ export const TopBar: React.FC<TopBarProps> = ({ onViewChange, onLogout }) => {
   useEffect(() => {
     const root = window.document.documentElement;
     const applyTheme = (theme: Theme) => {
-      root.classList.remove('light', 'dark');
-      
-      if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        root.classList.add(systemTheme);
-      } else {
-        root.classList.add(theme);
-      }
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const useDark = theme === 'dark' || (theme === 'system' && prefersDark);
+      root.classList.toggle('dark', useDark);
       localStorage.setItem('theme', theme);
     };
 
