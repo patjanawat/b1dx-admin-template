@@ -2,11 +2,6 @@
   "extends": "@b1dx/typescript-config/react",
   "compilerOptions": {
     "moduleDetection": "force",
-    "types": [
-      "node",
-      "react",
-      "react-dom"
-    ],
     "paths": {
       "b1dx/ui": [
         "../../packages/ui/src/index.ts"
@@ -20,5 +15,4 @@
     "src"
   ]
 }
-
 
