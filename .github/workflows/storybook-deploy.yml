@@ -42,10 +42,21 @@ jobs:
       - name: Build Storybook
         run: pnpm --filter @b1dx/storybook build-storybook
 
+      - name: Debug Output
+        run: |
+          pwd
+          ls -la
+          find . -maxdepth 4 -type d -name "storybook-static"
+
+      - name: Verify Storybook Output
+        run: |
+          test -d apps/storybook/storybook-static || (echo "storybook-static not found. Build did not produce output." && exit 1)
+          ls -la apps/storybook/storybook-static
+
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: storybook-static
+          path: apps/storybook/storybook-static
 
   deploy:
     needs: build
