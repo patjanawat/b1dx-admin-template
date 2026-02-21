@@ -1,5 +1,5 @@
 {
-  "extends": "../typescript-config/lib.json",
+  "extends": "b1dx/typescript-config/lib",
   "compilerOptions": {
     "allowImportingTsExtensions": false,
     "outDir": "dist",

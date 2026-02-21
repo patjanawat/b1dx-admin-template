@@ -154,6 +154,10 @@ importers:
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
+    devDependencies:
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   packages/types:
     devDependencies:
@@ -161,7 +165,11 @@ importers:
         specifier: ~5.8.2
         version: 5.8.3
 
-  packages/typescript-config: {}
+  packages/typescript-config:
+    devDependencies:
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
 
   packages/ui:
     dependencies:

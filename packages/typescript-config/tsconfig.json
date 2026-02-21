@@ -1,0 +1,9 @@
+{
+  "extends": "b1dx/typescript-config/base",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src"
+  ]
+}

@@ -11,5 +11,12 @@
     "./base": "./base.json",
     "./react": "./react.json",
     "./lib": "./lib.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "typescript": "~5.8.2"
   }
 }
