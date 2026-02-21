@@ -28,6 +28,10 @@ module.exports = {
       ],
       patterns: [
         {
+          group: ['b1dx/ui/src/*'],
+          message: 'Do not import from b1dx/ui/src; use @b1dx/ui public exports.'
+        },
+        {
           group: ['b1dx/ui/*'],
           message: 'Use @b1dx/ui public exports only (no deep imports).'
         },
@@ -40,7 +44,13 @@ module.exports = {
           message: 'Do not import from @b1dx/ui/src; use @b1dx/ui public exports.'
         },
         {
-          group: ['**/packages/ui/**', '**/packages/ui/src/**', '**/packages/ui/dist/**'],
+          group: [
+            '**/packages/ui/**',
+            '**/packages/ui/src/**',
+            '**/packages/ui/dist/**',
+            'packages/ui/src/*',
+            '../*/packages/ui/src/*'
+          ],
           message: 'Do not import from packages/ui directly; use @b1dx/ui.'
         },
         {
