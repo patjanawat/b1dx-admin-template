@@ -14,7 +14,8 @@ export default defineConfig(() => {
         alias: {
           '@': path.resolve(__dirname, './src'),
           'b1dx/types': path.resolve(__dirname, '../../packages/types/src'),
-          '@b1dx/ui': path.resolve(__dirname, '../../packages/ui/src')
+          '@b1dx/ui': path.resolve(__dirname, '../../packages/ui/src'),
+          '@b1dx/theme': path.resolve(__dirname, '../../packages/theme')
         }
       }
     };
