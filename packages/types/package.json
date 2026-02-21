@@ -11,10 +11,13 @@
                               "default":  "./dist/index.js"
                           }
                 },
+    "files":  [
+                  "dist"
+              ],
     "scripts":  {
                     "typecheck":  "tsc --noEmit",
                     "build":  "tsc -p .",
-                    "lint":  "eslint . --ext .ts,.tsx,.js,.jsx"
+                    "lint":  "eslint ."
                 },
     "devDependencies":  {
                             "typescript":  "~5.8.2"

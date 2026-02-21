@@ -1,14 +1,17 @@
 {
-  "extends": "@b1dx/typescript-config/lib",
   "compilerOptions": {
-    "allowImportingTsExtensions": false,
     "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
     "emitDeclarationOnly": false,
-    "noEmit": false
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2021",
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "src"
   ]
 }
-
 

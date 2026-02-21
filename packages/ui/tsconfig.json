@@ -1,16 +1,18 @@
 {
-  "extends": "@b1dx/typescript-config/react",
   "compilerOptions": {
-    "allowImportingTsExtensions": false,
     "outDir": "dist",
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "emitDeclarationOnly": false,
-    "noEmit": false
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2021",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "src"
   ]
 }
-
 

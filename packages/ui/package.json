@@ -11,13 +11,16 @@
                               "default":  "./dist/index.js"
                           }
                 },
+    "files":  [
+                  "dist"
+              ],
     "peerDependencies":  {
                              "react":  "^19.0.0"
                          },
     "scripts":  {
                     "typecheck":  "tsc --noEmit",
                     "build":  "tsc -p .",
-                    "lint":  "eslint . --ext .ts,.tsx,.js,.jsx"
+                    "lint":  "eslint ."
                 },
     "devDependencies":  {
                             "typescript":  "~5.8.2",
