@@ -6,7 +6,8 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "pnpm --filter @b1dx/tokens build && pnpm --filter @b1dx/ui build && storybook build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@b1dx/tokens": "workspace:*",

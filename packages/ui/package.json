@@ -18,6 +18,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "check-types": "tsc --noEmit",
     "build": "tsc -p .",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\""
   },
