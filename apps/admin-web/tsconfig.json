@@ -4,7 +4,6 @@
     "experimentalDecorators": true,
     "moduleDetection": "force",
     "types": [
-      "node",
       "react",
       "react-dom"
     ],
