@@ -9,6 +9,7 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "@b1dx/admin-web",
-    "@b1dx/landing-web"
+    "@b1dx/landing-web",
+    "@b1dx/storybook"
   ]
 }
