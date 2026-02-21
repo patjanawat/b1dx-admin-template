@@ -9,7 +9,7 @@ import { UserProfilePage } from './components/UserProfilePage';
 import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
-import { Button, Layout } from '@b1dx/ui';
+import { Button, AppShell } from '@b1dx/ui';
 import { useAdminShellConfig } from './appShellConfig';
 
 type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
@@ -68,7 +68,7 @@ export default function Page() {
   return (
     <>
       <Toaster position="top-right" richColors />
-      <Layout 
+      <AppShell 
         sidebarProps={sidebarProps}
         topBarProps={topBarProps}
       >
@@ -167,7 +167,7 @@ export default function Page() {
             </div>
           </div>
         )}
-      </Layout>
+      </AppShell>
     </>
   );
 }

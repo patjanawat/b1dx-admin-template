@@ -9,7 +9,7 @@ import {
   LayoutGrid
 } from 'lucide-react';
 import { NotificationsDropdown } from './NotificationsDropdown';
-import { ProfileDropdown } from './ProfileDropdown';
+import { AppProfileDropdown } from './AppProfileDropdown';
 import { LanguageDropdown } from './LanguageDropdown';
 import { ShortcutsDropdown } from './ShortcutsDropdown';
 import type { AppTheme, AppThemeOption, AppTopBarProps } from './appShellTypes';
@@ -21,7 +21,7 @@ const getInitials = (name: string) => {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 };
 
-export const TopBar: React.FC<AppTopBarProps> = ({
+export const AppTopBar: React.FC<AppTopBarProps> = ({
   title,
   search,
   language,
@@ -330,7 +330,7 @@ export const TopBar: React.FC<AppTopBarProps> = ({
 
             {isProfileOpen && (
               <div className="absolute right-0 mt-2 z-50 animate-dropdown">
-                <ProfileDropdown {...profile} />
+                <AppProfileDropdown {...profile} />
               </div>
             )}
           </div>

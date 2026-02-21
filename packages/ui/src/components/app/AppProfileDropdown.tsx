@@ -9,7 +9,7 @@ const getInitials = (name: string) => {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 };
 
-export const ProfileDropdown: React.FC<AppProfileDropdownProps> = ({
+export const AppProfileDropdown: React.FC<AppProfileDropdownProps> = ({
   user,
   menuItems,
   onLogout,

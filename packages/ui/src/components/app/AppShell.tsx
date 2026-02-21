@@ -1,15 +1,15 @@
 import React from 'react';
-import { Sidebar } from './Sidebar';
-import { TopBar } from './TopBar';
+import { AppSidebar } from './AppSidebar';
+import { AppTopBar } from './AppTopBar';
 import type { AppLayoutProps } from './appShellTypes';
 
-export const Layout: React.FC<AppLayoutProps> = ({ children, sidebarProps, topBarProps }) => {
+export const AppShell: React.FC<AppLayoutProps> = ({ children, sidebarProps, topBarProps }) => {
   return (
     <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200">
-      <Sidebar {...sidebarProps} />
+      <AppSidebar {...sidebarProps} />
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        <TopBar {...topBarProps} />
+        <AppTopBar {...topBarProps} />
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar bg-background">
           <div className="max-w-[1400px] mx-auto w-full space-y-8">

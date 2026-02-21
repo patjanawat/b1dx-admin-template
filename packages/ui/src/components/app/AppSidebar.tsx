@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import type { AppSidebarProps } from './appShellTypes';
 
-export const Sidebar: React.FC<AppSidebarProps> = ({
+export const AppSidebar: React.FC<AppSidebarProps> = ({
   navGroups,
   onViewChange,
   activeView,

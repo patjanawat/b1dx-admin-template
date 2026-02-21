@@ -6,12 +6,12 @@ export { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';
-export { Layout } from './components/app/Layout';
-export { Sidebar } from './components/app/Sidebar';
-export { TopBar } from './components/app/TopBar';
+export { AppShell } from './components/app/AppShell';
+export { AppSidebar } from './components/app/AppSidebar';
+export { AppTopBar } from './components/app/AppTopBar';
 export { LanguageDropdown } from './components/app/LanguageDropdown';
 export { NotificationsDropdown } from './components/app/NotificationsDropdown';
-export { ProfileDropdown } from './components/app/ProfileDropdown';
+export { AppProfileDropdown } from './components/app/AppProfileDropdown';
 export { ShortcutsDropdown } from './components/app/ShortcutsDropdown';
 export type {
   AppLayoutProps,
