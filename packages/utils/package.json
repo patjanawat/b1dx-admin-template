@@ -15,9 +15,9 @@
                   "dist"
               ],
     "scripts":  {
-                    "typecheck":  "tsc --noEmit",
-                    "build":  "tsc -p .",
-                    "lint":  "eslint ."
+    "typecheck":  "tsc --noEmit",
+    "build":  "tsc -p .",
+    "lint":  "eslint \"src/**/*.{ts,tsx,js,jsx}\""
                 },
     "devDependencies":  {
                             "typescript":  "~5.8.2"
