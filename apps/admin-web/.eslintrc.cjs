@@ -1,3 +1,3 @@
 module.exports = {
-  extends: [require.resolve('b1dx/eslint-config')]
+  extends: ['b1dx/eslint-config']
 };

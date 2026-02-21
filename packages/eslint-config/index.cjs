@@ -1,5 +1,4 @@
 module.exports = {
-  root: true,
   env: {
     browser: true,
     node: true,
@@ -15,11 +14,6 @@ module.exports = {
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
-  },
-  settings: {
-    react: {
-      version: 'detect'
     }
   },
   rules: {
