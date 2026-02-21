@@ -1,0 +1,23 @@
+{
+    "name":  "@b1dx/typescript-config",
+    "version":  "0.0.0",
+    "private":  true,
+    "files":  [
+                  "base.json",
+                  "react.json",
+                  "lib.json"
+              ],
+    "exports":  {
+                    "./base":  "./base.json",
+                    "./react":  "./react.json",
+                    "./lib":  "./lib.json"
+                },
+    "scripts":  {
+                    "typecheck":  "tsc --noEmit",
+                    "lint":  "echo \"skip lint (config-only)\""
+                },
+    "devDependencies":  {
+                            "typescript":  "~5.8.2"
+                        }
+}
+
