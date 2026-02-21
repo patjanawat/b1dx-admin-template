@@ -45,6 +45,9 @@ importers:
 
   apps/admin-web:
     dependencies:
+      '@b1dx/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
       '@b1dx/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
@@ -224,6 +227,8 @@ importers:
         specifier: ~5.8.2
         version: 5.8.3
 
+  packages/theme: {}
+
   packages/tokens: {}
 
   packages/types:
@@ -247,6 +252,9 @@ importers:
       '@types/react':
         specifier: ^19.0.0
         version: 19.2.14
+      lucide-react:
+        specifier: ^0.574.0
+        version: 0.574.0(react@19.2.4)
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
