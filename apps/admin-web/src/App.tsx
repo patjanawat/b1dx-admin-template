@@ -9,7 +9,7 @@ import { UserProfilePage } from './components/UserProfilePage';
 import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
-import { Button, AppShell } from '@b1dx/ui';
+import { AppButton, AppShell } from '@b1dx/ui';
 import { useAdminShellConfig } from './appShellConfig';
 
 type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
@@ -93,22 +93,22 @@ export default function Page() {
               </div>
               
               <div className="flex items-center gap-3">
-                <Button 
+                <AppButton 
                   variant="outline" 
                   size="sm" 
                   className="hidden sm:flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
                 >
                   <Calendar size={16} className="text-indigo-500" />
                   Oct 24, 2023
-                </Button>
-                <Button 
+                </AppButton>
+                <AppButton 
                   variant="outline" 
                   size="sm" 
                   className="flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
                 >
                   <Download size={16} className="text-emerald-500" />
                   Export
-                </Button>
+                </AppButton>
               </div>
             </div>
 

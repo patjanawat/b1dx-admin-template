@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
-import { Button } from './Button';
+import { AppButton } from './AppButton';
 import type { AppNotificationsDropdownProps } from './appShellTypes';
 
 export const NotificationsDropdown: React.FC<AppNotificationsDropdownProps> = ({
@@ -93,12 +93,12 @@ export const NotificationsDropdown: React.FC<AppNotificationsDropdownProps> = ({
       </div>
 
       <div className="p-4 bg-slate-50/50 border-t border-slate-100 dark:bg-slate-900 dark:border-slate-800">
-        <Button
+        <AppButton
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-widest py-5 dark:shadow-indigo-900/20"
           onClick={onViewAll}
         >
           {viewAllLabel}
-        </Button>
+        </AppButton>
       </div>
     </div>
   );

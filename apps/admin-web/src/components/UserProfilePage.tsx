@@ -10,7 +10,7 @@ import {
   RefreshCw,
   Camera
 } from 'lucide-react';
-import { Button } from '@b1dx/ui';
+import { AppButton } from '@b1dx/ui';
 
 interface UserProfilePageProps {
   onCancel: () => void;
@@ -129,10 +129,10 @@ export const UserProfilePage: React.FC<UserProfilePageProps> = ({ onCancel, onSa
               <p className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-1">Password</p>
               <p className="text-xs text-slate-500 dark:text-slate-400">Last changed 3 months ago. We recommend updating it regularly.</p>
             </div>
-            <Button variant="outline" className="text-[#1d8cf8] border-[#1d8cf8] hover:bg-blue-50 dark:hover:bg-blue-900/20 font-bold gap-2">
+            <AppButton variant="outline" className="text-[#1d8cf8] border-[#1d8cf8] hover:bg-blue-50 dark:hover:bg-blue-900/20 font-bold gap-2">
               <RefreshCw size={14} />
               Change Password
-            </Button>
+            </AppButton>
           </div>
         </section>
 

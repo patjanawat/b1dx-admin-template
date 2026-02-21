@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { StatItem } from '../types';
-import { Card, CardContent } from '@b1dx/ui';
+import { AppCard, AppCardContent } from '@b1dx/ui';
 
 export const StatCard: React.FC<StatItem> = ({ label, value, change, changeType, icon, iconBg, iconColor, footerText }) => {
   const getFooterIcon = () => {
@@ -23,8 +23,8 @@ export const StatCard: React.FC<StatItem> = ({ label, value, change, changeType,
   };
 
   return (
-    <Card className="hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-200">
-      <CardContent className="p-6">
+    <AppCard className="hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-200">
+      <AppCardContent className="p-6">
         <div className="flex items-center justify-between gap-4">
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-slate-500 tracking-tight truncate dark:text-slate-400">
@@ -47,7 +47,7 @@ export const StatCard: React.FC<StatItem> = ({ label, value, change, changeType,
             {icon}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </AppCardContent>
+    </AppCard>
   );
 };

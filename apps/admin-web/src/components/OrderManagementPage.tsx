@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { Badge, Button } from '@b1dx/ui';
+import { AppButton } from '@b1dx/ui';
 
 interface StatusTab {
   id: number;
@@ -229,31 +229,31 @@ export const OrderManagementPage: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Button 
+              <AppButton 
                 onClick={handleSearch}
                 className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white px-10 h-12 rounded-xl gap-2.5 font-bold shadow-lg shadow-blue-500/20 dark:shadow-blue-900/40 border-0 transition-all active:scale-95"
               >
                 <Search size={18} />
                 {t('common.search')}
-              </Button>
-              <Button variant="outline" className="h-12 rounded-xl px-6 bg-slate-50 text-slate-500 border-slate-200 font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+              </AppButton>
+              <AppButton variant="outline" className="h-12 rounded-xl px-6 bg-slate-50 text-slate-500 border-slate-200 font-bold dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                 {t('common.clear')}
-              </Button>
+              </AppButton>
               <button className="text-[#1d8cf8] font-bold text-[13px] ml-2 hover:underline dark:text-blue-400 transition-all">
                 {t('common.advanced_search')}
               </button>
             </div>
 
             <div className="flex items-center gap-2.5 w-full sm:w-auto">
-              <Button variant="outline" className="h-12 rounded-xl px-5 bg-white border-slate-200 text-slate-700 font-bold gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+              <AppButton variant="outline" className="h-12 rounded-xl px-5 bg-white border-slate-200 text-slate-700 font-bold gap-2 dark:bg-slate-900 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                 <ListFilter size={18} />
                 {t('common.sort')}
                 <ChevronDown size={14} className="ml-0.5 opacity-60" />
-              </Button>
-              <Button variant="outline" className="h-12 rounded-xl px-5 bg-emerald-50 text-emerald-600 border-emerald-100 font-bold gap-2 hover:bg-emerald-100 dark:bg-emerald-900/10 dark:text-emerald-400 dark:border-emerald-900/30 transition-colors">
+              </AppButton>
+              <AppButton variant="outline" className="h-12 rounded-xl px-5 bg-emerald-50 text-emerald-600 border-emerald-100 font-bold gap-2 hover:bg-emerald-100 dark:bg-emerald-900/10 dark:text-emerald-400 dark:border-emerald-900/30 transition-colors">
                 <Download size={18} />
                 {t('common.export_excel')}
-              </Button>
+              </AppButton>
             </div>
           </div>
         </div>
