@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      'b1dx/ui': path.resolve(__dirname, '../../packages/ui/src'),
+      '@b1dx/ui': path.resolve(__dirname, '../../packages/ui/src'),
       'b1dx/utils': path.resolve(__dirname, '../../packages/utils/src')
     }
   }

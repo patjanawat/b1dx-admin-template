@@ -14,7 +14,7 @@
       "b1dx/types": [
         "../../packages/types/src/index.ts"
       ],
-      "b1dx/ui": [
+      "@b1dx/ui": [
         "../../packages/ui/src/index.ts"
       ]
     }

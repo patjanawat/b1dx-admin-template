@@ -5,15 +5,17 @@
     "type":  "module",
     "scripts":  {
                     "dev":  "vite",
-                    "build":  "vite build",
-                    "preview":  "vite preview",
-                    "lint":  "eslint . --ext .ts,.tsx,.js,.jsx",
-                    "typecheck":  "tsc --noEmit"
+    "build":  "vite build",
+    "preview":  "vite preview",
+    "lint":  "eslint . --ext .ts,.tsx,.js,.jsx",
+    "typecheck":  "tsc --noEmit",
+    "check-types":  "tsc --noEmit"
                 },
     "dependencies":  {
                          "@tailwindcss/vite":  "^4.2.0",
                          "@b1dx/types":  "workspace:*",
                          "@b1dx/ui":  "workspace:*",
+                         "@b1dx/theme":  "workspace:*",
                          "@b1dx/tokens":  "workspace:*",
                          "i18next":  "^23.7.16",
                          "i18next-browser-languagedetector":  "^7.2.0",

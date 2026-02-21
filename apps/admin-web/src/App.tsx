@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Toaster } from 'sonner';
-import { Layout } from './components/Layout';
 import { StatCard } from './components/StatCard';
 import { OrdersTable } from './components/OrdersTable';
 import { LoginPage } from './components/LoginPage';
@@ -10,7 +9,8 @@ import { UserProfilePage } from './components/UserProfilePage';
 import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
-import { Button } from 'b1dx/ui';
+import { AppButton, AppShell } from '@b1dx/ui';
+import { useAdminShellConfig } from './appShellConfig';
 
 type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
 
@@ -57,14 +57,20 @@ export default function Page() {
   const handleLogout = () => {
     setView('login');
   };
+  const handleViewChange = (newView: string) => setView(newView as ViewState);
+
+  const { sidebarProps, topBarProps } = useAdminShellConfig({
+    activeView: view,
+    onViewChange: handleViewChange,
+    onLogout: handleLogout
+  });
 
   return (
     <>
       <Toaster position="top-right" richColors />
-      <Layout 
-        activeView={view}
-        onViewChange={(newView) => setView(newView as ViewState)}
-        onLogout={handleLogout}
+      <AppShell 
+        sidebarProps={sidebarProps}
+        topBarProps={topBarProps}
       >
         {view === 'profile' ? (
           <UserProfilePage 
@@ -87,22 +93,22 @@ export default function Page() {
               </div>
               
               <div className="flex items-center gap-3">
-                <Button 
+                <AppButton 
                   variant="outline" 
                   size="sm" 
                   className="hidden sm:flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
                 >
                   <Calendar size={16} className="text-indigo-500" />
                   Oct 24, 2023
-                </Button>
-                <Button 
+                </AppButton>
+                <AppButton 
                   variant="outline" 
                   size="sm" 
                   className="flex gap-2 bg-white dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200 shadow-sm border-slate-200"
                 >
                   <Download size={16} className="text-emerald-500" />
                   Export
-                </Button>
+                </AppButton>
               </div>
             </div>
 
@@ -161,7 +167,7 @@ export default function Page() {
             </div>
           </div>
         )}
-      </Layout>
+      </AppShell>
     </>
   );
 }

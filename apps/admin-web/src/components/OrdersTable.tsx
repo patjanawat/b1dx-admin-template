@@ -4,15 +4,15 @@ import { MoreHorizontal, Filter, Plus, ChevronLeft, ChevronRight } from 'lucide-
 import { Order, OrderStatus } from 'b1dx/types';
 import { FilterDropdown } from './FilterDropdown';
 import { 
-  Table, 
-  TableHeader, 
-  TableBody, 
-  TableRow, 
-  TableHead, 
-  TableCell,
-  Button,
-  Badge
-} from 'b1dx/ui';
+  AppTable, 
+  AppTableHeader, 
+  AppTableBody, 
+  AppTableRow, 
+  AppTableHead, 
+  AppTableCell,
+  AppButton,
+  AppBadge
+} from '@b1dx/ui';
 
 interface OrdersTableProps {
   orders: Order[];
@@ -27,9 +27,9 @@ const StatusBadge: React.FC<{ status: OrderStatus }> = ({ status }) => {
   };
 
   return (
-    <Badge variant={variants[status]}>
+    <AppBadge variant={variants[status]}>
       {status}
-    </Badge>
+    </AppBadge>
   );
 };
 
@@ -53,7 +53,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
         <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Orders</h3>
         <div className="flex gap-2">
           <div className="relative" ref={filterRef}>
-            <Button 
+            <AppButton 
               variant={isFilterOpen ? "secondary" : "outline"}
               size="sm"
               onClick={() => setIsFilterOpen(!isFilterOpen)}
@@ -61,7 +61,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
             >
               <Filter size={14} />
               Filter
-            </Button>
+            </AppButton>
             
             {isFilterOpen && (
               <FilterDropdown 
@@ -71,66 +71,66 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
             )}
           </div>
 
-          <Button size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white border-0">
+          <AppButton size="sm" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white border-0">
             <Plus size={16} />
             Create Order
-          </Button>
+          </AppButton>
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow className="dark:bg-slate-800/30">
-            <TableHead className="w-[120px] font-bold text-slate-500 dark:text-slate-400">Order ID</TableHead>
-            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Customer</TableHead>
-            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Date</TableHead>
-            <TableHead className="font-bold text-slate-500 dark:text-slate-400">Status</TableHead>
-            <TableHead className="text-right font-bold text-slate-500 dark:text-slate-400">Amount</TableHead>
-            <TableHead className="text-right"></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+      <AppTable>
+        <AppTableHeader>
+          <AppTableRow className="dark:bg-slate-800/30">
+            <AppTableHead className="w-[120px] font-bold text-slate-500 dark:text-slate-400">Order ID</AppTableHead>
+            <AppTableHead className="font-bold text-slate-500 dark:text-slate-400">Customer</AppTableHead>
+            <AppTableHead className="font-bold text-slate-500 dark:text-slate-400">Date</AppTableHead>
+            <AppTableHead className="font-bold text-slate-500 dark:text-slate-400">Status</AppTableHead>
+            <AppTableHead className="text-right font-bold text-slate-500 dark:text-slate-400">Amount</AppTableHead>
+            <AppTableHead className="text-right"></AppTableHead>
+          </AppTableRow>
+        </AppTableHeader>
+        <AppTableBody>
           {orders.map((order) => (
-            <TableRow key={order.id} className="dark:border-slate-800/50">
-              <TableCell className="font-bold text-slate-900 dark:text-slate-200">{order.id}</TableCell>
-              <TableCell>
+            <AppTableRow key={order.id} className="dark:border-slate-800/50">
+              <AppTableCell className="font-bold text-slate-900 dark:text-slate-200">{order.id}</AppTableCell>
+              <AppTableCell>
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shadow-sm ${order.customerColor}`}>
                     {order.customerInitials}
                   </div>
                   <span className="font-medium text-slate-700 dark:text-slate-300">{order.customerName}</span>
                 </div>
-              </TableCell>
-              <TableCell className="text-slate-500 dark:text-slate-400 text-sm">{order.date}</TableCell>
-              <TableCell>
+              </AppTableCell>
+              <AppTableCell className="text-slate-500 dark:text-slate-400 text-sm">{order.date}</AppTableCell>
+              <AppTableCell>
                 <StatusBadge status={order.status} />
-              </TableCell>
-              <TableCell className="text-right font-bold text-slate-900 dark:text-slate-200">
+              </AppTableCell>
+              <AppTableCell className="text-right font-bold text-slate-900 dark:text-slate-200">
                 ${order.amount.toFixed(2)}
-              </TableCell>
-              <TableCell className="text-right">
-                <Button variant="ghost" size="icon" className="h-8 w-8 dark:text-slate-500 dark:hover:text-slate-300">
+              </AppTableCell>
+              <AppTableCell className="text-right">
+                <AppButton variant="ghost" size="icon" className="h-8 w-8 dark:text-slate-500 dark:hover:text-slate-300">
                   <MoreHorizontal size={18} />
-                </Button>
-              </TableCell>
-            </TableRow>
+                </AppButton>
+              </AppTableCell>
+            </AppTableRow>
           ))}
-        </TableBody>
-      </Table>
+        </AppTableBody>
+      </AppTable>
 
       <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/30 dark:bg-slate-800/20">
         <p className="text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">
           Showing {orders.length} of 1,284 results
         </p>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
+          <AppButton variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
             <ChevronLeft size={14} />
             Previous
-          </Button>
-          <Button variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
+          </AppButton>
+          <AppButton variant="outline" size="sm" className="gap-1 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 h-8">
             Next
             <ChevronRight size={14} />
-          </Button>
+          </AppButton>
         </div>
       </div>
     </div>

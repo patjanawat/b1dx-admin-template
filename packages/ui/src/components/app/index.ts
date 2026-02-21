@@ -1,7 +1,4 @@
-export { AppButton } from './components/app/AppButton';
-export { AppDialogConfirm } from './components/app/AppDialogConfirm';
-export { AppEmptyState } from './components/app/AppEmptyState';
-export { AppBadge } from './components/app/AppBadge';
+export { AppBadge } from './AppBadge';
 export {
   AppCard,
   AppCardContent,
@@ -9,8 +6,8 @@ export {
   AppCardFooter,
   AppCardHeader,
   AppCardTitle
-} from './components/app/AppCard';
-export { AppInput } from './components/app/AppInput';
+} from './AppCard';
+export { AppInput } from './AppInput';
 export {
   AppTable,
   AppTableBody,
@@ -19,11 +16,14 @@ export {
   AppTableHead,
   AppTableHeader,
   AppTableRow
-} from './components/app/AppTable';
-export { AppShell } from './components/app/AppShell';
-export { AppSidebar } from './components/app/AppSidebar';
-export { AppTopBar } from './components/app/AppTopBar';
-export { AppProfileDropdown } from './components/app/AppProfileDropdown';
+} from './AppTable';
+export { AppButton } from './AppButton';
+export { AppDialogConfirm } from './AppDialogConfirm';
+export { AppEmptyState } from './AppEmptyState';
+export { AppShell } from './AppShell';
+export { AppSidebar } from './AppSidebar';
+export { AppTopBar } from './AppTopBar';
+export { AppProfileDropdown } from './AppProfileDropdown';
 export type {
   AppLayoutProps,
   AppNavGroup,
@@ -45,4 +45,4 @@ export type {
   AppTheme,
   AppThemeOption,
   AppTopBarProps
-} from './components/app/appShellTypes';
+} from './appShellTypes';

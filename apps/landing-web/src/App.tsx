@@ -1,4 +1,4 @@
-import { Button } from 'b1dx/ui';
+import { AppButton } from '@b1dx/ui';
 import { getCurrentYear } from 'b1dx/utils';
 
 export default function App() {
@@ -11,8 +11,8 @@ export default function App() {
           Uses shared UI and utils from the monorepo. Current year: {getCurrentYear()}.
         </p>
         <div className="mt-6 flex gap-3">
-          <Button>Get Started</Button>
-          <Button variant="outline">Contact</Button>
+          <AppButton>Get Started</AppButton>
+          <AppButton variant="outline">Contact</AppButton>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "moduleDetection": "force",
     "paths": {
-      "b1dx/ui": [
+      "@b1dx/ui": [
         "../../packages/ui/src/index.ts"
       ],
       "b1dx/utils": [

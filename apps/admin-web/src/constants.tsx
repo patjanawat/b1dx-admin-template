@@ -3,21 +3,7 @@ import React from 'react';
 import { ShoppingCart, Truck, Package, DollarSign, BarChart2 } from 'lucide-react';
 import { Order } from 'b1dx/types';
 import { StatItem } from './types';
-
-export interface NotificationItem {
-  id: string;
-  title: string;
-  description: string;
-  time: string;
-  unread: boolean;
-  type: 'image' | 'initials' | 'icon';
-  avatar?: string;
-  initials?: string;
-  initialsBg?: string;
-  icon?: React.ReactNode;
-  iconBg?: string;
-  iconColor?: string;
-}
+import type { AppNotificationItem } from '@b1dx/ui';
 
 export const INITIAL_ORDERS: Order[] = [
   {
@@ -116,15 +102,15 @@ export const STATS_DATA: StatItem[] = [
   }
 ];
 
-export const MOCK_NOTIFICATIONS: NotificationItem[] = [
+export const MOCK_NOTIFICATIONS: AppNotificationItem[] = [
   {
     id: '1',
-    title: 'Congratulations Flora 🎉',
+    title: 'Congratulations Flora',
     description: 'Won the monthly bestseller gold badge',
     time: '1h ago',
     unread: true,
     type: 'image',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'
+    avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop'
   },
   {
     id: '2',
@@ -134,7 +120,7 @@ export const MOCK_NOTIFICATIONS: NotificationItem[] = [
     unread: true,
     type: 'initials',
     initials: 'CB',
-    initialsBg: 'bg-slate-100 text-slate-600'
+    initialsClassName: 'bg-slate-100 text-slate-600'
   },
   {
     id: '3',
@@ -143,7 +129,7 @@ export const MOCK_NOTIFICATIONS: NotificationItem[] = [
     time: 'May 18, 8:26 AM',
     unread: false,
     type: 'image',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
+    avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop'
   },
   {
     id: '4',
@@ -153,17 +139,18 @@ export const MOCK_NOTIFICATIONS: NotificationItem[] = [
     unread: false,
     type: 'icon',
     icon: <BarChart2 size={18} />,
-    iconBg: 'bg-cyan-50',
-    iconColor: 'text-cyan-500'
+    iconBgClassName: 'bg-cyan-50',
+    iconColorClassName: 'text-cyan-500'
   },
   {
     id: '5',
-    title: 'Application has been approved 🚀',
+    title: 'Application has been approved',
     description: 'Your recent SKU update was approved',
     time: 'Apr 20, 2:15 PM',
     unread: false,
     type: 'initials',
     initials: 'MG',
-    initialsBg: 'bg-emerald-50 text-emerald-600'
+    initialsClassName: 'bg-emerald-50 text-emerald-600'
   }
 ];
+

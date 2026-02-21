@@ -1,24 +1,10 @@
 import React from 'react';
+import type { AppLanguageDropdownProps } from './appShellTypes';
 
-export interface Language {
-  id: string;
-  label: string;
-}
-
-const LANGUAGES: Language[] = [
-  { id: 'en', label: 'English' },
-  { id: 'th', label: 'ไทย' },
-];
-
-interface LanguageDropdownProps {
-  selectedId: string;
-  onSelect: (id: string) => void;
-}
-
-export const LanguageDropdown: React.FC<LanguageDropdownProps> = ({ selectedId, onSelect }) => {
+export const LanguageDropdown: React.FC<AppLanguageDropdownProps> = ({ items, selectedId, onSelect }) => {
   return (
     <div className="w-44 bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden py-1.5 dark:bg-slate-900 dark:border-slate-800">
-      {LANGUAGES.map((lang) => (
+      {items.map((lang) => (
         <button
           key={lang.id}
           onClick={() => onSelect(lang.id)}

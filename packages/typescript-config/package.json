@@ -14,6 +14,7 @@
                 },
     "scripts":  {
                     "typecheck":  "tsc --noEmit",
+                    "check-types":  "tsc --noEmit",
                     "lint":  "echo \"skip lint (config-only)\""
                 },
     "devDependencies":  {

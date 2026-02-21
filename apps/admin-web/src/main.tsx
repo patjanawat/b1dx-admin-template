@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import './i18n';
+import '@b1dx/theme/styles/base.css';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
