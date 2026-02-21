@@ -1,5 +1,5 @@
 {
-  "extends": "b1dx/typescript-config/react",
+  "extends": "../../packages/typescript-config/react.json",
   "compilerOptions": {
     "experimentalDecorators": true,
     "moduleDetection": "force",
