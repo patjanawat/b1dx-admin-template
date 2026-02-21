@@ -25,5 +25,10 @@
     "eslint": "^8.57.0",
     "turbo": "^2.4.4",
     "typescript": "~5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "6.4.1"
+    }
   }
 }
