@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: pnpm -w install --frozen-lockfile
+
+      - name: Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'turbo.json') }}
+          restore-keys: |
+            turbo-${{ runner.os }}-
+
+      - name: Lint
+        run: pnpm turbo lint
+
+      - name: Typecheck
+        run: pnpm turbo typecheck
+
+      - name: Detect Test Scripts
+        id: tests
+        run: |
+          node -e "const fs=require('fs');const path=require('path');const roots=['apps','packages'];let has=false; for (const root of roots){ if(!fs.existsSync(root)) continue; for (const dir of fs.readdirSync(root)){ const pkg=path.join(root,dir,'package.json'); if(fs.existsSync(pkg)){ const json=JSON.parse(fs.readFileSync(pkg,'utf8')); if(json.scripts && json.scripts.test){ has=true; break; } } } if(has) break; } fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_tests=${has}\n`);"
+
+      - name: Test
+        if: steps.tests.outputs.has_tests == 'true'
+        run: pnpm turbo test
+
+      - name: Build
+        run: pnpm turbo build
