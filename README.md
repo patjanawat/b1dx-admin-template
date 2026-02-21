@@ -18,3 +18,11 @@ View your app in AI Studio: https://ai.studio/apps/5cd93563-ca4a-484c-a3ce-43abe
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## CI
+
+Add a status badge to your README (replace `OWNER/REPO`):
+
+```md
+![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)
+```
