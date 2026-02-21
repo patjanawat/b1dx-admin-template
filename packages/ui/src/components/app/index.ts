@@ -6,3 +6,32 @@ export { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 export { AppButton } from './AppButton';
 export { AppDialogConfirm } from './AppDialogConfirm';
 export { AppEmptyState } from './AppEmptyState';
+export { Layout } from './Layout';
+export { Sidebar } from './Sidebar';
+export { TopBar } from './TopBar';
+export { LanguageDropdown } from './LanguageDropdown';
+export { NotificationsDropdown } from './NotificationsDropdown';
+export { ProfileDropdown } from './ProfileDropdown';
+export { ShortcutsDropdown } from './ShortcutsDropdown';
+export type {
+  AppLayoutProps,
+  AppNavGroup,
+  AppNavItem,
+  AppNavSubItem,
+  AppSidebarBrand,
+  AppSidebarFooterAction,
+  AppSidebarProps,
+  AppLanguageItem,
+  AppLanguageDropdownProps,
+  AppNotificationItem,
+  AppNotificationsDropdownProps,
+  AppShortcutItem,
+  AppShortcutsDropdownProps,
+  AppProfileUser,
+  AppProfileMenuItem,
+  AppProfileDropdownProps,
+  AppTopBarSearchProps,
+  AppTheme,
+  AppThemeOption,
+  AppTopBarProps
+} from './appShellTypes';

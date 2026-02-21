@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Toaster } from 'sonner';
-import { Layout } from './components/Layout';
 import { StatCard } from './components/StatCard';
 import { OrdersTable } from './components/OrdersTable';
 import { LoginPage } from './components/LoginPage';
@@ -10,7 +9,8 @@ import { UserProfilePage } from './components/UserProfilePage';
 import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
-import { Button } from '@b1dx/ui';
+import { Button, Layout } from '@b1dx/ui';
+import { useAdminShellConfig } from './appShellConfig';
 
 type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
 
@@ -57,14 +57,20 @@ export default function Page() {
   const handleLogout = () => {
     setView('login');
   };
+  const handleViewChange = (newView: string) => setView(newView as ViewState);
+
+  const { sidebarProps, topBarProps } = useAdminShellConfig({
+    activeView: view,
+    onViewChange: handleViewChange,
+    onLogout: handleLogout
+  });
 
   return (
     <>
       <Toaster position="top-right" richColors />
       <Layout 
-        activeView={view}
-        onViewChange={(newView) => setView(newView as ViewState)}
-        onLogout={handleLogout}
+        sidebarProps={sidebarProps}
+        topBarProps={topBarProps}
       >
         {view === 'profile' ? (
           <UserProfilePage 

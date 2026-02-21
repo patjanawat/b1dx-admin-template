@@ -6,4 +6,33 @@ export { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';
+export { Layout } from './components/app/Layout';
+export { Sidebar } from './components/app/Sidebar';
+export { TopBar } from './components/app/TopBar';
+export { LanguageDropdown } from './components/app/LanguageDropdown';
+export { NotificationsDropdown } from './components/app/NotificationsDropdown';
+export { ProfileDropdown } from './components/app/ProfileDropdown';
+export { ShortcutsDropdown } from './components/app/ShortcutsDropdown';
+export type {
+  AppLayoutProps,
+  AppNavGroup,
+  AppNavItem,
+  AppNavSubItem,
+  AppSidebarBrand,
+  AppSidebarFooterAction,
+  AppSidebarProps,
+  AppLanguageItem,
+  AppLanguageDropdownProps,
+  AppNotificationItem,
+  AppNotificationsDropdownProps,
+  AppShortcutItem,
+  AppShortcutsDropdownProps,
+  AppProfileUser,
+  AppProfileMenuItem,
+  AppProfileDropdownProps,
+  AppTopBarSearchProps,
+  AppTheme,
+  AppThemeOption,
+  AppTopBarProps
+} from './components/app/appShellTypes';
 export { cn } from './lib/cn';
