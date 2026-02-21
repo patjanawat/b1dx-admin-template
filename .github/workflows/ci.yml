@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -22,31 +26,25 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
-      - name: Install Dependencies
-        run: pnpm -w install --frozen-lockfile
-
       - name: Cache Turbo
         uses: actions/cache@v4
         with:
           path: .turbo
-          key: turbo-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'turbo.json') }}
+          key: turbo-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             turbo-${{ runner.os }}-
 
+      - name: Install
+        run: pnpm -w install --frozen-lockfile
+
       - name: Lint
-        run: pnpm turbo lint
+        run: pnpm -w lint
 
       - name: Typecheck
-        run: pnpm turbo typecheck
-
-      - name: Detect Test Scripts
-        id: tests
-        run: |
-          node -e "const fs=require('fs');const path=require('path');const roots=['apps','packages'];let has=false; for (const root of roots){ if(!fs.existsSync(root)) continue; for (const dir of fs.readdirSync(root)){ const pkg=path.join(root,dir,'package.json'); if(fs.existsSync(pkg)){ const json=JSON.parse(fs.readFileSync(pkg,'utf8')); if(json.scripts && json.scripts.test){ has=true; break; } } } if(has) break; } fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_tests=${has}\n`);"
-
-      - name: Test
-        if: steps.tests.outputs.has_tests == 'true'
-        run: pnpm turbo test
+        run: pnpm -w typecheck
 
       - name: Build
-        run: pnpm turbo build
+        run: pnpm -w build
+
+      - name: Test
+        run: pnpm -w test --if-present
