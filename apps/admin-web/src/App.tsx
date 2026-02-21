@@ -10,7 +10,7 @@ import { UserProfilePage } from './components/UserProfilePage';
 import { OrderManagementPage } from './components/OrderManagementPage';
 import { INITIAL_ORDERS, STATS_DATA } from './constants';
 import { Calendar, Download } from 'lucide-react';
-import { Button } from 'b1dx/ui';
+import { Button } from '@b1dx/ui';
 
 type ViewState = 'login' | 'forgot-password' | 'reset-password' | 'dashboard' | 'profile' | 'processing-orders';
 

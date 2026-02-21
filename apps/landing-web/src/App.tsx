@@ -1,4 +1,4 @@
-import { Button } from 'b1dx/ui';
+import { Button } from '@b1dx/ui';
 import { getCurrentYear } from 'b1dx/utils';
 
 export default function App() {

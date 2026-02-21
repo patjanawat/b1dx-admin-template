@@ -12,7 +12,7 @@ import {
   TableCell,
   Button,
   Badge
-} from 'b1dx/ui';
+} from '@b1dx/ui';
 
 interface OrdersTableProps {
   orders: Order[];

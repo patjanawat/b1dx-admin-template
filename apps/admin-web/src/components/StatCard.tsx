@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { StatItem } from '../types';
-import { Card, CardContent } from 'b1dx/ui';
+import { Card, CardContent } from '@b1dx/ui';
 
 export const StatCard: React.FC<StatItem> = ({ label, value, change, changeType, icon, iconBg, iconColor, footerText }) => {
   const getFooterIcon = () => {
