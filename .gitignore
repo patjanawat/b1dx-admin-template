@@ -23,6 +23,7 @@ dist-ssr
 out
 coverage
 .turbo
+apps/storybook/storybook-static
 
 # ================================
 # Environment files
