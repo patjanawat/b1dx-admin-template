@@ -24,6 +24,7 @@
     "tailwindcss": "^4.2.0"
   },
   "devDependencies": {
+    "b1dx/typescript-config": "workspace:*",
     "b1dx/eslint-config": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

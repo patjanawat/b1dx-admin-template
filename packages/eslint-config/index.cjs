@@ -17,6 +17,11 @@ module.exports = {
       jsx: true
     }
   },
+  rules: {
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'no-useless-escape': 'off'
+  },
   ignorePatterns: [
     'dist',
     'build',

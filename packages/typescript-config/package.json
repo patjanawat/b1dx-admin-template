@@ -4,6 +4,12 @@
   "private": true,
   "files": [
     "base.json",
-    "react.json"
-  ]
+    "react.json",
+    "lib.json"
+  ],
+  "exports": {
+    "./base": "./base.json",
+    "./react": "./react.json",
+    "./lib": "./lib.json"
+  }
 }

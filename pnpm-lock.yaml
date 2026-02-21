@@ -20,6 +20,12 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.0.0
         version: 7.18.0(eslint@8.57.1)(typescript@5.8.3)
+      b1dx/eslint-config:
+        specifier: workspace:*
+        version: link:packages/eslint-config
+      b1dx/typescript-config:
+        specifier: workspace:*
+        version: link:packages/typescript-config
       eslint:
         specifier: ^8.57.0
         version: 8.57.1
@@ -81,6 +87,9 @@ importers:
       b1dx/eslint-config:
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      b1dx/typescript-config:
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
@@ -124,6 +133,9 @@ importers:
       b1dx/eslint-config:
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      b1dx/typescript-config:
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
