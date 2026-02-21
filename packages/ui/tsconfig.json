@@ -1,5 +1,5 @@
 {
-  "extends": "b1dx/typescript-config/react",
+  "extends": "@b1dx/typescript-config/react",
   "compilerOptions": {
     "allowImportingTsExtensions": false,
     "outDir": "dist",
@@ -12,3 +12,5 @@
     "src"
   ]
 }
+
+

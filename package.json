@@ -12,8 +12,8 @@
     "test": "turbo test"
   },
   "devDependencies": {
-    "b1dx/typescript-config": "workspace:*",
-    "b1dx/eslint-config": "workspace:*",
+    "@b1dx/typescript-config": "workspace:*",
+    "@b1dx/eslint-config": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",

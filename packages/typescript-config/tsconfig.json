@@ -1,5 +1,5 @@
 {
-  "extends": "b1dx/typescript-config/base",
+  "extends": "@b1dx/typescript-config/base",
   "compilerOptions": {
     "noEmit": true
   },
@@ -7,3 +7,5 @@
     "src"
   ]
 }
+
+

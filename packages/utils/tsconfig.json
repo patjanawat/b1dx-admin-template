@@ -1,5 +1,5 @@
 {
-  "extends": "b1dx/typescript-config/lib",
+  "extends": "@b1dx/typescript-config/lib",
   "compilerOptions": {
     "allowImportingTsExtensions": false,
     "outDir": "dist",
@@ -10,3 +10,5 @@
     "src"
   ]
 }
+
+

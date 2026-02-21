@@ -1,22 +1,23 @@
 {
-  "name": "b1dx/utils",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "build": "tsc -p .",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx"
-  },
-  "devDependencies": {
-    "typescript": "~5.8.2"
-  }
+    "name":  "@b1dx/utils",
+    "version":  "0.0.0",
+    "private":  true,
+    "type":  "module",
+    "main":  "./dist/index.js",
+    "types":  "./dist/index.d.ts",
+    "exports":  {
+                    ".":  {
+                              "types":  "./dist/index.d.ts",
+                              "default":  "./dist/index.js"
+                          }
+                },
+    "scripts":  {
+                    "typecheck":  "tsc --noEmit",
+                    "build":  "tsc -p .",
+                    "lint":  "eslint . --ext .ts,.tsx,.js,.jsx"
+                },
+    "devDependencies":  {
+                            "typescript":  "~5.8.2"
+                        }
 }
+
