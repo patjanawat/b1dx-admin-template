@@ -10,7 +10,7 @@
     ],
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ],
       "b1dx/types": [
         "../../packages/types/src/index.ts"
