@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mail, Check } from 'lucide-react';
 import { MOCK_NOTIFICATIONS } from '../constants';
-import { Button } from './ui/Button';
+import { Button } from 'b1dx/ui';
 
 export const NotificationsDropdown: React.FC = () => {
   return (

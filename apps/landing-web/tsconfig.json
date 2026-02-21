@@ -1,0 +1,22 @@
+{
+  "extends": "../../packages/typescript-config/react.json",
+  "compilerOptions": {
+    "moduleDetection": "force",
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ],
+    "paths": {
+      "b1dx/ui": [
+        "../../packages/ui/src/index.ts"
+      ],
+      "b1dx/utils": [
+        "../../packages/utils/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}

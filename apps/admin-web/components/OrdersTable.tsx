@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MoreHorizontal, Filter, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Order, OrderStatus } from '../types';
+import { Order, OrderStatus } from 'b1dx/types';
 import { FilterDropdown } from './FilterDropdown';
 import { 
   Table, 
@@ -9,10 +9,10 @@ import {
   TableBody, 
   TableRow, 
   TableHead, 
-  TableCell 
-} from './ui/Table';
-import { Button } from './ui/Button';
-import { Badge } from './ui/Badge';
+  TableCell,
+  Button,
+  Badge
+} from 'b1dx/ui';
 
 interface OrdersTableProps {
   orders: Order[];

@@ -10,7 +10,7 @@ import {
   RefreshCw,
   Camera
 } from 'lucide-react';
-import { Button } from './ui/Button';
+import { Button } from 'b1dx/ui';
 
 interface UserProfilePageProps {
   onCancel: () => void;

@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { ShoppingCart, Truck, Package, DollarSign, BarChart2 } from 'lucide-react';
-import { Order, StatItem } from './types';
+import { Order } from 'b1dx/types';
+import { StatItem } from './types';
 
 export interface NotificationItem {
   id: string;

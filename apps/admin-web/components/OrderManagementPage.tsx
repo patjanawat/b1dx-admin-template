@@ -12,8 +12,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { Badge } from './ui/Badge';
-import { Button } from './ui/Button';
+import { Badge, Button } from 'b1dx/ui';
 
 interface StatusTab {
   id: number;

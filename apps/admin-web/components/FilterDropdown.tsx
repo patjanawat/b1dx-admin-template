@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { X, RotateCcw, Check } from 'lucide-react';
-import { OrderStatus } from '../types';
+import { OrderStatus } from 'b1dx/types';
 
 interface FilterDropdownProps {
   onClose: () => void;
