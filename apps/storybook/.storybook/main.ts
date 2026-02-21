@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
@@ -16,6 +17,7 @@ const config: StorybookConfig = {
   },
   viteFinal: async (viteConfig) => ({
     ...viteConfig,
+    root: resolve(__dirname, '..'),
     resolve: {
       ...viteConfig.resolve
     }
