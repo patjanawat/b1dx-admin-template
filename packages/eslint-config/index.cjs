@@ -36,8 +36,20 @@ module.exports = {
           message: 'Use @b1dx/ui public exports only (no deep imports).'
         },
         {
+          group: ['@b1dx/ui/src/*'],
+          message: 'Do not import from @b1dx/ui/src; use @b1dx/ui public exports.'
+        },
+        {
           group: ['**/packages/ui/**', '**/packages/ui/src/**', '**/packages/ui/dist/**'],
           message: 'Do not import from packages/ui directly; use @b1dx/ui.'
+        },
+        {
+          group: ['**/packages/ui/src/*', '**/packages/ui/src/**', '../../packages/ui/src/*'],
+          message: 'Do not import from packages/ui/src; use @b1dx/ui.'
+        },
+        {
+          group: ['@b1dx/ui/components/ui/*', '**/components/ui/*'],
+          message: 'Do not import UI primitives directly; use App* wrappers via @b1dx/ui.'
         }
       ]
     }]
