@@ -26,3 +26,12 @@ Add a status badge to your README (replace `OWNER/REPO`):
 ```md
 ![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg)
 ```
+
+## Releases (Changesets)
+
+1. Create a changeset:
+   `pnpm changeset`
+2. Version packages (creates version bumps + changelog updates):
+   `pnpm version-packages`
+3. Publish (from a release branch or main, depending on your workflow):
+   `pnpm release`

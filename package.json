@@ -9,17 +9,21 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "test": "turbo test"
+    "test": "turbo test",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   },
   "devDependencies": {
-    "@b1dx/typescript-config": "workspace:*",
     "@b1dx/eslint-config": "workspace:*",
+    "@b1dx/typescript-config": "workspace:*",
+    "@changesets/cli": "^2.29.8",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
-    "typescript": "~5.8.2",
-    "turbo": "^2.4.4"
+    "turbo": "^2.4.4",
+    "typescript": "~5.8.2"
   }
 }
