@@ -3,7 +3,7 @@ name: Changesets
 on:
   push:
     branches:
-      - main
+      - develop
 
 concurrency:
   group: changesets-${{ github.workflow }}-${{ github.ref }}
