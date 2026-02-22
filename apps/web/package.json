@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "prebuild": "rimraf .next",
+    "prebuild": "pnpm exec rimraf .next",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
+    
   },
   "dependencies": {
     "@b1dx/theme": "workspace:*",
