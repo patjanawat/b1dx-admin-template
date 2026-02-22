@@ -3,13 +3,14 @@ import Link from 'next/link';
 import './globals.css';
 import '@b1dx/theme/styles/base.css';
 import '@b1dx/tokens/css';
+import { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'B1DX UI Preview',
   description: 'UI preview and visual checks for the B1DX design system.'
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>

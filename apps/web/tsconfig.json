@@ -8,14 +8,20 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": [
+        "./*"
+      ]
+    },
+    "incremental": true,
+    "esModuleInterop": true,
+    "jsx": "preserve"
   },
   "include": [
-    "next-env.d.ts",
-    "app/**/*",
     "*.ts",
-    "*.tsx"
+    "*.tsx",
+    "app/**/*",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

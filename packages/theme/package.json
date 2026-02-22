@@ -5,13 +5,17 @@
   "type": "module",
   "exports": {
     "./styles/base.css": "./styles/base.css",
-    "./tailwind/preset": "./tailwind/preset.ts"
+    "./tailwind/preset": {
+      "types": "./dist/tailwind/preset.d.ts",
+      "default": "./dist/tailwind/preset.js"
+    }
   },
   "files": [
-    "styles",
-    "tailwind"
+    "dist",
+    "styles"
   ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
     "check-types": "tsc --noEmit"
   }
 }
