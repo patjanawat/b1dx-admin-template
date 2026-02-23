@@ -19,6 +19,7 @@
     "react": "^19.0.0"
   },
   "scripts": {
+    "dev": "tsc -p . -w",
     "typecheck": "tsc --noEmit",
     "check-types": "tsc --noEmit",
     "build": "tsc -p .",
