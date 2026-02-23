@@ -1,7 +1,9 @@
 import "@b1dx/theme/styles/base.css";
 import "../styles/globals.css";
+import { QueryProvider } from "@/lib/query/QueryProvider";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "SaaS Starter",
@@ -16,8 +18,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>
-        {/* Providers placeholder */}
-        {children}
+        <QueryProvider>
+          {/* Providers placeholder */}
+          {children}
+        </QueryProvider>
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );
