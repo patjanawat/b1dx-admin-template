@@ -15,6 +15,7 @@
     "@b1dx/tokens": "workspace:*"
   },
   "scripts": {
+    "dev": "echo \"skip dev (theme)\"",
     "build": "echo \"skip build (theme)\"",
     "lint": "echo \"skip lint (theme)\"",
     "typecheck": "tsc --noEmit",
