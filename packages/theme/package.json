@@ -11,7 +11,20 @@
     "styles",
     "tailwind"
   ],
+  "dependencies": {
+    "@b1dx/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=3 <5"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  },
   "scripts": {
+    "dev": "echo \"skip dev (theme)\"",
+    "build": "echo \"skip build (theme)\"",
+    "lint": "echo \"skip lint (theme)\"",
+    "typecheck": "tsc --noEmit",
     "check-types": "tsc --noEmit"
   }
 }

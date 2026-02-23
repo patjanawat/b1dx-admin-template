@@ -17,6 +17,9 @@
     "dist/tokens.css"
   ],
   "scripts": {
-    "build": "node scripts/build-tokens.cjs"
+    "dev": "chokidar \"src/tokens.json\" -c \"pnpm build\"",
+    "build": "node scripts/build-tokens.cjs",
+    "lint": "echo \"skip lint (tokens)\"",
+    "typecheck": "echo \"skip typecheck (tokens)\""
   }
 }

@@ -1,24 +1,33 @@
 {
   "extends": "../../packages/typescript-config/react.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
+    "jsx": "preserve",
     "moduleDetection": "force",
     "types": [
+      "node",
       "react",
       "react-dom"
     ],
     "paths": {
       "@/*": [
-        "./src/*"
-      ],
-      "b1dx/types": [
-        "../../packages/types/src/index.ts"
-      ],
-      "@b1dx/ui": [
-        "../../packages/ui/src/index.ts"
+        "./app/*"
       ]
-    }
-  }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "incremental": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.ts",
+    "app/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
-
-

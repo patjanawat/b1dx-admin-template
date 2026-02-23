@@ -7,9 +7,11 @@
                     ".":  "./index.cjs"
                 },
     "scripts":  {
-                    "typecheck":  "tsc --noEmit",
-                    "check-types":  "tsc --noEmit",
-                    "lint":  "eslint \"*.cjs\""
+                    "build":  "echo \"skip build (config-only)\"",
+                    "dev":  "echo \"skip dev (eslint-config)\"",
+                    "lint":  "echo \"skip lint (config-only)\"",
+                    "typecheck":  "echo \"skip typecheck (config-only)\"",
+                    "check-types":  "tsc --noEmit"
                 },
     "peerDependencies":  {
                              "@typescript-eslint/eslint-plugin":  "^7.0.0",
