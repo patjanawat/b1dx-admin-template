@@ -8,6 +8,7 @@
                 },
     "scripts":  {
                     "build":  "echo \"skip build (config-only)\"",
+                    "dev":  "echo \"noop\"",
                     "lint":  "echo \"skip lint (config-only)\"",
                     "typecheck":  "echo \"skip typecheck (config-only)\"",
                     "check-types":  "tsc --noEmit"

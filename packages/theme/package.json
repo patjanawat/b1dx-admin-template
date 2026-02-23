@@ -11,6 +11,9 @@
     "styles",
     "tailwind"
   ],
+  "dependencies": {
+    "@b1dx/tokens": "workspace:*"
+  },
   "scripts": {
     "build": "echo \"skip build (theme)\"",
     "lint": "echo \"skip lint (theme)\"",
