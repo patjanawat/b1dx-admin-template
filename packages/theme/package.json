@@ -12,6 +12,9 @@
     "tailwind"
   ],
   "scripts": {
+    "build": "echo \"skip build (theme)\"",
+    "lint": "echo \"skip lint (theme)\"",
+    "typecheck": "tsc --noEmit",
     "check-types": "tsc --noEmit"
   }
 }

@@ -17,6 +17,8 @@
     "dist/tokens.css"
   ],
   "scripts": {
-    "build": "node scripts/build-tokens.cjs"
+    "build": "node scripts/build-tokens.cjs",
+    "lint": "echo \"skip lint (tokens)\"",
+    "typecheck": "echo \"skip typecheck (tokens)\""
   }
 }

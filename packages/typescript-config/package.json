@@ -13,9 +13,10 @@
                     "./lib":  "./lib.json"
                 },
     "scripts":  {
-                    "typecheck":  "tsc --noEmit",
-                    "check-types":  "tsc --noEmit",
-                    "lint":  "echo \"skip lint (config-only)\""
+                    "build":  "echo \"skip build (config-only)\"",
+                    "lint":  "echo \"skip lint (config-only)\"",
+                    "typecheck":  "echo \"skip typecheck (config-only)\"",
+                    "check-types":  "tsc --noEmit"
                 },
     "devDependencies":  {
                             "typescript":  "~5.8.2"
