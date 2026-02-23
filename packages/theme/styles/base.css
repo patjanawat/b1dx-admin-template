@@ -41,7 +41,7 @@ body {
 }
 
 body {
-  background-color: hsl(var(--background));
+  background-color: pink !important;
   color: hsl(var(--foreground));
 }
 
