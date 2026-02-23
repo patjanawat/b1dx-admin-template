@@ -154,7 +154,11 @@ importers:
         specifier: ~5.8.2
         version: 5.8.3
 
-  packages/theme: {}
+  packages/theme:
+    dependencies:
+      '@b1dx/tokens':
+        specifier: workspace:*
+        version: link:../tokens
 
   packages/tokens: {}
 

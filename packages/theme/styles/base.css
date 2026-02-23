@@ -35,15 +35,15 @@
 }
 
 /* Apply semantic tokens */
-html,
+/* html,
 body {
   min-height: 100%;
 }
 
 body {
-  background-color: pink !important;
+  background-color: blue !important;
   color: hsl(var(--foreground));
-}
+} */
 
 /* DEBUG TEST - remove after verify */
 /* html, body { background: hotpink !important; } */
