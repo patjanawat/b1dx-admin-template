@@ -7,6 +7,7 @@ const generateRequestId = (): string => {
 
 export type BuildUpstreamHeadersOptions = {
   forwardAuthorization?: boolean;
+  forwardCookies?: boolean;
   clientApp?: string;
   xForwardedFor?: string;
   forwardUserAgent?: boolean;
@@ -38,6 +39,9 @@ export const buildUpstreamHeaders = (
 
   if (opts.forwardAuthorization) {
     copyIfPresent(headers, source, "authorization");
+  }
+  if (opts.forwardCookies) {
+    copyIfPresent(headers, source, "cookie");
   }
 
   const requestId = source.get("x-request-id") ?? generateRequestId();
