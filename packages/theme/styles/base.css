@@ -20,8 +20,8 @@
 }
 
 .dark {
-  --background: var(--b1dx-color-bg-dark);
-  --foreground: var(--b1dx-color-fg-dark);
+  --background: var(--b1dx-color-bg-default);
+  --foreground: var(--b1dx-color-fg-default);
   --muted: 217.2 32.6% 17.5%;
   --muted-foreground: 215 20.2% 65.1%;
   --border: var(--b1dx-color-border-dark);
@@ -39,11 +39,11 @@
 body {
   min-height: 100%;
 }
-
-body {
+*/
+/* body {
   background-color: blue !important;
   color: hsl(var(--foreground));
-} */
+}  */
 
 /* DEBUG TEST - remove after verify */
 /* html, body { background: hotpink !important; } */
