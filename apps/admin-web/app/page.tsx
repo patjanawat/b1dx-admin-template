@@ -23,7 +23,7 @@ export default function HomePage() {
           This is a minimal App Router shell. Build out routes and layouts from
           here.
         </p>
-        <Link href="/">Go to /</Link>
+        <Link href="/">Go to Home</Link>
       </section>
     </main>
   );
