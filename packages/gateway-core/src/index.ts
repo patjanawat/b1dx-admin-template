@@ -22,3 +22,4 @@ export {
 } from "./http/cookies";
 export type { ForwardToUpstreamConfig } from "./http/forward";
 export { forwardToUpstream } from "./http/forward";
+export { createGatewayHandler } from "./createGatewayHandler";

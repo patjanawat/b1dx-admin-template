@@ -11,6 +11,7 @@ export type BuildUpstreamHeadersOptions = {
   clientApp?: string;
   xForwardedFor?: string;
   forwardUserAgent?: boolean;
+  requestId?: string;
 };
 
 const copyIfPresent = (
@@ -44,7 +45,8 @@ export const buildUpstreamHeaders = (
     copyIfPresent(headers, source, "cookie");
   }
 
-  const requestId = source.get("x-request-id") ?? generateRequestId();
+  const requestId =
+    opts.requestId ?? source.get("x-request-id") ?? generateRequestId();
   headers.set("x-request-id", requestId);
 
   if (opts.clientApp) {
