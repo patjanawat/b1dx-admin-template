@@ -16,6 +16,7 @@ export { FormField } from './components/forms/FormField';
 export { RHFNumberInput } from './components/forms/inputs/RHFNumberInput';
 export { RHFDecimalInput } from './components/forms/inputs/RHFDecimalInput';
 export { RHFDatePicker } from './components/forms/inputs/RHFDatePicker';
+export { ErrorBanner } from './components/feedback/ErrorBanner';
 export { Modal } from './components/overlays/Modal';
 export { ConfirmDialog } from './components/overlays/ConfirmDialog';
 export type { ModalProps, ModalSize } from './components/overlays/Modal';
