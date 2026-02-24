@@ -88,6 +88,9 @@ importers:
 
   apps/saas-starter:
     dependencies:
+      '@b1dx/gateway-core':
+        specifier: workspace:*
+        version: link:../../packages/gateway-core
       '@b1dx/theme':
         specifier: workspace:*
         version: link:../../packages/theme
@@ -109,6 +112,9 @@ importers:
       sonner:
         specifier: ^1.7.0
         version: 1.7.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      undici:
+        specifier: ^6.19.2
+        version: 6.23.0
       zod:
         specifier: ^3.23.8
         version: 3.25.76
@@ -201,6 +207,10 @@ importers:
         version: 5.8.3
 
   packages/gateway-core:
+    dependencies:
+      undici:
+        specifier: ^6.19.2
+        version: 6.23.0
     devDependencies:
       typescript:
         specifier: ~5.8.2
@@ -2712,6 +2722,10 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
+  undici@6.23.0:
+    resolution: {integrity: sha512-VfQPToRA5FZs/qJxLIinmU59u0r7LXqoJkCzinq3ckNJp3vKEh7jTWN589YQ5+aoAC/TGRLyJLCPKcLQbM8r9g==}
+    engines: {node: '>=18.17'}
 
   universalify@0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
@@ -5314,6 +5328,8 @@ snapshots:
   typescript@5.8.3: {}
 
   undici-types@6.21.0: {}
+
+  undici@6.23.0: {}
 
   universalify@0.1.2: {}
 
