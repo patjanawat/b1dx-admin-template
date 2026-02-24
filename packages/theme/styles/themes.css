@@ -1,0 +1,69 @@
+:root {
+  --background: var(--b1dx-color-bg-default);
+  --foreground: var(--b1dx-color-fg-dark);
+  --card: var(--b1dx-color-card);
+  --card-foreground: var(--b1dx-color-fg-dark);
+  --popover: var(--b1dx-color-card);
+  --popover-foreground: var(--b1dx-color-fg-dark);
+  --primary: var(--b1dx-color-primary-default);
+  --primary-foreground: var(
+    --b1dx-color-primary-fg-default,
+    var(--b1dx-color-primary-foreground)
+  );
+  --secondary: var(
+    --b1dx-color-secondary,
+    var(--b1dx-color-border-default)
+  );
+  --secondary-foreground: var(
+    --b1dx-color-secondary-foreground,
+    var(--b1dx-color-fg-dark)
+  );
+  --muted: var(--b1dx-color-border-default);
+  --muted-foreground: var(--b1dx-color-fg-dark);
+  --accent: var(--b1dx-color-accent);
+  --accent-foreground: var(
+    --b1dx-color-accent-foreground,
+    var(--b1dx-color-fg-dark)
+  );
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: var(--b1dx-color-border-default);
+  --input: var(--b1dx-color-border-default);
+  --ring: var(--b1dx-color-primary-default);
+  --radius: var(--b1dx-radius-md, 8px);
+}
+
+.dark {
+  --background: var(--b1dx-color-bg-dark);
+  --foreground: var(--b1dx-color-fg-dark);
+  --card: var(--b1dx-color-bg-dark);
+  --card-foreground: var(--b1dx-color-fg-dark);
+  --popover: var(--b1dx-color-bg-dark);
+  --popover-foreground: var(--b1dx-color-fg-dark);
+  --primary: var(--b1dx-color-primary-dark);
+  --primary-foreground: var(
+    --b1dx-color-primary-fg-dark,
+    var(--b1dx-color-primary-foreground)
+  );
+  --secondary: var(
+    --b1dx-color-secondary,
+    var(--b1dx-color-border-dark)
+  );
+  --secondary-foreground: var(
+    --b1dx-color-secondary-foreground,
+    var(--b1dx-color-fg-dark)
+  );
+  --muted: var(--b1dx-color-border-dark);
+  --muted-foreground: var(--b1dx-color-fg-dark);
+  --accent: var(--b1dx-color-accent);
+  --accent-foreground: var(
+    --b1dx-color-accent-foreground,
+    var(--b1dx-color-fg-dark)
+  );
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: var(--b1dx-color-border-dark);
+  --input: var(--b1dx-color-border-dark);
+  --ring: var(--b1dx-color-primary-dark);
+  --radius: var(--b1dx-radius-md, 8px);
+}
