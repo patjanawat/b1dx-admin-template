@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 const CORE_API_BASE_URL = process.env.CORE_API_BASE_URL ?? "";
 const CRM_BASE_URL = process.env.CRM_BASE_URL ?? "";
 
-const handler = createGatewayHandler({
+const gateway = createGatewayHandler({
   allowedMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   maxBodyBytes: 5_000_000,
   upstreams: {
@@ -31,26 +31,32 @@ type RouteParams = {
   path: string[];
 };
 
-type RouteContext = {
-  params: RouteParams;
-};
-
-export async function GET(req: Request, context: RouteContext) {
-  return handler(req, context.params);
+async function getParams(ctx: any): Promise<RouteParams> {
+  const p = await Promise.resolve(ctx?.params);
+  return p as RouteParams;
 }
 
-export async function POST(req: Request, context: RouteContext) {
-  return handler(req, context.params);
+async function handle(req: Request, ctx: any) {
+  const { upstreamKey, path } = await getParams(ctx);
+  return gateway(req, { upstreamKey, path });
 }
 
-export async function PUT(req: Request, context: RouteContext) {
-  return handler(req, context.params);
+export async function GET(req: Request, ctx: any) {
+  return handle(req, ctx);
 }
 
-export async function PATCH(req: Request, context: RouteContext) {
-  return handler(req, context.params);
+export async function POST(req: Request, ctx: any) {
+  return handle(req, ctx);
 }
 
-export async function DELETE(req: Request, context: RouteContext) {
-  return handler(req, context.params);
+export async function PUT(req: Request, ctx: any) {
+  return handle(req, ctx);
+}
+
+export async function PATCH(req: Request, ctx: any) {
+  return handle(req, ctx);
+}
+
+export async function DELETE(req: Request, ctx: any) {
+  return handle(req, ctx);
 }

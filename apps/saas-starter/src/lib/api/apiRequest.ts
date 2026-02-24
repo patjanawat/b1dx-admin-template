@@ -1,5 +1,6 @@
 import { isProblemDetails } from "@/lib/errors/problemDetails";
 import type { ProblemDetails } from "@/lib/errors/problemDetails";
+import type { HeadersInit, RequestInfo, RequestInit } from "undici";
 
 type ApiRequestOptions = RequestInit & {
   parseJson?: boolean;
@@ -20,7 +21,25 @@ export class ApiRequestError extends Error {
 }
 
 const mergeHeaders = (headers?: HeadersInit): Headers => {
-  const merged = new Headers(headers);
+  const merged = new Headers();
+  if (headers) {
+    if (headers instanceof Headers) {
+      headers.forEach((value, key) => merged.append(key, value));
+    } else if (Array.isArray(headers)) {
+      for (const tuple of headers) {
+        const [key, value] = tuple;
+        if (typeof key === "string" && typeof value === "string") {
+          merged.append(key, value);
+        }
+      }
+    } else {
+      Object.entries(headers).forEach(([key, value]) => {
+        if (typeof value !== "undefined") {
+          merged.set(key, String(value));
+        }
+      });
+    }
+  }
   if (!merged.has("accept")) {
     merged.set("accept", "application/json");
   }
@@ -49,8 +68,8 @@ export async function apiRequest<T>(
   options: ApiRequestOptions = {}
 ): Promise<T> {
   const { headers, parseJson = true, ...rest } = options;
-  const res = await fetch(input, {
-    ...rest,
+  const res = await fetch(input as globalThis.RequestInfo | URL, {
+    ...(rest as globalThis.RequestInit),
     headers: mergeHeaders(headers),
   });
 

@@ -1,3 +1,4 @@
+import type { RequestInit } from "undici";
 import { GatewayError } from "../errors/GatewayError";
 import { buildUpstreamHeaders, BuildUpstreamHeadersOptions } from "./headers";
 
@@ -6,6 +7,8 @@ export type ForwardToUpstreamConfig = BuildUpstreamHeadersOptions & {
   maxBodyBytes?: number;
   timeoutMs?: number;
 };
+
+type RequestInitWithDuplex = RequestInit & { duplex?: "half" };
 
 const normalizeMethod = (method: string): string => method.toUpperCase();
 
@@ -55,7 +58,8 @@ export const forwardToUpstream = async (
 
   const headers = buildUpstreamHeaders(req, cfg);
   const method = normalizeMethod(req.method);
-  const body = method === "GET" || method === "HEAD" ? undefined : req.body;
+  const hasBody = !["GET", "HEAD"].includes(req.method);
+  const body = hasBody ? ((req.body ?? undefined) as any) : undefined;
 
   const controller = new AbortController();
   const timeoutMs = cfg.timeoutMs ?? 0;
@@ -65,8 +69,8 @@ export const forwardToUpstream = async (
       : undefined;
 
   try {
-    const init: RequestInit & { duplex?: "half" } = {
-      method,
+    const init: RequestInitWithDuplex = {
+      method: req.method,
       headers,
       body,
       redirect: "manual",
@@ -75,7 +79,7 @@ export const forwardToUpstream = async (
     if (body) {
       init.duplex = "half";
     }
-    return await fetch(upstreamUrl, init);
+    return await fetch(upstreamUrl, init as unknown as globalThis.RequestInit);
   } catch (err) {
     if (controller.signal.aborted) {
       throw new GatewayError(

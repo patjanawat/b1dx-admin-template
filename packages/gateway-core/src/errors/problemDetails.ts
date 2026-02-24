@@ -1,3 +1,5 @@
+import type { HeadersInit } from "undici";
+
 export type ProblemDetails = {
   type: string;
   title: string;
@@ -16,8 +18,15 @@ export const toProblemDetailsResponse = (
   params: ProblemDetailsResponseParams
 ): Response => {
   const { problem, headers } = params;
-  const mergedHeaders = new Headers(headers);
+  const mergedHeaders = new Headers();
   mergedHeaders.set("content-type", "application/problem+json; charset=utf-8");
+  if (headers) {
+    new Headers(headers as unknown as globalThis.HeadersInit).forEach(
+      (value, key) => {
+      mergedHeaders.set(key, value);
+      }
+    );
+  }
   return new Response(JSON.stringify(problem), {
     status: problem.status,
     headers: mergedHeaders,
