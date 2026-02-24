@@ -21,3 +21,11 @@ export { Modal } from './components/overlays/Modal';
 export { ConfirmDialog } from './components/overlays/ConfirmDialog';
 export type { ModalProps, ModalSize } from './components/overlays/Modal';
 export type { ConfirmDialogProps } from './components/overlays/ConfirmDialog';
+export type {
+  Brand,
+  NavItem,
+  NavGroup,
+  BreadcrumbItem,
+  LinkComponent,
+  LinkComponentProps
+} from './components/app-shell/types';
