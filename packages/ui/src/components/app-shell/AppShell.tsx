@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '../ui/Button';
 import { DialogOverlay } from '../ui/Dialog';
 import { Sidebar } from './Sidebar';
+import { TopBar } from './TopBar';
 import type { Brand, BreadcrumbItem, LinkComponent, NavGroup } from './types';
 
 export interface AppShellProps {
@@ -16,51 +17,6 @@ export interface AppShellProps {
   topRightSlot?: React.ReactNode;
   children: React.ReactNode;
 }
-
-const TopBarPlaceholder = ({
-  breadcrumbs,
-  onMenuClick,
-  topRightSlot,
-  LinkComponent
-}: {
-  breadcrumbs?: BreadcrumbItem[];
-  onMenuClick: () => void;
-  topRightSlot?: React.ReactNode;
-  LinkComponent: LinkComponent;
-}) => {
-  const Link = LinkComponent;
-
-  return (
-    <header className="flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-950">
-      <div className="flex items-center gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="md:hidden"
-          onClick={onMenuClick}
-        >
-          Menu
-        </Button>
-        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-          {(breadcrumbs ?? []).map((item, index) => (
-            <React.Fragment key={`${item.label}-${index}`}>
-              {index > 0 ? <span>/</span> : null}
-              {item.href ? (
-                <Link href={item.href} className="text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-slate-50">
-                  {item.label}
-                </Link>
-              ) : (
-                <span className="text-slate-700 dark:text-slate-200">{item.label}</span>
-              )}
-            </React.Fragment>
-          ))}
-        </nav>
-      </div>
-      <div className="flex items-center gap-3">{topRightSlot}</div>
-    </header>
-  );
-};
 
 export const AppShell = ({
   brand,
@@ -91,10 +47,10 @@ export const AppShell = ({
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <TopBarPlaceholder
-          breadcrumbs={breadcrumbs}
-          onMenuClick={() => setMobileOpen(true)}
-          topRightSlot={topRightSlot}
+        <TopBar
+          breadcrumbs={breadcrumbs ?? []}
+          onOpenMobileNav={() => setMobileOpen(true)}
+          rightSlot={topRightSlot}
           LinkComponent={LinkComponent}
         />
         <div className="flex items-center gap-2 px-4 pt-3 md:hidden">

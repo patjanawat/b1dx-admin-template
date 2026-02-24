@@ -23,6 +23,7 @@ export type { ModalProps, ModalSize } from './components/overlays/Modal';
 export type { ConfirmDialogProps } from './components/overlays/ConfirmDialog';
 export { AppShell } from './components/app-shell/AppShell';
 export { Sidebar } from './components/app-shell/Sidebar';
+export { TopBar } from './components/app-shell/TopBar';
 export type {
   Brand,
   NavItem,
