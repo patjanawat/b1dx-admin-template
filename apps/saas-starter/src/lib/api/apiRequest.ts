@@ -1,6 +1,7 @@
 import { isProblemDetails } from "@/lib/errors/problemDetails";
 import type { ProblemDetails } from "@/lib/errors/problemDetails";
 import type { HeadersInit, RequestInfo, RequestInit } from "undici";
+import { core } from "./apiRoutes";
 
 type ApiRequestOptions = RequestInit & {
   parseJson?: boolean;
@@ -82,4 +83,11 @@ export async function apiRequest<T>(
   }
 
   return data as T;
+}
+
+export async function coreRequest<T>(
+  path: string,
+  options: ApiRequestOptions = {}
+): Promise<T> {
+  return apiRequest<T>(core(path), options);
 }
