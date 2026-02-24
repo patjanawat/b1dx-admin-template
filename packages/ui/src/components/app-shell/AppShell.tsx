@@ -2,12 +2,8 @@ import React from 'react';
 
 import { Button } from '../ui/Button';
 import { DialogOverlay } from '../ui/Dialog';
-import type {
-  Brand,
-  BreadcrumbItem,
-  LinkComponent,
-  NavGroup
-} from './types';
+import { Sidebar } from './Sidebar';
+import type { Brand, BreadcrumbItem, LinkComponent, NavGroup } from './types';
 
 export interface AppShellProps {
   brand: Brand;
@@ -20,89 +16,6 @@ export interface AppShellProps {
   topRightSlot?: React.ReactNode;
   children: React.ReactNode;
 }
-
-const SidebarPlaceholder = ({
-  brand,
-  navGroups,
-  activeHref,
-  collapsed,
-  onCollapsedChange,
-  LinkComponent
-}: {
-  brand: Brand;
-  navGroups: NavGroup[];
-  activeHref?: string;
-  collapsed: boolean;
-  onCollapsedChange: (collapsed: boolean) => void;
-  LinkComponent: LinkComponent;
-}) => {
-  const Link = LinkComponent;
-
-  return (
-    <aside
-      className={`flex h-full flex-col gap-6 border-r border-slate-200 bg-white px-4 py-5 transition-all duration-200 dark:border-slate-800 dark:bg-slate-950 ${
-        collapsed ? 'w-20 items-center' : 'w-64'
-      }`}
-    >
-      <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
-        {brand.logo ? <div className="h-9 w-9">{brand.logo}</div> : null}
-        {!collapsed ? (
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold text-slate-900 dark:text-slate-50">
-              {brand.title}
-            </div>
-            {brand.subtitle ? (
-              <div className="truncate text-xs text-slate-500 dark:text-slate-400">
-                {brand.subtitle}
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-
-      <nav className="flex flex-1 flex-col gap-5">
-        {navGroups.map((group) => (
-          <div key={group.id} className="flex flex-col gap-2">
-            {group.label ? (
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                {group.label}
-              </div>
-            ) : null}
-            <div className="flex flex-col gap-1">
-              {group.items.map((item) => {
-                const isActive = item.href === activeHref;
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition ${
-                      isActive
-                        ? 'bg-slate-900 text-slate-50 dark:bg-slate-50 dark:text-slate-900'
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-50'
-                    }`}
-                  >
-                    {item.icon ? <span className="text-base">{item.icon}</span> : null}
-                    {!collapsed ? <span className="truncate">{item.label}</span> : null}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </nav>
-
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        className="self-start"
-        onClick={() => onCollapsedChange(!collapsed)}
-      >
-        {collapsed ? 'Expand' : 'Collapse'}
-      </Button>
-    </aside>
-  );
-};
 
 const TopBarPlaceholder = ({
   breadcrumbs,
@@ -168,12 +81,11 @@ export const AppShell = ({
       style={{ background: 'var(--background)', color: 'var(--foreground)' }}
     >
       <div className="hidden md:block">
-        <SidebarPlaceholder
+        <Sidebar
           brand={brand}
           navGroups={navGroups}
           activeHref={activeHref}
           collapsed={collapsed}
-          onCollapsedChange={onCollapsedChange}
           LinkComponent={LinkComponent}
         />
       </div>
@@ -185,6 +97,16 @@ export const AppShell = ({
           topRightSlot={topRightSlot}
           LinkComponent={LinkComponent}
         />
+        <div className="flex items-center gap-2 px-4 pt-3 md:hidden">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => onCollapsedChange(!collapsed)}
+          >
+            {collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          </Button>
+        </div>
         <main className="flex-1 px-6 py-6">{children}</main>
       </div>
 
@@ -200,12 +122,11 @@ export const AppShell = ({
                 Close
               </Button>
             </div>
-            <SidebarPlaceholder
+            <Sidebar
               brand={brand}
               navGroups={navGroups}
               activeHref={activeHref}
-              collapsed={collapsed}
-              onCollapsedChange={onCollapsedChange}
+              collapsed={false}
               LinkComponent={LinkComponent}
             />
           </div>
