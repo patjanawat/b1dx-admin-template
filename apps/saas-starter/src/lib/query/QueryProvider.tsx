@@ -2,6 +2,7 @@
 
 import { coreRequest } from "@/lib/api/apiRequest";
 import { getAccessToken } from "@/lib/auth/authStore";
+import { toHeaders } from "@/lib/http/headers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useState } from "react";
@@ -27,7 +28,7 @@ const createQueryClient = () =>
             throw new Error("Invalid query key. Expected ['core', path].");
           }
 
-          const headers = new Headers(init?.headers);
+          const headers = toHeaders(init?.headers);
           const token = getAccessToken();
           if (token) {
             headers.set("authorization", `Bearer ${token}`);

@@ -46,7 +46,9 @@ export const clearAuth = () => {
 
 export const subscribeAuth = (listener: Listener) => {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 };
 
 export const getAuthSnapshot = (): AuthState => ({ ...state });
