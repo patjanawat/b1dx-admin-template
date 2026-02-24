@@ -13,3 +13,7 @@ export type { CurrencyCode, FormatCurrencyOptions, FormatDecimalOptions } from '
 export type { ClampOptions } from './lib/number';
 export { Form } from './components/forms/Form';
 export { FormField } from './components/forms/FormField';
+export { Modal } from './components/overlays/Modal';
+export { ConfirmDialog } from './components/overlays/ConfirmDialog';
+export type { ModalProps, ModalSize } from './components/overlays/Modal';
+export type { ConfirmDialogProps } from './components/overlays/ConfirmDialog';
