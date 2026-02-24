@@ -1,0 +1,29 @@
+{
+  "name": "@b1dx/gateway-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check-types": "tsc --noEmit",
+    "build": "tsc -p .",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\""
+  },
+  "dependencies": {
+    "undici": "^6.19.2"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.2"
+  }
+}
