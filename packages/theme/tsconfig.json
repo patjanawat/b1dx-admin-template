@@ -1,9 +1,0 @@
-{
-  "extends": "../typescript-config/base.json",
-  "include": [
-    "tailwind/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
-}
