@@ -24,6 +24,15 @@ const buildUpstreamUrl = (baseUrl: string, pathname: string, req: Request): URL 
   return upstreamUrl;
 };
 
+const buildUpstreamErrorProblem = (res: Response): ProblemDetails => {
+  const title = res.statusText || "Upstream Error";
+  return createProblem(
+    res.status,
+    title,
+    `Upstream request failed with status ${res.status}.`
+  );
+};
+
 const createProblem = (
   status: number,
   title: string,
@@ -115,6 +124,17 @@ export const createGatewayHandler = (config: GatewayConfig) => {
       if (problem) {
         return toProblemDetailsResponse({
           problem,
+          headers: buildResponseHeaders(
+            upstreamRes,
+            responseRequestId,
+            upstream.forwardCookies ?? false
+          ),
+        });
+      }
+
+      if (!upstreamRes.ok) {
+        return toProblemDetailsResponse({
+          problem: buildUpstreamErrorProblem(upstreamRes),
           headers: buildResponseHeaders(
             upstreamRes,
             responseRequestId,
