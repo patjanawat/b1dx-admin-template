@@ -7,3 +7,7 @@ export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';
 export { cn } from './lib/cn';
+export { formatCurrency, formatDecimal } from './lib/format';
+export { clampNumber, parseDecimalInput, toNumberOrNull } from './lib/number';
+export type { CurrencyCode, FormatCurrencyOptions, FormatDecimalOptions } from './lib/format';
+export type { ClampOptions } from './lib/number';
