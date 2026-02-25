@@ -1,3 +1,4 @@
+import { Badge, ScrollArea } from "@b1dx/ui";
 import type { AppShellConfig, BreadcrumbItem, Brand, NavGroup, TopBarConfig } from "@b1dx/ui";
 
 export const brand: Brand = {
@@ -83,17 +84,22 @@ export function getBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
 export const mockNotifications = (
   <div className="w-80 rounded-xl border border-border bg-popover shadow-2xl">
-    <div className="border-b border-border px-4 py-3 text-sm font-semibold text-foreground">
-      Notifications
+    <div className="flex items-center justify-between border-b border-border px-4 py-3 text-sm font-semibold text-foreground">
+      <span>Notifications</span>
+      <Badge variant="secondary" className="text-[10px] uppercase tracking-wider">
+        2 New
+      </Badge>
     </div>
-    <div className="space-y-3 px-4 py-3 text-sm text-muted-foreground">
-      <div className="rounded-lg border border-border/60 bg-background p-3">
-        New user invitation accepted.
+    <ScrollArea className="max-h-80">
+      <div className="space-y-3 px-4 py-3 text-sm text-muted-foreground">
+        <div className="rounded-lg border border-border/60 bg-background p-3">
+          New user invitation accepted.
+        </div>
+        <div className="rounded-lg border border-border/60 bg-background p-3">
+          Billing report is ready.
+        </div>
       </div>
-      <div className="rounded-lg border border-border/60 bg-background p-3">
-        Billing report is ready.
-      </div>
-    </div>
+    </ScrollArea>
   </div>
 );
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { AppShellConfig } from './appShellTypes';
+import { ScrollArea } from './ScrollArea';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 
@@ -62,12 +63,14 @@ export const AppShell = ({ config, children }: AppShellProps) => {
 
         {/* Main content — the ONLY scroll region in the shell */}
         {/* Vendor: "flex-1 overflow-y-auto p-4 md:p-8 bg-background" */}
-        <main className="flex-1 overflow-y-auto bg-background p-4 md:p-8">
-          {/* Vendor: "max-w-[1400px] mx-auto w-full space-y-8" */}
-          <div className="mx-auto w-full max-w-[1400px] space-y-8">
-            {children}
-          </div>
-        </main>
+        <ScrollArea className="flex-1 bg-background">
+          <main className="p-4 md:p-8">
+            {/* Vendor: "max-w-[1400px] mx-auto w-full space-y-8" */}
+            <div className="mx-auto w-full max-w-[1400px] space-y-8">
+              {children}
+            </div>
+          </main>
+        </ScrollArea>
 
       </div>
     </div>

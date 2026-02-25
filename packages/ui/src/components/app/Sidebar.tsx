@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { cn } from '../../lib/cn';
+import { ScrollArea } from './ScrollArea';
 import type { Brand, NavGroup, NavItem, RenderLinkFn } from './appShellTypes';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -221,9 +222,10 @@ export const Sidebar = ({
 
       {/* ── Navigation ───────────────────────────────────────────────────── */}
       {/* Vendor: flex-1 overflow-y-auto py-6 px-3 overflow-x-hidden */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden py-6 px-3">
-        {navGroups.map((group, groupIdx) => (
-          <div key={group.id} className={groupIdx !== 0 ? 'mt-6' : ''}>
+      <ScrollArea className="flex-1">
+        <nav className="overflow-x-hidden py-6 px-3">
+          {navGroups.map((group, groupIdx) => (
+            <div key={group.id} className={groupIdx !== 0 ? 'mt-6' : ''}>
 
             {/* Group label (expanded) or horizontal rule (collapsed) */}
             {!isCollapsed && group.label ? (
@@ -378,9 +380,10 @@ export const Sidebar = ({
                 );
               })}
             </div>
-          </div>
-        ))}
-      </nav>
+            </div>
+          ))}
+        </nav>
+      </ScrollArea>
     </aside>
   );
 };

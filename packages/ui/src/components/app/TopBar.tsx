@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from './Avatar';
+import { Badge } from './Badge';
 import { Button } from './Button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './DropdownMenu';
 import { Input } from './Input';
@@ -86,8 +88,12 @@ export const TopBar = ({ title, actions, userMenu, notifications, search }: TopB
         {notifications ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-10 w-10">
+              <Button variant="ghost" size="icon" className="relative h-10 w-10">
                 <BellIcon size={20} />
+                <Badge
+                  variant="destructive"
+                  className="absolute right-2 top-2 h-2 w-2 rounded-full px-0 py-0"
+                />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="p-0 border-none shadow-none">
@@ -100,9 +106,10 @@ export const TopBar = ({ title, actions, userMenu, notifications, search }: TopB
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-10 gap-2 px-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
-                  U
-                </span>
+                <Avatar className="h-8 w-8">
+                  <AvatarImage alt="User avatar" />
+                  <AvatarFallback>AC</AvatarFallback>
+                </Avatar>
                 <span className="hidden text-sm font-medium text-foreground sm:block">Account</span>
               </Button>
             </DropdownMenuTrigger>
