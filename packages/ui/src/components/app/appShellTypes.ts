@@ -42,17 +42,36 @@ export interface LinkComponentProps {
 
 export type LinkComponent = React.ComponentType<LinkComponentProps>;
 
-/** Placeholder for future TopBar slot configuration. */
+/** TopBar slot configuration. */
 export interface TopBarConfig {
+  /** Content rendered in the top-right area (theme switcher, user menu, etc.). */
   rightSlot?: React.ReactNode;
 }
 
 /**
- * High-level config object.  Passed as a single prop in future API iterations;
- * for now each field is spread individually on AppShellProps.
+ * Full render config for AppShell.
+ * Combines static (brand, nav) and runtime (activeHref, collapsed, …) concerns
+ * so a single `config` prop is the only required prop besides `children`.
  */
 export interface AppShellConfig {
+  // ── Static identity ──────────────────────────────────────────────────────
   brand: Brand;
   navGroups: NavGroup[];
+
+  // ── Runtime routing state ─────────────────────────────────────────────────
+  /** Current path used to highlight the active nav item. */
+  activeHref?: string;
+  /** Breadcrumb trail rendered in the TopBar. */
+  breadcrumbs?: BreadcrumbItem[];
+
+  // ── Sidebar collapse state ────────────────────────────────────────────────
+  collapsed: boolean;
+  onCollapsedChange: (collapsed: boolean) => void;
+
+  // ── Framework adapter ─────────────────────────────────────────────────────
+  /** Framework-specific link component (e.g. Next.js <Link>). */
+  LinkComponent: LinkComponent;
+
+  // ── Slot overrides ────────────────────────────────────────────────────────
   topBar?: TopBarConfig;
 }

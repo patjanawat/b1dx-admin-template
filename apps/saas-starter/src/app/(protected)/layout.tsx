@@ -1,6 +1,7 @@
 "use client";
 
 import { AppShell, Button } from "@b1dx/ui";
+import type { AppShellConfig } from "@b1dx/ui";
 import { brand, getBreadcrumbs, navGroups } from "@/appShellConfig";
 import { ProtectedRoute } from "@/lib/auth/ProtectedRoute";
 import Link from "next/link";
@@ -17,6 +18,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
 
+  // Stable link adapter — no deps, recreated only once.
   const LinkAdapter = useMemo(
     () =>
       ({ href, className, children }: { href: string; className?: string; children: ReactNode }) => (
@@ -27,17 +29,17 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
     []
   );
 
-  return (
-    <ProtectedRoute>
-      <AppShell
-        brand={brand}
-        navGroups={navGroups}
-        activeHref={pathname}
-        breadcrumbs={breadcrumbs}
-        collapsed={collapsed}
-        onCollapsedChange={setCollapsed}
-        LinkComponent={LinkAdapter}
-        topRightSlot={
+  const config: AppShellConfig = useMemo(
+    () => ({
+      brand,
+      navGroups,
+      activeHref: pathname,
+      breadcrumbs,
+      collapsed,
+      onCollapsedChange: setCollapsed,
+      LinkComponent: LinkAdapter,
+      topBar: {
+        rightSlot: (
           <Button
             type="button"
             variant="outline"
@@ -46,8 +48,15 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
           >
             {collapsed ? "Expand" : "Collapse"}
           </Button>
-        }
-      >
+        ),
+      },
+    }),
+    [pathname, breadcrumbs, collapsed, LinkAdapter]
+  );
+
+  return (
+    <ProtectedRoute>
+      <AppShell config={config}>
         {children}
       </AppShell>
     </ProtectedRoute>

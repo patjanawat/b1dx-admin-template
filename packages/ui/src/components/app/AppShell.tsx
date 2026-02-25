@@ -1,57 +1,70 @@
 import React from 'react';
 
-import type {
-  Brand,
-  BreadcrumbItem,
-  LinkComponent,
-  NavGroup,
-} from './appShellTypes';
+import type { AppShellConfig } from './appShellTypes';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 
 export interface AppShellProps {
-  brand: Brand;
-  navGroups: NavGroup[];
-  activeHref?: string;
-  breadcrumbs?: BreadcrumbItem[];
-  collapsed: boolean;
-  onCollapsedChange: (collapsed: boolean) => void;
-  LinkComponent: LinkComponent;
-  /** Rendered in the top-right of the TopBar (e.g. theme switcher, user menu). */
-  topRightSlot?: React.ReactNode;
+  config: AppShellConfig;
   children: React.ReactNode;
 }
 
-export const AppShell = ({
-  brand,
-  navGroups,
-  activeHref,
-  breadcrumbs,
-  collapsed,
-  onCollapsedChange: _onCollapsedChange,
-  LinkComponent,
-  topRightSlot,
-  children,
-}: AppShellProps) => {
-  return (
-    <div className="flex min-h-screen w-full bg-background text-foreground">
-      <div className="hidden md:flex md:shrink-0">
-        <Sidebar
-          brand={brand}
-          navGroups={navGroups}
-          activeHref={activeHref}
-          collapsed={collapsed}
-          LinkComponent={LinkComponent}
-        />
-      </div>
+/**
+ * Root layout shell.
+ *
+ * Structure (ported from vendor/admin-template/components/Layout.tsx):
+ *
+ *   ┌─────────────────────────────────────────────────┐  h-screen
+ *   │  <Sidebar>          │  <TopBar>                  │  shrink-0 header
+ *   │  (self-managing     ├────────────────────────────┤
+ *   │   width)            │  <main>  overflow-y-auto   │  flex-1 scroll
+ *   │                     │    max-w-[1400px] container │
+ *   └─────────────────────┴────────────────────────────┘
+ */
+export const AppShell = ({ config, children }: AppShellProps) => {
+  const {
+    brand,
+    navGroups,
+    activeHref,
+    breadcrumbs,
+    collapsed,
+    onCollapsedChange: _onCollapsedChange,
+    LinkComponent,
+    topBar,
+  } = config;
 
-      <div className="flex min-w-0 flex-1 flex-col">
+  return (
+    // Vendor: "flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200"
+    <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200">
+
+      {/* Left column — Sidebar manages its own width via collapsed state */}
+      <Sidebar
+        brand={brand}
+        navGroups={navGroups}
+        activeHref={activeHref}
+        collapsed={collapsed}
+        LinkComponent={LinkComponent}
+      />
+
+      {/* Right column — stacks TopBar above the scrollable main area */}
+      {/* Vendor: "flex-1 flex flex-col min-w-0 overflow-hidden relative" */}
+      <div className="relative flex flex-1 flex-col min-w-0 overflow-hidden">
+
         <TopBar
           breadcrumbs={breadcrumbs ?? []}
-          rightSlot={topRightSlot}
+          rightSlot={topBar?.rightSlot}
           LinkComponent={LinkComponent}
         />
-        <main className="flex-1 px-6 py-6">{children}</main>
+
+        {/* Main content — the ONLY scroll region in the shell */}
+        {/* Vendor: "flex-1 overflow-y-auto p-4 md:p-8 bg-background" */}
+        <main className="flex-1 overflow-y-auto bg-background p-4 md:p-8">
+          {/* Vendor: "max-w-[1400px] mx-auto w-full space-y-8" */}
+          <div className="mx-auto w-full max-w-[1400px] space-y-8">
+            {children}
+          </div>
+        </main>
+
       </div>
     </div>
   );
