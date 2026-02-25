@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git fetch upstream-admin-template --prune 2>&1)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git subtree add --prefix=vendor/b1dx-admin-template upstream-admin-template main --squash 2>&1)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git mv vendor/b1dx-admin-template vendor/admin-template 2>&1)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git commit -m \"chore\\(subtree\\): rename vendor path to admin-template\" 2>&1)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git add docs/subtrees.md && git commit -m \"docs\\(subtrees\\): update prefix to vendor/admin-template\" 2>&1)"
+    ]
+  }
+}
