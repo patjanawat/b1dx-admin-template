@@ -1,3 +1,4 @@
+import "@b1dx/tokens/css";
 import "@b1dx/theme/styles/base.css";
 import "../styles/globals.css";
 import { QueryProvider } from "@/lib/query/QueryProvider";
