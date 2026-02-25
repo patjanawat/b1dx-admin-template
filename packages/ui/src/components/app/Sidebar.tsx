@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
 import { cn } from '../../lib/cn';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './Collapsible';
 import { ScrollArea } from './ScrollArea';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tooltip';
 import type { Brand, NavGroup, NavItem, RenderLinkFn } from './appShellTypes';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -171,6 +173,18 @@ export const Sidebar = ({
     );
   };
 
+  const wrapWithTooltip = (label: string, node: React.ReactNode) => {
+    if (!isCollapsed) return node;
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{node}</TooltipTrigger>
+        <TooltipContent side="right" sideOffset={12}>
+          {label}
+        </TooltipContent>
+      </Tooltip>
+    );
+  };
+
   return (
     // Vendor: "relative bg-card border-r border-border flex flex-col h-screen
     //          transition-all duration-300 ease-in-out z-40 shrink-0 w-20|w-[260px]"
@@ -224,8 +238,9 @@ export const Sidebar = ({
       {/* Vendor: flex-1 overflow-y-auto py-6 px-3 overflow-x-hidden */}
       <ScrollArea className="flex-1">
         <nav className="overflow-x-hidden py-6 px-3">
-          {navGroups.map((group, groupIdx) => (
-            <div key={group.id} className={groupIdx !== 0 ? 'mt-6' : ''}>
+          <TooltipProvider delayDuration={150}>
+            {navGroups.map((group, groupIdx) => (
+              <div key={group.id} className={groupIdx !== 0 ? 'mt-6' : ''}>
 
             {/* Group label (expanded) or horizontal rule (collapsed) */}
             {!isCollapsed && group.label ? (
@@ -243,104 +258,118 @@ export const Sidebar = ({
                 const isOpen = openMenus.includes(item.id);
                 const isActive = isItemOrChildActive(currentPath, item);
 
-                return (
-                  <div key={item.id} className="relative">
-
-                    {/* ── Row: button (has-children or no-href) vs link (leaf) ── */}
-                    {hasSub || !item.href ? (
-                      <button
-                        type="button"
-                        onClick={() => hasSub ? toggleMenu(item.id) : undefined}
-                        aria-expanded={hasSub ? isOpen : undefined}
-                        className={cn(
-                          'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative',
-                          isActive
-                            ? 'bg-accent text-accent-foreground font-semibold'
-                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                        )}
-                      >
-                        {/* Active left-bar */}
-                        {isActive && !isCollapsed ? (
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
-                        ) : null}
-
-                        {/* Icon */}
-                        {item.icon ? (
-                          <span className={cn(
-                            'shrink-0',
-                            isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
-                          )}>
-                            {item.icon}
-                          </span>
-                        ) : null}
-
-                        {/* Label */}
-                        <span className={cn(
-                          'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
-                          isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
-                        )}>
-                          {item.label}
-                        </span>
-
-                        {/* Chevron (only for parents, only when expanded) */}
-                        {!isCollapsed && hasSub ? (
-                          <span className={cn(
-                            'ml-auto transition-transform duration-300',
-                            isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'
-                          )}>
-                            <ChevronDown size={14} />
-                          </span>
-                        ) : null}
-                      </button>
-                    ) : (
-                      // Leaf item with href → rendered as a link
-                      <span className="block relative">
-                        {/* Active left-bar */}
-                        {isActive && !isCollapsed ? (
-                          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full z-10" />
-                        ) : null}
-
-                        {renderLink({
-                          href: item.href,
-                          'aria-label': isCollapsed ? item.label : undefined,
-                          className: cn(
-                            'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group',
-                            isCollapsed && 'justify-center',
-                            isActive
-                              ? 'bg-accent text-accent-foreground font-semibold'
-                              : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                          ),
-                          children: (
-                            <>
-                              {item.icon ? (
-                                <span className={cn(
-                                  'shrink-0',
-                                  isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
-                                )}>
-                                  {item.icon}
-                                </span>
-                              ) : null}
-                              <span className={cn(
-                                'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
-                                isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
-                              )}>
-                                {item.label}
-                              </span>
-                            </>
-                          ),
-                        })}
-                      </span>
+                const parentButton = (
+                  <button
+                    type="button"
+                    onClick={() => (hasSub ? toggleMenu(item.id) : undefined)}
+                    aria-expanded={hasSub ? isOpen : undefined}
+                    className={cn(
+                      'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative',
+                      isActive
+                        ? 'bg-accent text-accent-foreground font-semibold'
+                        : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                     )}
+                  >
+                    {isActive && !isCollapsed ? (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
+                    ) : null}
 
-                    {/* ── Sub-items (CSS grid open/close — Collapsible not yet used) ── */}
-                    {/* Vendor: grid-rows-[1fr]/grid-rows-[0fr] transition trick */}
-                    {!isCollapsed && hasSub ? (
-                      <div className={cn(
-                        'grid transition-all duration-300 ease-in-out overflow-hidden',
-                        isOpen ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0'
+                    {item.icon ? (
+                      <span className={cn(
+                        'shrink-0',
+                        isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
                       )}>
-                        <div className="overflow-hidden">
-                          <div className="ml-4 pl-4 border-l border-border space-y-1 my-1">
+                        {item.icon}
+                      </span>
+                    ) : null}
+
+                    <span className={cn(
+                      'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
+                      isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
+                    )}>
+                      {item.label}
+                    </span>
+
+                    {!isCollapsed && hasSub ? (
+                      <span className={cn(
+                        'ml-auto transition-transform duration-300',
+                        isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'
+                      )}>
+                        <ChevronDown size={14} />
+                      </span>
+                    ) : null}
+                  </button>
+                );
+
+                const leafLink = (
+                  <span className="block relative">
+                    {isActive && !isCollapsed ? (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full z-10" />
+                    ) : null}
+
+                    {renderLink({
+                      href: item.href ?? '#',
+                      'aria-label': isCollapsed ? item.label : undefined,
+                      className: cn(
+                        'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group',
+                        isCollapsed && 'justify-center',
+                        isActive
+                          ? 'bg-accent text-accent-foreground font-semibold'
+                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                      ),
+                      children: (
+                        <>
+                          {item.icon ? (
+                            <span className={cn(
+                              'shrink-0',
+                              isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
+                            )}>
+                              {item.icon}
+                            </span>
+                          ) : null}
+                          <span className={cn(
+                            'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
+                            isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
+                          )}>
+                            {item.label}
+                          </span>
+                        </>
+                      ),
+                    })}
+                  </span>
+                );
+
+                if (!hasSub && item.href) {
+                  return (
+                    <div key={item.id} className="relative">
+                      {wrapWithTooltip(item.label, leafLink)}
+                    </div>
+                  );
+                }
+
+                return (
+                  <Collapsible
+                    key={item.id}
+                    open={isOpen}
+                    onOpenChange={(open) => {
+                      if (isCollapsed && open) {
+                        onToggleCollapsed?.();
+                      }
+                      setOpenMenus((prev) =>
+                        open ? [...new Set([...prev, item.id])] : prev.filter((id) => id !== item.id)
+                      );
+                    }}
+                  >
+                    <CollapsibleTrigger asChild>
+                      <div className="relative">
+                        {wrapWithTooltip(item.label, parentButton)}
+                      </div>
+                    </CollapsibleTrigger>
+
+                    {!isCollapsed && hasSub ? (
+                      <CollapsibleContent>
+                        <div className="mt-1">
+                          <div className="ml-4 my-1 space-y-1 border-l border-border pl-4">
                             {item.children?.map((child) => {
                               if (!child.href) return null;
                               const childActive = matchesPath(currentPath, child.href);
@@ -373,17 +402,18 @@ export const Sidebar = ({
                             })}
                           </div>
                         </div>
-                      </div>
+                      </CollapsibleContent>
                     ) : null}
-
-                  </div>
+                  </Collapsible>
                 );
               })}
             </div>
-            </div>
-          ))}
+              </div>
+            ))}
+          </TooltipProvider>
         </nav>
       </ScrollArea>
     </aside>
   );
 };
+
