@@ -21,14 +21,19 @@ export { Modal } from './components/overlays/Modal';
 export { ConfirmDialog } from './components/overlays/ConfirmDialog';
 export type { ModalProps, ModalSize } from './components/overlays/Modal';
 export type { ConfirmDialogProps } from './components/overlays/ConfirmDialog';
-export { AppShell } from './components/app-shell/AppShell';
-export { Sidebar } from './components/app-shell/Sidebar';
-export { TopBar } from './components/app-shell/TopBar';
+export { AppShell } from './components/app/AppShell';
+export type { AppShellProps } from './components/app/AppShell';
+export { Sidebar } from './components/app/Sidebar';
+export type { SidebarProps } from './components/app/Sidebar';
+export { TopBar } from './components/app/TopBar';
+export type { TopBarProps } from './components/app/TopBar';
 export type {
   Brand,
   NavItem,
   NavGroup,
   BreadcrumbItem,
   LinkComponent,
-  LinkComponentProps
-} from './components/app-shell/types';
+  LinkComponentProps,
+  AppShellConfig,
+  TopBarConfig,
+} from './components/app/appShellTypes';
