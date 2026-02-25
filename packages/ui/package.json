@@ -30,6 +30,7 @@
     "typescript": "~5.8.2"
   },
   "dependencies": {
+    "radix-ui": "^1.4.3",
     "react-hook-form": "^7.71.2"
   }
 }

@@ -32,6 +32,11 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
+export interface TopBarSearchConfig {
+  placeholder?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+}
+
 /** Props that every link renderer must accept. */
 export interface LinkComponentProps {
   href: string;
@@ -55,8 +60,16 @@ export type LinkComponent = React.ComponentType<LinkComponentProps>;
 
 /** TopBar slot configuration. */
 export interface TopBarConfig {
-  /** Content rendered in the top-right area (theme switcher, user menu, etc.). */
-  rightSlot?: React.ReactNode;
+  /** Title shown on the left side of the TopBar. */
+  title?: string;
+  /** Optional action area, shown before menus on the right side. */
+  actions?: React.ReactNode;
+  /** Content rendered inside the user menu dropdown. */
+  userMenu?: React.ReactNode;
+  /** Content rendered inside the notifications dropdown. */
+  notifications?: React.ReactNode;
+  /** Optional search input configuration. */
+  search?: TopBarSearchConfig;
 }
 
 /**

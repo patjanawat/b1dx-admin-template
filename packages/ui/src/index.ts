@@ -1,6 +1,7 @@
 export { Badge } from './components/app/Badge';
 export { Button } from './components/app/Button';
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/app/Card';
+export { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './components/app/DropdownMenu';
 export { Input } from './components/app/Input';
 export { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './components/app/Table';
 export { AppButton } from './components/app/AppButton';

@@ -1,49 +1,117 @@
 import React from 'react';
 
-import type { BreadcrumbItem, RenderLinkFn } from './appShellTypes';
+import { Button } from './Button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './DropdownMenu';
+import { Input } from './Input';
 
 export interface TopBarProps {
-  breadcrumbs: BreadcrumbItem[];
-  rightSlot?: React.ReactNode;
-  renderLink?: RenderLinkFn;
-  onOpenMobileNav?: () => void;
+  title?: string;
+  actions?: React.ReactNode;
+  userMenu?: React.ReactNode;
+  notifications?: React.ReactNode;
+  search?: {
+    placeholder?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  };
 }
 
-export const TopBar = ({
-  breadcrumbs,
-  rightSlot,
-  renderLink,
-  onOpenMobileNav: _onOpenMobileNav,
-}: TopBarProps) => {
-  return (
-    <header className="flex items-center justify-between gap-4 border-b border-border bg-background px-4 py-3 text-foreground">
-      <nav
-        aria-label="Breadcrumb"
-        className="flex min-w-0 flex-wrap items-center gap-2 text-sm text-muted-foreground"
-      >
-        {breadcrumbs.map((item, index) => (
-          <React.Fragment key={`${item.label}-${index}`}>
-            {index > 0 ? <span aria-hidden="true">/</span> : null}
-            {item.href ? (
-              renderLink ? (
-                renderLink({
-                  href: item.href,
-                  className: 'truncate text-foreground hover:underline',
-                  children: item.label,
-                })
-              ) : (
-                <a href={item.href} className="truncate text-foreground hover:underline">
-                  {item.label}
-                </a>
-              )
-            ) : (
-              <span className="truncate text-foreground">{item.label}</span>
-            )}
-          </React.Fragment>
-        ))}
-      </nav>
+const SearchIcon = ({ size = 18, className = '' }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={className}
+  >
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.3-4.3" />
+  </svg>
+);
 
-      <div className="flex shrink-0 items-center gap-3">{rightSlot}</div>
+const BellIcon = ({ size = 18, className = '' }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={className}
+  >
+    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+    <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+  </svg>
+);
+
+export const TopBar = ({ title, actions, userMenu, notifications, search }: TopBarProps) => {
+  return (
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-border bg-background px-4 shadow-sm transition-colors duration-200 md:px-8">
+      <div className="flex min-w-0 items-center gap-3">
+        {title ? (
+          <h2 className="truncate text-xl font-bold tracking-tight text-foreground">{title}</h2>
+        ) : null}
+      </div>
+
+      {search ? (
+        <div className="flex-1 px-4 md:px-12">
+          <div className="group relative max-w-xl">
+            <SearchIcon
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors group-focus-within:text-primary"
+              size={18}
+            />
+            <Input
+              type="text"
+              placeholder={search.placeholder ?? 'Search'}
+              onChange={search.onChange}
+              className="w-full pl-10"
+              aria-label={search.placeholder ?? 'Search'}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1" />
+      )}
+
+      <div className="flex items-center gap-2">
+        {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
+
+        {notifications ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-10 w-10">
+                <BellIcon size={20} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="p-0 border-none shadow-none">
+              {notifications}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
+
+        {userMenu ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-10 gap-2 px-2">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                  U
+                </span>
+                <span className="hidden text-sm font-medium text-foreground sm:block">Account</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="p-0 border-none shadow-none">
+              {userMenu}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : null}
+      </div>
     </header>
   );
 };

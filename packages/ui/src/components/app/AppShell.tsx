@@ -32,6 +32,7 @@ export const AppShell = ({ config, children }: AppShellProps) => {
     renderLink,
     topBar,
   } = config;
+  const fallbackTitle = breadcrumbs?.[breadcrumbs.length - 1]?.label;
 
   return (
     // Vendor: "flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200"
@@ -52,9 +53,11 @@ export const AppShell = ({ config, children }: AppShellProps) => {
       <div className="relative flex flex-1 flex-col min-w-0 overflow-hidden">
 
         <TopBar
-          breadcrumbs={breadcrumbs ?? []}
-          rightSlot={topBar?.rightSlot}
-          renderLink={renderLink}
+          title={topBar?.title ?? fallbackTitle}
+          actions={topBar?.actions}
+          userMenu={topBar?.userMenu}
+          notifications={topBar?.notifications}
+          search={topBar?.search}
         />
 
         {/* Main content — the ONLY scroll region in the shell */}
