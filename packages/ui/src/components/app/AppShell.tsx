@@ -28,8 +28,8 @@ export const AppShell = ({ config, children }: AppShellProps) => {
     activeHref,
     breadcrumbs,
     collapsed,
-    onCollapsedChange: _onCollapsedChange,
-    LinkComponent,
+    onCollapsedChange,
+    renderLink,
     topBar,
   } = config;
 
@@ -37,13 +37,14 @@ export const AppShell = ({ config, children }: AppShellProps) => {
     // Vendor: "flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200"
     <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200">
 
-      {/* Left column — Sidebar manages its own width via collapsed state */}
+      {/* Left column — Sidebar manages its own width via isCollapsed */}
       <Sidebar
         brand={brand}
-        navGroups={navGroups}
-        activeHref={activeHref}
-        collapsed={collapsed}
-        LinkComponent={LinkComponent}
+        nav={navGroups}
+        currentPath={activeHref}
+        isCollapsed={collapsed}
+        onToggleCollapsed={() => onCollapsedChange(!collapsed)}
+        renderLink={renderLink}
       />
 
       {/* Right column — stacks TopBar above the scrollable main area */}
@@ -53,7 +54,7 @@ export const AppShell = ({ config, children }: AppShellProps) => {
         <TopBar
           breadcrumbs={breadcrumbs ?? []}
           rightSlot={topBar?.rightSlot}
-          LinkComponent={LinkComponent}
+          renderLink={renderLink}
         />
 
         {/* Main content — the ONLY scroll region in the shell */}

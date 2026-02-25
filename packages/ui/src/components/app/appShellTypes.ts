@@ -32,7 +32,7 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-/** Props that every LinkComponent implementation must accept. */
+/** Props that every link renderer must accept. */
 export interface LinkComponentProps {
   href: string;
   className?: string;
@@ -40,6 +40,17 @@ export interface LinkComponentProps {
   children: React.ReactNode;
 }
 
+/**
+ * Preferred link API: a plain function instead of a React component.
+ * Avoids coupling packages/ui to any routing framework.
+ *
+ * Usage in apps (Next.js example):
+ *   const renderLink: RenderLinkFn = ({ href, className, children }) =>
+ *     <Link href={href} className={className}>{children}</Link>;
+ */
+export type RenderLinkFn = (props: LinkComponentProps) => React.ReactNode;
+
+/** @deprecated Use RenderLinkFn instead. Kept for external consumers. */
 export type LinkComponent = React.ComponentType<LinkComponentProps>;
 
 /** TopBar slot configuration. */
@@ -69,8 +80,8 @@ export interface AppShellConfig {
   onCollapsedChange: (collapsed: boolean) => void;
 
   // ── Framework adapter ─────────────────────────────────────────────────────
-  /** Framework-specific link component (e.g. Next.js <Link>). */
-  LinkComponent: LinkComponent;
+  /** Render function for links. Inject your router's <Link> here. */
+  renderLink: RenderLinkFn;
 
   // ── Slot overrides ────────────────────────────────────────────────────────
   topBar?: TopBarConfig;

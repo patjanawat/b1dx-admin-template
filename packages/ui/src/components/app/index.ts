@@ -20,6 +20,7 @@ export type {
   BreadcrumbItem,
   LinkComponent,
   LinkComponentProps,
+  RenderLinkFn,
   AppShellConfig,
   TopBarConfig,
 } from './appShellTypes';

@@ -1,7 +1,7 @@
 "use client";
 
 import { AppShell, Button } from "@b1dx/ui";
-import type { AppShellConfig } from "@b1dx/ui";
+import type { AppShellConfig, RenderLinkFn } from "@b1dx/ui";
 import { brand, getBreadcrumbs, navGroups } from "@/appShellConfig";
 import { ProtectedRoute } from "@/lib/auth/ProtectedRoute";
 import Link from "next/link";
@@ -18,12 +18,12 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
 
-  // Stable link adapter — no deps, recreated only once.
-  const LinkAdapter = useMemo(
+  // Stable renderLink — no deps, Next.js <Link> is always the same component.
+  const renderLink = useMemo<RenderLinkFn>(
     () =>
-      ({ href, className, children }: { href: string; className?: string; children: ReactNode }) => (
-        <Link href={href} className={className}>
-          {children}
+      ({ href, className, 'aria-label': ariaLabel, children: linkChildren }) => (
+        <Link href={href} className={className} aria-label={ariaLabel}>
+          {linkChildren}
         </Link>
       ),
     []
@@ -37,7 +37,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
       breadcrumbs,
       collapsed,
       onCollapsedChange: setCollapsed,
-      LinkComponent: LinkAdapter,
+      renderLink,
       topBar: {
         rightSlot: (
           <Button
@@ -51,7 +51,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
         ),
       },
     }),
-    [pathname, breadcrumbs, collapsed, LinkAdapter]
+    [pathname, breadcrumbs, collapsed, renderLink]
   );
 
   return (

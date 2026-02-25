@@ -1,22 +1,20 @@
 import React from 'react';
 
-import type { BreadcrumbItem, LinkComponent } from './appShellTypes';
+import type { BreadcrumbItem, RenderLinkFn } from './appShellTypes';
 
 export interface TopBarProps {
   breadcrumbs: BreadcrumbItem[];
   rightSlot?: React.ReactNode;
-  LinkComponent?: LinkComponent;
+  renderLink?: RenderLinkFn;
   onOpenMobileNav?: () => void;
 }
 
 export const TopBar = ({
   breadcrumbs,
   rightSlot,
-  LinkComponent,
+  renderLink,
   onOpenMobileNav: _onOpenMobileNav,
 }: TopBarProps) => {
-  const Link = LinkComponent;
-
   return (
     <header className="flex items-center justify-between gap-4 border-b border-border bg-background px-4 py-3 text-foreground">
       <nav
@@ -27,10 +25,12 @@ export const TopBar = ({
           <React.Fragment key={`${item.label}-${index}`}>
             {index > 0 ? <span aria-hidden="true">/</span> : null}
             {item.href ? (
-              Link ? (
-                <Link href={item.href} className="truncate text-foreground hover:underline">
-                  {item.label}
-                </Link>
+              renderLink ? (
+                renderLink({
+                  href: item.href,
+                  className: 'truncate text-foreground hover:underline',
+                  children: item.label,
+                })
               ) : (
                 <a href={item.href} className="truncate text-foreground hover:underline">
                   {item.label}
