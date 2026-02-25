@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git fetch upstream-admin-template --prune 2>&1)",
+      "Bash(cd /c/workcopy/2026/b1dx-admin-template && git subtree add --prefix=vendor/b1dx-admin-template upstream-admin-template main --squash 2>&1)"
+    ]
+  }
+}
