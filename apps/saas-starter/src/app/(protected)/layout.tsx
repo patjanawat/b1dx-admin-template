@@ -1,38 +1,55 @@
+"use client";
+
+import { AppShell, Button } from "@b1dx/ui";
+import { brand, getBreadcrumbs, navGroups } from "@/appShellConfig";
 import { ProtectedRoute } from "@/lib/auth/ProtectedRoute";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
+import { useMemo, useState } from "react";
 
 type ProtectedLayoutProps = {
   children: ReactNode;
 };
 
 export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const showKitchenSink = process.env.NODE_ENV !== "production";
+  const pathname = usePathname();
+  const [collapsed, setCollapsed] = useState(false);
+  const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
+
+  const LinkAdapter = useMemo(
+    () =>
+      ({ href, className, children }: { href: string; className?: string; children: ReactNode }) => (
+        <Link href={href} className={className}>
+          {children}
+        </Link>
+      ),
+    []
+  );
 
   return (
     <ProtectedRoute>
-      <section className="space-y-6 p-6">
-        <header className="space-y-3">
-          <h1 className="text-2xl font-semibold">Protected Area</h1>
-          <nav className="flex flex-wrap gap-3 text-sm">
-            <Link className="text-blue-600 hover:underline" href="/users">
-              Users
-            </Link>
-            <Link className="text-blue-600 hover:underline" href="/rbac">
-              RBAC
-            </Link>
-            <Link className="text-blue-600 hover:underline" href="/audit-logs">
-              Audit Logs
-            </Link>
-            {showKitchenSink ? (
-              <Link className="text-blue-600 hover:underline" href="/ui-kitchen-sink">
-                UI Kitchen Sink
-              </Link>
-            ) : null}
-          </nav>
-        </header>
-        <div>{children}</div>
-      </section>
+      <AppShell
+        brand={brand}
+        navGroups={navGroups}
+        activeHref={pathname}
+        breadcrumbs={breadcrumbs}
+        collapsed={collapsed}
+        onCollapsedChange={setCollapsed}
+        LinkComponent={LinkAdapter}
+        topRightSlot={
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setCollapsed((prev) => !prev)}
+          >
+            {collapsed ? "Expand" : "Collapse"}
+          </Button>
+        }
+      >
+        {children}
+      </AppShell>
     </ProtectedRoute>
   );
 }
