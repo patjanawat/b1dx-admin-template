@@ -40,6 +40,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n/i18n";
+import { useAuth } from "@/lib/auth/AuthProvider";
 
 type Theme = "light" | "dark" | "system";
 
@@ -406,6 +407,7 @@ const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
 };
 
 const TopBarActions = () => {
+  const { logout } = useAuth();
   const [language, setLanguage] = useState("en");
   const [activeTheme, setActiveTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
@@ -548,7 +550,7 @@ const TopBarActions = () => {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-none p-0 shadow-none">
-          <ProfileDropdown />
+          <ProfileDropdown onLogout={logout} />
         </DropdownMenuContent>
       </DropdownMenu>
     </>
