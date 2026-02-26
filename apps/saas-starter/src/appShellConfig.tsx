@@ -1,5 +1,6 @@
 "use client";
 
+import type { ElementType } from "react";
 import {
   Badge,
   Button,
@@ -438,7 +439,7 @@ const TopBarActions = () => {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [activeTheme]);
 
-  const themes: { id: Theme; label: string; icon: React.ElementType }[] = [
+  const themes: { id: Theme; label: string; icon: ElementType }[] = [
     { id: "light", label: "Light", icon: Sun },
     { id: "dark", label: "Dark", icon: Moon },
     { id: "system", label: "System", icon: Monitor },

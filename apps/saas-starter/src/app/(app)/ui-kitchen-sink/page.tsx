@@ -2,14 +2,18 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { AppButton, ConfirmDialog, ErrorBanner, Input, Modal } from "@b1dx/ui";
 import {
+  AppButton,
+  ConfirmDialog,
+  ErrorBanner,
   Form,
   FormField,
+  Input,
+  Modal,
   RHFDatePicker,
   RHFDecimalInput,
-  RHFNumberInput
-} from "@b1dx/ui/forms";
+  RHFNumberInput,
+} from "@b1dx/ui";
 
 export const dynamic = "force-dynamic";
 
