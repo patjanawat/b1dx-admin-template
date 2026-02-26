@@ -1,8 +1,36 @@
+import { FilterDropdown } from "@b1dx/ui";
+import { useMemo, useState } from "react";
+
+const dateOptions = [
+  { label: "Today", value: "today" },
+  { label: "Last 7 days", value: "last7days" },
+  { label: "Last 30 days", value: "last30days" },
+];
+
 export default function AppPage() {
+  const [range, setRange] = useState(dateOptions[1]?.value ?? "last7days");
+  const rangeLabel = useMemo(
+    () => dateOptions.find((option) => option.value === range)?.label ?? "Last 7 days",
+    [range]
+  );
+
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Selected range: {rangeLabel}
+            </p>
+          </div>
+          <FilterDropdown
+            title="Date Filter"
+            statusOptions={[]}
+            dateRangeOptions={dateOptions}
+            onApply={({ dateRange }) => setRange(dateRange)}
+          />
+        </div>
         <p className="mt-2 text-sm text-muted-foreground">
           This is a placeholder page to confirm the AppShell layout, top bar, and scroll area.
         </p>
