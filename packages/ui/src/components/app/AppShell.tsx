@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import type { AppShellConfig } from './appShellTypes';
@@ -63,7 +65,7 @@ export const AppShell = ({ config, children }: AppShellProps) => {
 
         {/* Main content — the ONLY scroll region in the shell */}
         {/* Vendor: "flex-1 overflow-y-auto p-4 md:p-8 bg-background" */}
-        <ScrollArea className="flex-1 bg-background">
+        <ScrollArea className="flex-1 bg-background" viewportClassName="custom-scrollbar">
           <main className="p-4 md:p-8">
             {/* Vendor: "max-w-[1400px] mx-auto w-full space-y-8" */}
             <div className="mx-auto w-full max-w-[1400px] space-y-8">

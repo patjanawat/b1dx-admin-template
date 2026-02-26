@@ -30,6 +30,7 @@
   "devDependencies": {
     "@b1dx/eslint-config": "workspace:*",
     "@b1dx/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

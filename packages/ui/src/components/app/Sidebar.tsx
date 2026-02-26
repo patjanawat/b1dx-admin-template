@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 
 import { cn } from '../../lib/cn';
@@ -236,7 +238,7 @@ export const Sidebar = ({
 
       {/* ── Navigation ───────────────────────────────────────────────────── */}
       {/* Vendor: flex-1 overflow-y-auto py-6 px-3 overflow-x-hidden */}
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1" viewportClassName="custom-scrollbar">
         <nav className="overflow-x-hidden py-6 px-3">
           <TooltipProvider delayDuration={150}>
             {navGroups.map((group, groupIdx) => (
