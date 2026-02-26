@@ -407,33 +407,31 @@ const TopBarActions = () => {
   const [language, setLanguage] = useState("en");
   const [activeTheme, setActiveTheme] = useState<Theme>("light");
 
+  // One-time: sync from localStorage after hydration
   useEffect(() => {
-    // Restore persisted theme after hydration to avoid SSR mismatch
     const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored && stored !== activeTheme) {
-      setActiveTheme(stored);
-      return;
-    }
+    if (stored) setActiveTheme(stored);
+  }, []);
 
+  // Every time activeTheme changes: apply to DOM + persist
+  useEffect(() => {
     const root = window.document.documentElement;
-    const applyTheme = (theme: Theme) => {
-      root.classList.remove("light", "dark");
-      if (theme === "system") {
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-        root.classList.add(systemTheme);
-      } else {
-        root.classList.add(theme);
-      }
-      localStorage.setItem("theme", theme);
-    };
-
-    applyTheme(activeTheme);
+    root.classList.remove("light", "dark");
+    if (activeTheme === "system") {
+      root.classList.add(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      );
+    } else {
+      root.classList.add(activeTheme);
+    }
+    localStorage.setItem("theme", activeTheme);
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => {
-      if (activeTheme === "system") applyTheme("system");
+      if (activeTheme === "system") {
+        root.classList.remove("light", "dark");
+        root.classList.add(mediaQuery.matches ? "dark" : "light");
+      }
     };
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);

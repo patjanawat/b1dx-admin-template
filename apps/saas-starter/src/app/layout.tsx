@@ -18,6 +18,9 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme')||'light';var r=document.documentElement;if(t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)){r.classList.add('dark');}else{r.classList.remove('dark');}}catch(e){}})();` }} />
+      </head>
       <body>
         <ServerErrorsProvider>
           <QueryProvider>
