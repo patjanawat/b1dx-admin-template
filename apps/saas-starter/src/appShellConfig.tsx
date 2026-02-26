@@ -353,11 +353,12 @@ const NotificationsDropdown = () => {
 };
 
 const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
+  const { t } = useTranslation();
   const menuItems = [
-    { label: "My Profile", icon: User },
-    { label: "Settings", icon: Settings },
-    { label: "Pricing", icon: DollarSign },
-    { label: "FAQ", icon: HelpCircle },
+    { label: t("profile.my_profile"), icon: User },
+    { label: t("profile.settings"), icon: Settings },
+    { label: t("profile.pricing"), icon: DollarSign },
+    { label: t("profile.faq"), icon: HelpCircle },
   ];
 
   return (
@@ -398,7 +399,7 @@ const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
           onClick={onLogout}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-destructive/10 py-2.5 text-xs font-bold uppercase tracking-widest text-destructive transition-all hover:bg-destructive hover:text-destructive-foreground active:scale-95"
         >
-          Logout
+          {t("profile.logout")}
           <LogOut size={14} />
         </button>
       </div>
