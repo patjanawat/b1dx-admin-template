@@ -1,4 +1,12 @@
 {
+  "login": {
+    "title": "Login",
+    "subtitle": "Sign in to continue to the SaaS starter workspace.",
+    "email_label": "Email",
+    "password_label": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…"
+  },
   "nav": {
     "main": "Main",
     "management": "Management",

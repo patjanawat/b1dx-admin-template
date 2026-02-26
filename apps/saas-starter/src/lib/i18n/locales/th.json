@@ -1,4 +1,12 @@
 {
+  "login": {
+    "title": "เข้าสู่ระบบ",
+    "subtitle": "ลงชื่อเข้าใช้เพื่อไปยัง SaaS starter workspace",
+    "email_label": "อีเมล",
+    "password_label": "รหัสผ่าน",
+    "submit": "เข้าสู่ระบบ",
+    "submitting": "กำลังเข้าสู่ระบบ…"
+  },
   "nav": {
     "main": "หลัก",
     "management": "การจัดการ",
