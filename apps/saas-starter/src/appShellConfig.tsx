@@ -407,12 +407,15 @@ const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
 
 const TopBarActions = () => {
   const [language, setLanguage] = useState("en");
-  const [activeTheme, setActiveTheme] = useState<Theme>("light");
+  const [activeTheme, setActiveTheme] = useState<Theme>(() => {
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("theme") as Theme) || "light";
+  });
 
-  // One-time: sync from localStorage after hydration
+  // One-time: sync language from localStorage after hydration
   useEffect(() => {
-    const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored) setActiveTheme(stored);
+    const stored = localStorage.getItem("language");
+    if (stored) setLanguage(stored);
   }, []);
 
   // Every time activeTheme changes: apply to DOM + persist
