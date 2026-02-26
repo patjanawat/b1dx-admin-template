@@ -11,6 +11,7 @@ export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './comp
 export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';
+export { FilterDropdown } from './components/app/FilterDropdown';
 export { cn } from './lib/cn';
 export { formatCurrency, formatDecimal } from './lib/format';
 export { clampNumber, parseDecimalInput, toNumberOrNull } from './lib/number';

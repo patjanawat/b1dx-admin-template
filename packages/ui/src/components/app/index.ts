@@ -11,6 +11,7 @@ export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './Tool
 export { AppButton } from './AppButton';
 export { AppDialogConfirm } from './AppDialogConfirm';
 export { AppEmptyState } from './AppEmptyState';
+export { FilterDropdown } from './FilterDropdown';
 // App shell
 export { AppShell } from './AppShell';
 export type { AppShellProps } from './AppShell';
