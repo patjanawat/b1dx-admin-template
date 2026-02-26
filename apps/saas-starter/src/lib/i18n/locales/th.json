@@ -1,11 +1,30 @@
 {
   "login": {
-    "title": "เข้าสู่ระบบ",
-    "subtitle": "ลงชื่อเข้าใช้เพื่อไปยัง SaaS starter workspace",
+    "app_name": "OMS Admin",
+    "app_tagline": "ระบบจัดการออเดอร์",
+    "heading": "เข้าสู่ระบบ",
+    "subtitle": "กรอกข้อมูลเพื่อเข้าใช้งานบัญชีของคุณ",
     "email_label": "อีเมล",
     "password_label": "รหัสผ่าน",
+    "show_password": "แสดงรหัสผ่าน",
+    "hide_password": "ซ่อนรหัสผ่าน",
+    "remember_me": "จดจำฉัน",
+    "forgot_password": "ลืมรหัสผ่าน?",
     "submit": "เข้าสู่ระบบ",
-    "submitting": "กำลังเข้าสู่ระบบ…"
+    "submitting": "กำลังเข้าสู่ระบบ…",
+    "no_account": "ยังไม่มีบัญชี?",
+    "contact_admin": "ติดต่อผู้ดูแลระบบ",
+    "server_online": "เซิร์ฟเวอร์ออนไลน์"
+  },
+  "forgot_password": {
+    "title": "ลืมรหัสผ่าน",
+    "subtitle": "กรอกอีเมลของคุณ แล้วเราจะส่งลิงก์รีเซ็ตให้",
+    "email_label": "อีเมล",
+    "submit": "ส่งลิงก์รีเซ็ต",
+    "submitting": "กำลังส่ง…",
+    "success_title": "ตรวจสอบอีเมลของคุณ",
+    "success_subtitle": "เราได้ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว",
+    "back_to_login": "กลับไปหน้าเข้าสู่ระบบ"
   },
   "nav": {
     "main": "หลัก",

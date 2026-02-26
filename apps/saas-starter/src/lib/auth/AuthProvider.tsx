@@ -21,7 +21,7 @@ type AuthContextValue = {
   status: AuthStatus;
   user: AuthUser | null;
   accessToken: string | null;
-  login: (credentials: { email: string; password: string }) => Promise<void>;
+  login: (credentials: { email: string; password: string; rememberMe?: boolean }) => Promise<void>;
   setAccessToken: (token: string | null) => void;
   clearAuth: () => void;
 };
@@ -92,7 +92,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [clear, setProblem]);
 
   const login = useCallback(
-    async (credentials: { email: string; password: string }) => {
+    async (credentials: { email: string; password: string; rememberMe?: boolean }) => {
       const data = await authApi.login(credentials);
       setAccessToken(data.accessToken);
       setAuthUser(data.me);

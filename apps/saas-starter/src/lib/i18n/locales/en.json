@@ -1,11 +1,30 @@
 {
   "login": {
-    "title": "Login",
-    "subtitle": "Sign in to continue to the SaaS starter workspace.",
+    "app_name": "OMS Admin",
+    "app_tagline": "Order Management System",
+    "heading": "Sign In",
+    "subtitle": "Enter your credentials to access your account.",
     "email_label": "Email",
     "password_label": "Password",
-    "submit": "Sign in",
-    "submitting": "Signing in…"
+    "show_password": "Show password",
+    "hide_password": "Hide password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot password?",
+    "submit": "Sign In",
+    "submitting": "Signing in…",
+    "no_account": "Don't have an account?",
+    "contact_admin": "Contact Admin",
+    "server_online": "SERVER ONLINE"
+  },
+  "forgot_password": {
+    "title": "Forgot Password",
+    "subtitle": "Enter your email and we'll send you a reset link.",
+    "email_label": "Email",
+    "submit": "Send Reset Link",
+    "submitting": "Sending…",
+    "success_title": "Check Your Email",
+    "success_subtitle": "We've sent a password reset link to your email address.",
+    "back_to_login": "Back to login"
   },
   "nav": {
     "main": "Main",

@@ -37,6 +37,7 @@ export const coreHandlers = [
     const body = (await request.json().catch(() => ({}))) as {
       email?: string;
       password?: string;
+      rememberMe?: boolean;
     };
     const email = body.email ?? "user@acme.io";
     let user = db.users.find((u) => u.email === email);
@@ -53,6 +54,10 @@ export const coreHandlers = [
     const session = db.createSession(user.id);
     const me = db.getUserProfile(user.id);
 
+    const cookieStr = body.rememberMe
+      ? `${REFRESH_COOKIE}=${encodeURIComponent(session.refreshToken)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`
+      : setRefreshCookie(session.refreshToken);
+
     return HttpResponse.json(
       {
         accessToken: session.accessToken,
@@ -60,7 +65,7 @@ export const coreHandlers = [
       },
       {
         headers: {
-          "set-cookie": setRefreshCookie(session.refreshToken),
+          "set-cookie": cookieStr,
         },
       }
     );
@@ -295,6 +300,10 @@ export const coreHandlers = [
     const paged = items.slice(start, start + pageSize);
 
     return HttpResponse.json({ items: paged, page, pageSize, total });
+  }),
+
+  http.post(`${CORE_BASE}/auth/forgot-password`, async () => {
+    return HttpResponse.json({ ok: true });
   }),
 
   http.all(`${CORE_BASE}/*`, () =>

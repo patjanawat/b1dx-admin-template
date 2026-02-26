@@ -23,7 +23,7 @@ const withAuth = (init?: RequestInit): RequestInit => {
 };
 
 export const authApi = {
-  login: (payload: { email: string; password: string }) =>
+  login: (payload: { email: string; password: string; rememberMe?: boolean }) =>
     coreRequest<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify(payload),
@@ -37,4 +37,9 @@ export const authApi = {
       method: "POST",
     }),
   me: () => coreRequest<AuthUser>("/auth/me", withAuth()),
+  forgotPassword: (payload: { email: string }) =>
+    coreRequest<{ ok: boolean }>("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }),
 };
