@@ -12,8 +12,10 @@ import {
   Modal,
   RHFDatePicker,
   RHFDecimalInput,
-  RHFNumberInput
+  RHFNumberInput,
 } from "@b1dx/ui";
+
+export const dynamic = "force-dynamic";
 
 type DemoFormValues = {
   name: string;

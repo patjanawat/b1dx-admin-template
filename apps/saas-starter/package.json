@@ -17,6 +17,7 @@
     "@b1dx/theme": "workspace:*",
     "@b1dx/ui": "workspace:*",
     "@tanstack/react-query": "^5.62.0",
+    "lucide-react": "^0.575.0",
     "msw": "^2.4.9",
     "next": "^15.1.0",
     "nuqs": "^1.20.0",
@@ -30,9 +31,11 @@
   "devDependencies": {
     "@b1dx/eslint-config": "workspace:*",
     "@b1dx/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.2.1",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
     "typescript": "~5.8.2"
   }
 }

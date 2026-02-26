@@ -1,5 +1,4 @@
-import "@b1dx/theme/styles/base.css";
-import "../styles/globals.css";
+import "./globals.css";
 import { QueryProvider } from "@/lib/query/QueryProvider";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { ServerErrorsProvider } from "@/lib/errors/server-errors-context";

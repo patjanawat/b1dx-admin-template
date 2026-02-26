@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 import { formatCurrency, formatDecimal } from '../../../lib/format';

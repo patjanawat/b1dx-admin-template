@@ -50,3 +50,8 @@ apps/storybook/storybook-static
 *.njsproj
 *.sln
 *.sw?
+
+# ================================
+# Claude local settings
+# ================================
+.claude/settings.local.json
