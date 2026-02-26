@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.0.0",
   "scripts": {
-    "dev": "turbo dev --filter=@b1dx/admin-web...",
+    "dev": "turbo dev",
     "build": "turbo build",
     "lint": "pnpm -r --if-present run lint",
     "lint:all": "pnpm -r --if-present run lint",
