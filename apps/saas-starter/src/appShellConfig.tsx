@@ -38,6 +38,8 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n/i18n";
 
 type Theme = "light" | "dark" | "system";
 
@@ -454,7 +456,14 @@ const TopBarActions = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-none p-0 shadow-none">
-          <LanguageDropdown selectedId={language} onSelect={setLanguage} />
+          <LanguageDropdown
+            selectedId={language}
+            onSelect={(id) => {
+              setLanguage(id);
+              i18n.changeLanguage(id);
+              localStorage.setItem("language", id);
+            }}
+          />
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -555,4 +564,67 @@ export const appShellConfig: Pick<AppShellConfig, "brand" | "navGroups" | "topBa
   brand,
   navGroups,
   topBar: topBarConfig,
+};
+
+/** Returns navGroups with labels translated to the active language. */
+export const useTranslatedNavGroups = (): NavGroup[] => {
+  const { t } = useTranslation();
+  return [
+    {
+      id: "main",
+      label: t("nav.main"),
+      items: [
+        { id: "dashboard", label: t("nav.dashboard"), href: "/", icon: <LayoutGrid size={22} /> },
+      ],
+    },
+    {
+      id: "management",
+      label: t("nav.management"),
+      items: [
+        {
+          id: "orders",
+          label: t("nav.orders"),
+          icon: <ShoppingCart size={22} />,
+          children: [
+            { id: "all-orders", label: t("nav.all_orders"), href: "/orders" },
+            { id: "processing-orders", label: t("nav.processing_orders"), href: "/processing-orders" },
+            { id: "packing", label: t("nav.packing"), href: "/packing" },
+            { id: "tracking-update", label: t("nav.tracking_update"), href: "/tracking-update" },
+            { id: "tracking-status", label: t("nav.tracking_status"), href: "/tracking-status" },
+          ],
+        },
+        {
+          id: "inventory",
+          label: t("nav.inventory"),
+          icon: <Warehouse size={22} />,
+          children: [
+            { id: "inventory-products", label: t("nav.inventory"), href: "/products" },
+            { id: "inventory-alerts", label: t("nav.inventory"), href: "/stock-alerts" },
+          ],
+        },
+        { id: "customers", label: t("nav.customers"), href: "/customers", icon: <Users size={22} /> },
+      ],
+    },
+    {
+      id: "analysis",
+      label: t("nav.analysis"),
+      items: [
+        {
+          id: "reports",
+          label: t("nav.reports"),
+          icon: <BarChart3 size={22} />,
+          children: [
+            { id: "sales-report", label: t("nav.reports"), href: "/sales-report" },
+            { id: "revenue", label: t("nav.reports"), href: "/revenue" },
+          ],
+        },
+      ],
+    },
+    {
+      id: "settings",
+      items: [
+        { id: "settings", label: t("nav.settings"), href: "/settings", icon: <Settings size={22} /> },
+      ],
+    },
+  ];
 };

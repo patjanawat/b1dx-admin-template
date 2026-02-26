@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "main": "Main",
+    "management": "Management",
+    "analysis": "Analysis",
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "all_orders": "All Orders",
+    "processing_orders": "Processing Orders",
+    "packing": "Packing",
+    "tracking_update": "Tracking Update",
+    "tracking_status": "Tracking Status",
+    "inventory": "Inventory",
+    "customers": "Customers",
+    "reports": "Reports",
+    "settings": "Settings"
+  },
+  "topbar": {
+    "search_placeholder": "Search orders, customers, SKUs..."
+  },
+  "dashboard": {
+    "title": "Dashboard Overview",
+    "welcome": "Welcome back, Alex. Here's what's happening today.",
+    "export": "Export",
+    "stat_total_orders": "Total Orders",
+    "stat_pending_shipments": "Pending Shipments",
+    "stat_low_stock": "Low Stock Items",
+    "stat_revenue": "Today's Revenue",
+    "recent_orders": "Recent Orders",
+    "quick_insights": "Quick Insights",
+    "peak_sales_hour": "Peak Sales Hour",
+    "peak_sales_desc": "Up 14% more than average",
+    "top_region": "Top Region",
+    "top_region_desc": "32% of total volume",
+    "view_analytics": "View Detailed Analytics",
+    "upgrade_title": "Upgrade to Pro",
+    "upgrade_desc": "Get advanced AI-driven stock forecasting and multi-warehouse support.",
+    "learn_more": "Learn More"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "main": "หลัก",
+    "management": "การจัดการ",
+    "analysis": "การวิเคราะห์",
+    "dashboard": "แดชบอร์ด",
+    "orders": "ออเดอร์",
+    "all_orders": "ออเดอร์ทั้งหมด",
+    "processing_orders": "พัสดุดำเนินการ",
+    "packing": "แพ็กสินค้า",
+    "tracking_update": "อัพเดท Tracking",
+    "tracking_status": "เช็คสถานะพัสดุ",
+    "inventory": "คลังสินค้า",
+    "customers": "ลูกค้า",
+    "reports": "รายงาน",
+    "settings": "ตั้งค่า"
+  },
+  "topbar": {
+    "search_placeholder": "ค้นหาคำสั่งซื้อ, ลูกค้า, SKUs..."
+  },
+  "dashboard": {
+    "title": "ภาพรวมแดชบอร์ด",
+    "welcome": "ยินดีต้อนรับกลับ Alex นี่คือข้อมูลล่าสุดวันนี้",
+    "export": "ส่งออก",
+    "stat_total_orders": "ออเดอร์ทั้งหมด",
+    "stat_pending_shipments": "รอจัดส่ง",
+    "stat_low_stock": "สินค้าใกล้หมด",
+    "stat_revenue": "รายรับวันนี้",
+    "recent_orders": "คำสั่งซื้อล่าสุด",
+    "quick_insights": "สรุปข้อมูลด่วน",
+    "peak_sales_hour": "ช่วงเวลาขายดี",
+    "peak_sales_desc": "สูงกว่าค่าเฉลี่ย 14%",
+    "top_region": "ภูมิภาคยอดนิยม",
+    "top_region_desc": "32% ของยอดทั้งหมด",
+    "view_analytics": "ดูการวิเคราะห์เพิ่มเติม",
+    "upgrade_title": "อัพเกรดเป็น Pro",
+    "upgrade_desc": "รับการพยากรณ์สต็อกด้วย AI และระบบจัดการหลายคลัง",
+    "learn_more": "เรียนรู้เพิ่มเติม"
+  }
+}
