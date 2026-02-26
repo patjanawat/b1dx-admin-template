@@ -1,5 +1,3 @@
-import "@b1dx/tokens/css";
-import "@b1dx/theme/styles/base.css";
 import "./globals.css";
 import { QueryProvider } from "@/lib/query/QueryProvider";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
