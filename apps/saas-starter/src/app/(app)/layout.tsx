@@ -3,6 +3,7 @@
 import { AppShell } from "@b1dx/ui";
 import type { AppShellConfig, RenderLinkFn } from "@b1dx/ui";
 import { appShellConfig, useTranslatedNavGroups } from "@/appShellConfig";
+import { ProtectedRoute } from "@/lib/auth/ProtectedRoute";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -39,5 +40,9 @@ export default function Layout({ children }: AppLayoutProps) {
     [pathname, collapsed, renderLink, navGroups]
   );
 
-  return <AppShell config={config}>{children}</AppShell>;
+  return (
+    <ProtectedRoute>
+      <AppShell config={config}>{children}</AppShell>
+    </ProtectedRoute>
+  );
 }

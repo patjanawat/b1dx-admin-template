@@ -22,6 +22,7 @@ type AuthContextValue = {
   user: AuthUser | null;
   accessToken: string | null;
   login: (credentials: { email: string; password: string; rememberMe?: boolean }) => Promise<void>;
+  logout: () => Promise<void>;
   setAccessToken: (token: string | null) => void;
   clearAuth: () => void;
 };
@@ -101,16 +102,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     []
   );
 
+  const logout = useCallback(async () => {
+    try {
+      await authApi.logout();
+    } catch {
+      // ignore server errors — always clear client state
+    }
+    clearAuth();
+    setStatus("unauthenticated");
+  }, []);
+
   const value = useMemo<AuthContextValue>(
     () => ({
       status,
       user: snapshot.user,
       accessToken: snapshot.accessToken ?? getAccessToken(),
       login,
+      logout,
       setAccessToken,
       clearAuth,
     }),
-    [snapshot, status, login]
+    [snapshot, status, login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
