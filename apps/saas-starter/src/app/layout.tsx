@@ -1,4 +1,5 @@
 import "./globals.css";
+import { MockProvider } from "@/components/providers/MockProvider";
 import { QueryProvider } from "@/lib/query/QueryProvider";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { ServerErrorsProvider } from "@/lib/errors/server-errors-context";
@@ -25,9 +26,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         <I18nProvider>
           <ServerErrorsProvider>
-            <QueryProvider>
-              <AuthProvider>{children}</AuthProvider>
-            </QueryProvider>
+            <MockProvider>
+              <QueryProvider>
+                <AuthProvider>{children}</AuthProvider>
+              </QueryProvider>
+            </MockProvider>
           </ServerErrorsProvider>
           <Toaster position="top-right" richColors />
         </I18nProvider>
