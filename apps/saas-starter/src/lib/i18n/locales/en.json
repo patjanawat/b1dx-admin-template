@@ -45,6 +45,13 @@
   "topbar": {
     "search_placeholder": "Search orders, customers, SKUs..."
   },
+  "profile": {
+    "my_profile": "My Profile",
+    "settings": "Settings",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "logout": "Logout"
+  },
   "dashboard": {
     "title": "Dashboard Overview",
     "welcome": "Welcome back, Alex. Here's what's happening today.",
