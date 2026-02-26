@@ -2,7 +2,7 @@
 
 import { AppShell } from "@b1dx/ui";
 import type { AppShellConfig, RenderLinkFn } from "@b1dx/ui";
-import { appShellConfig } from "@/appShellConfig";
+import { appShellConfig, useTranslatedNavGroups } from "@/appShellConfig";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -15,6 +15,7 @@ type AppLayoutProps = {
 export default function Layout({ children }: AppLayoutProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const navGroups = useTranslatedNavGroups();
 
   const renderLink = useMemo<RenderLinkFn>(
     () =>
@@ -29,12 +30,13 @@ export default function Layout({ children }: AppLayoutProps) {
   const config = useMemo<AppShellConfig>(
     () => ({
       ...appShellConfig,
+      navGroups,
       activeHref: pathname,
       collapsed,
       onCollapsedChange: setCollapsed,
       renderLink,
     }),
-    [pathname, collapsed, renderLink]
+    [pathname, collapsed, renderLink, navGroups]
   );
 
   return <AppShell config={config}>{children}</AppShell>;
