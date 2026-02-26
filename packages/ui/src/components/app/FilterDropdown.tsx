@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Button } from './Button';
-import { Popover, PopoverContent, PopoverTrigger } from './Popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './Select';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 export type FilterDropdownOption = {
   label: string;
