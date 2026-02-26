@@ -3,7 +3,7 @@
 import { ApiRequestError } from "@/lib/api/apiRequest";
 import { useServerErrors } from "@/lib/errors/server-errors-context";
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { authApi } from "./authApi";
 import {
   clearAuth,
@@ -21,6 +21,7 @@ type AuthContextValue = {
   status: AuthStatus;
   user: AuthUser | null;
   accessToken: string | null;
+  login: (credentials: { email: string; password: string; rememberMe?: boolean }) => Promise<void>;
   setAccessToken: (token: string | null) => void;
   clearAuth: () => void;
 };
@@ -90,15 +91,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
   }, [clear, setProblem]);
 
+  const login = useCallback(
+    async (credentials: { email: string; password: string; rememberMe?: boolean }) => {
+      const data = await authApi.login(credentials);
+      setAccessToken(data.accessToken);
+      setAuthUser(data.me);
+      setStatus("authenticated");
+    },
+    []
+  );
+
   const value = useMemo<AuthContextValue>(
     () => ({
       status,
       user: snapshot.user,
       accessToken: snapshot.accessToken ?? getAccessToken(),
+      login,
       setAccessToken,
       clearAuth,
     }),
-    [snapshot, status]
+    [snapshot, status, login]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

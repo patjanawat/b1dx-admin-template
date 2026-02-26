@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { ProblemDetails } from "./problemDetails";
 
 type FieldErrorMap = Record<string, string[]>;
@@ -25,13 +25,15 @@ type ServerErrorsProviderProps = {
 export function ServerErrorsProvider({ children }: ServerErrorsProviderProps) {
   const [problem, setProblem] = useState<ProblemDetails | null>(null);
 
+  const clear = useCallback(() => setProblem(null), []);
+
   const value = useMemo<ServerErrorsContextValue>(
     () => ({
       errors: problem?.errors ?? {},
       setProblem,
-      clear: () => setProblem(null),
+      clear,
     }),
-    [problem]
+    [problem, clear]
   );
 
   return (
