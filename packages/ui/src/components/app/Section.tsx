@@ -44,7 +44,7 @@ export const Section = ({
         >
           <div className="min-w-0 space-y-0.5">
             {title && (
-              <h2 className="text-2xl font-extrabold tracking-tight text-foreground">{title}</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
             )}
             {description && (
               <p className="text-sm font-medium text-muted-foreground">{description}</p>

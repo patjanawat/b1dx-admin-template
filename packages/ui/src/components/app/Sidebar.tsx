@@ -215,7 +215,7 @@ export const Sidebar = ({
               {brand.title}
             </div>
             {brand.subtitle ? (
-              <div className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-1 truncate">
+              <div className="text-xs text-muted-foreground font-medium uppercase tracking-wider mt-1 truncate">
                 {brand.subtitle}
               </div>
             ) : null}
@@ -246,7 +246,7 @@ export const Sidebar = ({
 
             {/* Group label (expanded) or horizontal rule (collapsed) */}
             {!isCollapsed && group.label ? (
-              <h3 className="px-4 mb-2 text-[11px] font-bold text-muted-foreground uppercase tracking-[0.1em]">
+              <h3 className="px-4 mb-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 {group.label}
               </h3>
             ) : null}
@@ -286,7 +286,7 @@ export const Sidebar = ({
                     ) : null}
 
                     <span className={cn(
-                      'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
+                      'text-sm transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
                       isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
                     )}>
                       {item.label}
@@ -330,7 +330,7 @@ export const Sidebar = ({
                             </span>
                           ) : null}
                           <span className={cn(
-                            'text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
+                            'text-sm transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden',
                             isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
                           )}>
                             {item.label}

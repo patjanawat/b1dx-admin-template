@@ -127,10 +127,10 @@ export const OrderStatusTab = ({
       </div>
 
       <div>
-        <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+        <p className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
           {label}
         </p>
-        <p className={cn('text-2xl font-black tabular-nums leading-none', isActive ? s.activeCount : 'text-foreground')}
+        <p className={cn('text-2xl font-extrabold tabular-nums leading-none', isActive ? s.activeCount : 'text-foreground')}
         >
           {count.toLocaleString()}
         </p>

@@ -45,7 +45,7 @@ interface OrderAdvancedSearchFieldsProps {
 /* ── Sub-components ──────────────────────────────────────────────── */
 function SectionLabel({ text }: { text: string }) {
   return (
-    <p className="text-[11px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
       {text}
     </p>
   );
@@ -53,7 +53,7 @@ function SectionLabel({ text }: { text: string }) {
 
 function FieldLabel({ text }: { text: string }) {
   return (
-    <p className="mb-1.5 text-xs font-bold text-foreground">{text}</p>
+    <p className="mb-1.5 text-sm font-medium text-foreground">{text}</p>
   );
 }
 

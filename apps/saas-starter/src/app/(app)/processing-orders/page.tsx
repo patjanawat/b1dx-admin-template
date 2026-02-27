@@ -277,13 +277,13 @@ export default function ProcessingOrdersPage() {
         <div className="flex items-center gap-2.5">
           <div
             className={[
-              'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[11px] font-black shadow-sm',
+              'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold shadow-sm',
               row.original.shopColor,
             ].join(' ')}
           >
             {row.original.shopInitial}
           </div>
-          <span className="max-w-[140px] truncate text-[13px] font-bold text-foreground/80 tracking-tight">
+          <span className="max-w-[140px] truncate text-sm font-bold text-foreground/80 tracking-tight">
             {row.original.shop}
           </span>
         </div>
@@ -316,7 +316,7 @@ export default function ProcessingOrdersPage() {
       cell: ({ row }) => (
         <span
           className={[
-            'rounded-full px-3 py-1.5 text-[10px] font-black uppercase tracking-wider whitespace-nowrap shadow-sm',
+            'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider whitespace-nowrap shadow-sm',
             row.original.channelColor,
           ].join(' ')}
         >
@@ -341,7 +341,7 @@ export default function ProcessingOrdersPage() {
       cell: ({ getValue }) => (
         <div className="flex w-fit items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1.5 shadow-sm whitespace-nowrap">
           <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-500" />
-          <span className="text-[11px] font-bold uppercase tracking-tight text-amber-600">
+          <span className="text-xs font-bold uppercase tracking-tight text-amber-600">
             {t(getValue<string>())}
           </span>
         </div>
@@ -392,7 +392,7 @@ export default function ProcessingOrdersPage() {
 
       {/* ── Status Tabs Carousel ─────────────────────────────────── */}
       <div>
-        <p className="mb-3 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
           {t('common.status')}
         </p>
         <div className="relative">
@@ -442,7 +442,7 @@ export default function ProcessingOrdersPage() {
         {/* Row 1: Search */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 items-end">
           <div className="lg:col-span-3">
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {t('common.search_by')}
             </p>
             <Combobox
@@ -454,7 +454,7 @@ export default function ProcessingOrdersPage() {
           </div>
 
           <div className="lg:col-span-4">
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground opacity-0 select-none">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground opacity-0 select-none">
               &nbsp;
             </p>
             <input
@@ -489,7 +489,7 @@ export default function ProcessingOrdersPage() {
         {/* Row 2: Secondary filters */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {t('common.sales_channel')}
             </p>
             <Combobox
@@ -502,7 +502,7 @@ export default function ProcessingOrdersPage() {
           </div>
 
           <div>
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {t('common.logistics')}
             </p>
             <Combobox
@@ -515,7 +515,7 @@ export default function ProcessingOrdersPage() {
           </div>
 
           <div>
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {t('common.print_status')}
             </p>
             <Combobox
