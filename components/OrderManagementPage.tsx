@@ -9,6 +9,7 @@ import {
   ListFilter,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
   ShoppingCart,
   Clock,
   Truck,
@@ -95,6 +96,38 @@ export const OrderManagementPage: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...MOCK_DATA].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    
+    let valA = (a as any)[key];
+    let valB = (b as any)[key];
+
+    if (key === 'date') {
+      const parseDate = (d: string) => {
+        const [datePart, timePart] = d.split(' ');
+        const [day, month, year] = datePart.split('/').map(Number);
+        const [hour, minute] = timePart.split(':').map(Number);
+        return new Date(year, month - 1, day, hour, minute).getTime();
+      };
+      valA = parseDate(valA as string);
+      valB = parseDate(valB as string);
+    }
+
+    if (valA < valB) return direction === 'asc' ? -1 : 1;
+    if (valA > valB) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const checkScroll = () => {
     if (scrollContainerRef.current) {
@@ -339,20 +372,44 @@ export const OrderManagementPage: React.FC = () => {
                   <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
                 </th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ลำดับ</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">{t('common.order_id')}</th>
+                <th 
+                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                  onClick={() => handleSort('orderId')}
+                >
+                  <div className="flex items-center gap-1">
+                    {t('common.order_id')}
+                    <ArrowUpDown size={12} className={sortConfig?.key === 'orderId' ? 'text-primary' : 'opacity-30'} />
+                  </div>
+                </th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">รหัสพัสดุ</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">วันที่สร้าง</th>
+                <th 
+                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                  onClick={() => handleSort('date')}
+                >
+                  <div className="flex items-center gap-1">
+                    วันที่สร้าง
+                    <ArrowUpDown size={12} className={sortConfig?.key === 'date' ? 'text-primary' : 'opacity-30'} />
+                  </div>
+                </th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ร้านค้า</th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวน SKU</th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวนชิ้น</th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ช่องทาง</th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">{t('common.shipping')}</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">{t('common.status')}</th>
+                <th 
+                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                  onClick={() => handleSort('statusKey')}
+                >
+                  <div className="flex items-center gap-1">
+                    {t('common.status')}
+                    <ArrowUpDown size={12} className={sortConfig?.key === 'statusKey' ? 'text-primary' : 'opacity-30'} />
+                  </div>
+                </th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-right whitespace-nowrap">{t('common.manage')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/50">
-              {MOCK_DATA.map((row, idx) => (
+              {sortedData.map((row, idx) => (
                 <tr key={row.orderId} className="hover:bg-accent/30 transition-colors group">
                   <td className="px-6 py-4.5 text-center">
                     <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
