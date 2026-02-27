@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { AdvancedSearchModal } from './AdvancedSearchModal';
 
 interface StatusTab {
   id: number;
@@ -97,6 +98,7 @@ export const OrderManagementPage: React.FC = () => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -273,7 +275,11 @@ export const OrderManagementPage: React.FC = () => {
               <Search size={18} />
               Search
             </Button>
-            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+            <Button 
+              variant="outline" 
+              className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors"
+              onClick={() => setIsAdvancedSearchOpen(true)}
+            >
               <Filter size={18} />
               Advanced
             </Button>
@@ -487,6 +493,15 @@ export const OrderManagementPage: React.FC = () => {
           padding-bottom: 1.125rem;
         }
       `}</style>
+
+      <AdvancedSearchModal 
+        isOpen={isAdvancedSearchOpen} 
+        onClose={() => setIsAdvancedSearchOpen(false)}
+        onSearch={(filters) => {
+          console.log('Advanced Search Filters:', filters);
+          handleSearch();
+        }}
+      />
     </div>
   );
 };
