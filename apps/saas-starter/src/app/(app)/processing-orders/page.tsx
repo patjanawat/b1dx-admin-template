@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type RefObject } from 'react';
 import {
   Button,
   Combobox,
@@ -157,7 +157,7 @@ export default function ProcessingOrdersPage() {
   const [pageIndex, setPageIndex] = useState(0);
 
   /* Carousel helper */
-  const makeCarousel = (ref: React.RefObject<HTMLDivElement | null>) => {
+  const makeCarousel = (ref: RefObject<HTMLDivElement | null>) => {
     const check = () => {
       if (!ref.current) return { left: false, right: false };
       const { scrollLeft, scrollWidth, clientWidth } = ref.current;
