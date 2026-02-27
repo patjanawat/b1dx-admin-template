@@ -26,6 +26,8 @@ export interface DataTablePaginationConfig {
   pageSize: number;
   total: number;
   onPageChange: (pageIndex: number) => void;
+  pageSizeOptions?: number[];
+  onPageSizeChange?: (pageSize: number) => void;
 }
 
 export interface DataTableProps<TData, TValue = unknown> {
@@ -159,50 +161,87 @@ export function DataTable<TData, TValue = unknown>({
       </div>
 
       {/* Pagination */}
-      {pagination && totalPages > 1 && (
+      {pagination && (totalPages > 1 || pagination.pageSizeOptions) && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border bg-muted/20 px-6 py-4">
-          <p className="text-[13px] text-muted-foreground font-medium">
-            {pagination.total === 0
-              ? 'No results'
-              : `Showing ${pageIndex * pagination.pageSize + 1}–${Math.min(
-                  (pageIndex + 1) * pagination.pageSize,
-                  pagination.total
-                )} of ${pagination.total}`}
-          </p>
-
-          <div className="flex items-center gap-1.5">
-            <PaginationButton
-              onClick={() => pagination.onPageChange(pageIndex - 1)}
-              disabled={pageIndex === 0}
-              aria-label="Previous page"
-            >
-              <ChevronLeft size={16} />
-            </PaginationButton>
-
-            {buildPageNumbers(pageIndex, totalPages).map((page, i) =>
-              page === null ? (
-                <span key={`ellipsis-${i}`} className="w-9 text-center text-muted-foreground font-bold">
-                  …
+          {/* Left: page size selector */}
+          <div className="flex items-center gap-2">
+            {pagination.pageSizeOptions && pagination.onPageSizeChange ? (
+              <>
+                <span className="text-[13px] text-muted-foreground font-medium whitespace-nowrap">
+                  Rows per page:
                 </span>
-              ) : (
-                <PaginationButton
-                  key={page}
-                  onClick={() => pagination.onPageChange(page)}
-                  isActive={page === pageIndex}
+                <select
+                  value={pagination.pageSize}
+                  onChange={(e) => pagination.onPageSizeChange!(Number(e.target.value))}
+                  className="h-9 rounded-lg border border-border bg-background px-2 text-sm font-bold text-foreground/70 outline-none transition-all hover:bg-accent focus:border-primary focus:ring-2 focus:ring-ring focus:ring-offset-1 cursor-pointer"
                 >
-                  {page + 1}
-                </PaginationButton>
-              )
+                  {pagination.pageSizeOptions.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : (
+              <p className="text-[13px] text-muted-foreground font-medium">
+                {pagination.total === 0
+                  ? 'No results'
+                  : `Showing ${pageIndex * pagination.pageSize + 1}–${Math.min(
+                      (pageIndex + 1) * pagination.pageSize,
+                      pagination.total
+                    )} of ${pagination.total}`}
+              </p>
             )}
-
-            <PaginationButton
-              onClick={() => pagination.onPageChange(pageIndex + 1)}
-              disabled={pageIndex >= totalPages - 1}
-              aria-label="Next page"
-            >
-              <ChevronRight size={16} />
-            </PaginationButton>
           </div>
+
+          {/* Center: showing text (only when page size selector is present) */}
+          {pagination.pageSizeOptions && (
+            <p className="text-[13px] text-muted-foreground font-medium">
+              {pagination.total === 0
+                ? 'No results'
+                : `Showing ${pageIndex * pagination.pageSize + 1}–${Math.min(
+                    (pageIndex + 1) * pagination.pageSize,
+                    pagination.total
+                  )} of ${pagination.total}`}
+            </p>
+          )}
+
+          {/* Right: page buttons */}
+          {totalPages > 1 && (
+            <div className="flex items-center gap-1.5">
+              <PaginationButton
+                onClick={() => pagination.onPageChange(pageIndex - 1)}
+                disabled={pageIndex === 0}
+                aria-label="Previous page"
+              >
+                <ChevronLeft size={16} />
+              </PaginationButton>
+
+              {buildPageNumbers(pageIndex, totalPages).map((page, i) =>
+                page === null ? (
+                  <span key={`ellipsis-${i}`} className="w-9 text-center text-muted-foreground font-bold">
+                    …
+                  </span>
+                ) : (
+                  <PaginationButton
+                    key={page}
+                    onClick={() => pagination.onPageChange(page)}
+                    isActive={page === pageIndex}
+                  >
+                    {page + 1}
+                  </PaginationButton>
+                )
+              )}
+
+              <PaginationButton
+                onClick={() => pagination.onPageChange(pageIndex + 1)}
+                disabled={pageIndex >= totalPages - 1}
+                aria-label="Next page"
+              >
+                <ChevronRight size={16} />
+              </PaginationButton>
+            </div>
+          )}
         </div>
       )}
     </div>
