@@ -20,6 +20,7 @@
     "src"
   ],
   "peerDependencies": {
+    "lucide-react": ">=0.400.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.71.2"
@@ -33,11 +34,13 @@
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
+    "lucide-react": "^0.575.0",
     "react-hook-form": "^7.71.2",
     "typescript": "~5.8.2"
   },
   "dependencies": {
     "@radix-ui/react-popover": "^1.1.15",
+    "@tanstack/react-table": "^8.21.3",
     "radix-ui": "^1.4.3"
   }
 }
