@@ -383,7 +383,7 @@ export default function ProcessingOrdersPage() {
         title={t('processing_orders.title')}
         description={t('processing_orders.subtitle')}
         actions={
-          <Button className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-500/20 font-bold h-11 px-6 rounded-xl">
+          <Button variant="success" className="gap-2 font-bold h-11 px-6 rounded-xl">
             <Download size={18} />
             {t('common.export_excel')}
           </Button>
@@ -492,7 +492,7 @@ export default function ProcessingOrdersPage() {
           </div>
 
           <div className="lg:col-span-5 flex items-center gap-2">
-            <Button onClick={handleSearch} className="h-10 flex-1 gap-2 rounded-xl font-bold lg:flex-none lg:px-8 shadow-lg shadow-primary/20">
+            <Button onClick={handleSearch} className="h-10 flex-1 gap-2 rounded-xl font-bold lg:flex-none lg:px-8">
               <Search size={16} />
               {t('common.search')}
             </Button>
