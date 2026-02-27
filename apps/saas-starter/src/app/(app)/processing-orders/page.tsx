@@ -47,14 +47,14 @@ interface ProcessingOrder {
 
 /* ── Mock data ────────────────────────────────────────────────────── */
 const STATUS_TABS = [
-  { id: 1, labelKey: 'status.wait_confirm', count: 150, dotColor: 'bg-emerald-500' },
-  { id: 2, labelKey: 'status.wait_stock', count: 42, dotColor: 'bg-emerald-500' },
-  { id: 3, labelKey: 'status.wait_pickup', count: 28, dotColor: 'bg-orange-500' },
-  { id: 4, labelKey: 'status.wait_picking', count: 15, dotColor: 'bg-blue-500' },
-  { id: 5, labelKey: 'status.packing', count: 35, dotColor: 'bg-blue-500' },
-  { id: 6, labelKey: 'status.wait_shipping', count: 30, dotColor: 'bg-blue-500' },
-  { id: 7, labelKey: 'status.shipping', count: 20, dotColor: 'bg-blue-500' },
-  { id: 8, labelKey: 'status.returning', count: 5, dotColor: 'bg-blue-500' },
+  { id: 1, labelKey: 'status.wait_confirm',  count: 150, dotColor: 'bg-emerald-500', iconBg: 'bg-emerald-500/10' },
+  { id: 2, labelKey: 'status.wait_stock',    count: 42,  dotColor: 'bg-emerald-500', iconBg: 'bg-emerald-500/10' },
+  { id: 3, labelKey: 'status.wait_pickup',   count: 28,  dotColor: 'bg-orange-500',  iconBg: 'bg-orange-500/10'  },
+  { id: 4, labelKey: 'status.wait_picking',  count: 15,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
+  { id: 5, labelKey: 'status.packing',       count: 35,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
+  { id: 6, labelKey: 'status.wait_shipping', count: 30,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
+  { id: 7, labelKey: 'status.shipping',      count: 20,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
+  { id: 8, labelKey: 'status.returning',     count: 5,   dotColor: 'bg-rose-500',    iconBg: 'bg-rose-500/10'    },
 ];
 
 const MOCK_ORDERS: ProcessingOrder[] = [
@@ -156,6 +156,30 @@ export default function ProcessingOrdersPage() {
   const [printStatus, setPrintStatus] = useState('all');
   const [pageIndex, setPageIndex] = useState(0);
 
+  /* Carousel helper */
+  const makeCarousel = (ref: React.RefObject<HTMLDivElement | null>) => {
+    const check = () => {
+      if (!ref.current) return { left: false, right: false };
+      const { scrollLeft, scrollWidth, clientWidth } = ref.current;
+      return { left: scrollLeft > 1, right: scrollLeft < scrollWidth - clientWidth - 1 };
+    };
+    const scroll = (dir: 'left' | 'right') =>
+      ref.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
+    return { check, scroll };
+  };
+
+  /* Status tabs carousel */
+  const statusRef = useRef<HTMLDivElement>(null);
+  const [statusLeft, setStatusLeft] = useState(false);
+  const [statusRight, setStatusRight] = useState(false);
+  const statusCarousel = makeCarousel(statusRef);
+
+  const checkStatus = () => {
+    const s = statusCarousel.check();
+    setStatusLeft(s.left);
+    setStatusRight(s.right);
+  };
+
   /* Stats carousel */
   const carouselRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
@@ -169,9 +193,10 @@ export default function ProcessingOrdersPage() {
   };
 
   useEffect(() => {
+    checkStatus();
     checkScroll();
-    window.addEventListener('resize', checkScroll);
-    return () => window.removeEventListener('resize', checkScroll);
+    window.addEventListener('resize', () => { checkStatus(); checkScroll(); });
+    return () => window.removeEventListener('resize', () => { checkStatus(); checkScroll(); });
   }, []);
 
   const scrollCarousel = (dir: 'left' | 'right') => {
@@ -390,22 +415,47 @@ export default function ProcessingOrdersPage() {
         }
       />
 
-      {/* ── Status Tabs ──────────────────────────────────────────── */}
+      {/* ── Status Tabs Carousel ─────────────────────────────────── */}
       <div>
         <p className="mb-3 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
           {t('common.status')}
         </p>
-        <div className="flex flex-wrap gap-3">
-          {STATUS_TABS.map((tab, i) => (
-            <OrderStatusTab
-              key={tab.id}
-              label={t(tab.labelKey)}
-              count={tab.count}
-              dotColor={tab.dotColor}
-              isActive={activeTab === i}
-              onClick={() => setActiveTab(i)}
-            />
-          ))}
+        <div className="relative">
+          {statusLeft && (
+            <button
+              type="button"
+              onClick={() => statusCarousel.scroll('left')}
+              className="absolute -left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background p-2.5 shadow-xl text-muted-foreground hover:text-primary transition-all"
+            >
+              <ChevronLeft size={20} />
+            </button>
+          )}
+          {statusRight && (
+            <button
+              type="button"
+              onClick={() => statusCarousel.scroll('right')}
+              className="absolute -right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background p-2.5 shadow-xl text-muted-foreground hover:text-primary transition-all"
+            >
+              <ChevronRight size={20} />
+            </button>
+          )}
+          <div
+            ref={statusRef}
+            onScroll={checkStatus}
+            className="flex gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+          >
+            {STATUS_TABS.map((tab, i) => (
+              <OrderStatusTab
+                key={tab.id}
+                label={t(tab.labelKey)}
+                count={tab.count}
+                dotColor={tab.dotColor}
+                iconBg={tab.iconBg}
+                isActive={activeTab === i}
+                onClick={() => setActiveTab(i)}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
