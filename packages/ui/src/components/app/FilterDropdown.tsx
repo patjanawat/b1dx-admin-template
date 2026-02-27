@@ -2,27 +2,28 @@
 
 import React from 'react';
 
+import { cn } from '../../lib/cn';
 import { Button } from './Button';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
-export type FilterDropdownOption = {
+export interface FilterDropdownOption {
   label: string;
   value: string;
-};
+}
 
-export type FilterDropdownValue = {
+export interface FilterDropdownValue {
   statuses: string[];
   dateRange: string;
-};
+}
 
-export type FilterDropdownProps = {
+export interface FilterDropdownProps {
   triggerLabel?: string;
   title?: string;
   statusOptions?: FilterDropdownOption[];
   dateRangeOptions?: FilterDropdownOption[];
   onApply?: (value: FilterDropdownValue) => void;
-};
+}
 
 const DEFAULT_STATUS_OPTIONS: FilterDropdownOption[] = [
   { label: 'Pending', value: 'pending' },
@@ -101,11 +102,12 @@ export const FilterDropdown = ({
                       key={status.value}
                       type="button"
                       onClick={() => toggleStatus(status.value)}
-                      className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
+                      className={cn(
+                        'rounded-lg border px-3 py-1.5 text-xs font-medium transition-all',
                         isActive
                           ? 'bg-accent text-accent-foreground'
                           : 'bg-background text-muted-foreground hover:bg-accent'
-                      }`}
+                      )}
                     >
                       {status.label}
                     </button>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '../../lib/cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'success';
@@ -26,9 +27,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       icon: 'h-9 w-9',
     };
 
-    const combinedClassName = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
-
-    return <button ref={ref} className={combinedClassName} {...props} />;
+    return <button ref={ref} className={cn(baseStyles, variants[variant], sizes[size], className)} {...props} />;
   }
 );
 Button.displayName = 'Button';

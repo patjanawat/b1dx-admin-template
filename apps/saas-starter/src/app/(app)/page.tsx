@@ -73,7 +73,7 @@ export default function DashboardPage() {
                   className="flex items-center justify-between rounded-lg border border-border bg-background px-4 py-3 text-sm text-muted-foreground"
                 >
                   <span>Order #ORD-{7800 - index}</span>
-                  <span className="text-xs font-semibold uppercase tracking-wide">Processing</span>
+                  <span className="text-xs font-bold uppercase tracking-widest">Processing</span>
                 </div>
               ))}
             </CardContent>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="rounded-xl border border-primary/10 bg-primary/5 p-4">
-                <p className="mb-1 text-xs font-bold uppercase tracking-wider text-primary">
+                <p className="mb-1 text-xs font-bold uppercase tracking-widest text-primary">
                   {t("dashboard.peak_sales_hour")}
                 </p>
                 <p className="text-lg font-bold text-foreground">2:00 PM - 4:00 PM</p>
@@ -95,7 +95,7 @@ export default function DashboardPage() {
               </div>
 
               <div className="rounded-xl border border-emerald-500/10 bg-emerald-500/5 p-4">
-                <p className="mb-1 text-xs font-bold uppercase tracking-wider text-emerald-600">
+                <p className="mb-1 text-xs font-bold uppercase tracking-widest text-emerald-600">
                   {t("dashboard.top_region")}
                 </p>
                 <p className="text-lg font-bold text-foreground">California, US</p>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
             className="flex items-center justify-between rounded-xl border border-border bg-background px-5 py-4 text-sm text-muted-foreground"
           >
             <span>{item.label}</span>
-            <span className="text-xs uppercase tracking-wide text-muted-foreground">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">
               {item.time}
             </span>
           </div>

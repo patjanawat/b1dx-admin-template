@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { cn } from '../../lib/cn';
 
 const schemes = {
   emerald: {
@@ -113,38 +114,23 @@ export const OrderStatusTab = ({
     <button
       type="button"
       onClick={onClick}
-      className={[
+      className={cn(
         'flex min-w-50 cursor-pointer items-center gap-4 rounded-2xl border p-5 text-left',
         'transition-colors duration-150',
         isActive
-          ? [s.activeBorder, s.activeBg, s.activeShadow].join(' ')
-          : ['border-border bg-card shadow-sm', s.hoverBorder, s.hoverBg, s.hoverShadow].join(' '),
-      ].join(' ')}
+          ? cn(s.activeBorder, s.activeBg, s.activeShadow)
+          : cn('border-border bg-card shadow-sm', s.hoverBorder, s.hoverBg, s.hoverShadow)
+      )}
     >
-      <div
-        className={[
-          'flex h-14 w-14 shrink-0 items-center justify-center rounded-xl',
-          s.iconBg,
-        ].join(' ')}
-      >
-        <span
-          className={[
-            'h-4 w-4 rounded-full',
-            s.dot,
-            isActive ? 'animate-pulse' : '',
-          ].join(' ')}
-        />
+      <div className={cn('flex h-14 w-14 shrink-0 items-center justify-center rounded-xl', s.iconBg)}>
+        <span className={cn('h-4 w-4 rounded-full', s.dot, isActive && 'animate-pulse')} />
       </div>
 
       <div>
-        <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+        <p className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
           {label}
         </p>
-        <p
-          className={[
-            'text-2xl font-black tabular-nums leading-none',
-            isActive ? s.activeCount : 'text-foreground',
-          ].join(' ')}
+        <p className={cn('text-2xl font-extrabold tabular-nums leading-none', isActive ? s.activeCount : 'text-foreground')}
         >
           {count.toLocaleString()}
         </p>

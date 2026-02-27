@@ -42,6 +42,8 @@ export interface DataTableProps<TData, TValue = unknown> {
   className?: string;
   /** Show skeleton rows when loading */
   isLoading?: boolean;
+  /** Text shown when there are no rows */
+  noResultsText?: string;
 }
 
 export function DataTable<TData, TValue = unknown>({
@@ -55,6 +57,7 @@ export function DataTable<TData, TValue = unknown>({
   pagination,
   className,
   isLoading,
+  noResultsText = 'No results.',
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -93,7 +96,7 @@ export function DataTable<TData, TValue = unknown>({
                     <TableHead
                       key={header.id}
                       className={cn(
-                        'px-4 py-4 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap',
+                        'px-4 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap',
                         canSort && 'cursor-pointer select-none hover:text-foreground transition-colors'
                       )}
                       onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
@@ -138,7 +141,7 @@ export function DataTable<TData, TValue = unknown>({
                   colSpan={columns.length}
                   className="h-32 text-center text-sm text-muted-foreground"
                 >
-                  No results.
+                  {noResultsText}
                 </TableCell>
               </TableRow>
             ) : (
@@ -167,7 +170,7 @@ export function DataTable<TData, TValue = unknown>({
           <div className="flex items-center gap-2">
             {pagination.pageSizeOptions && pagination.onPageSizeChange ? (
               <>
-                <span className="text-[13px] text-muted-foreground font-medium whitespace-nowrap">
+                <span className="text-sm text-muted-foreground font-medium whitespace-nowrap">
                   Rows per page:
                 </span>
                 <select
@@ -183,7 +186,7 @@ export function DataTable<TData, TValue = unknown>({
                 </select>
               </>
             ) : (
-              <p className="text-[13px] text-muted-foreground font-medium">
+              <p className="text-sm text-muted-foreground font-medium">
                 {pagination.total === 0
                   ? 'No results'
                   : `Showing ${pageIndex * pagination.pageSize + 1}–${Math.min(
@@ -196,7 +199,7 @@ export function DataTable<TData, TValue = unknown>({
 
           {/* Center: showing text (only when page size selector is present) */}
           {pagination.pageSizeOptions && (
-            <p className="text-[13px] text-muted-foreground font-medium">
+            <p className="text-sm text-muted-foreground font-medium">
               {pagination.total === 0
                 ? 'No results'
                 : `Showing ${pageIndex * pagination.pageSize + 1}–${Math.min(
