@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { OrderStatusTab } from '@/components/orders/OrderStatusTab';
+import { OrderStatusTab } from '@b1dx/ui';
 
 /* ── Types ────────────────────────────────────────────────────────── */
 interface ProcessingOrder {

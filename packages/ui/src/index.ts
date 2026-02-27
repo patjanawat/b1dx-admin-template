@@ -15,6 +15,8 @@ export type { DataTableProps, DataTablePaginationConfig } from './components/app
 export type { ColumnDef, SortingState, RowSelectionState, OnChangeFn } from '@tanstack/react-table';
 export { Section } from './components/app/Section';
 export type { SectionProps } from './components/app/Section';
+export { OrderStatusTab } from './components/app/OrderStatusTab';
+export type { OrderStatusTabProps, OrderStatusTabColor } from './components/app/OrderStatusTab';
 export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';
