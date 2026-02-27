@@ -43,15 +43,15 @@ interface ProcessingOrder {
 
 /* ── Mock data ────────────────────────────────────────────────────── */
 const STATUS_TABS = [
-  { id: 1, labelKey: 'status.wait_confirm',  count: 150, dotColor: 'bg-emerald-500', iconBg: 'bg-emerald-500/10' },
-  { id: 2, labelKey: 'status.wait_stock',    count: 42,  dotColor: 'bg-emerald-500', iconBg: 'bg-emerald-500/10' },
-  { id: 3, labelKey: 'status.wait_pickup',   count: 28,  dotColor: 'bg-orange-500',  iconBg: 'bg-orange-500/10'  },
-  { id: 4, labelKey: 'status.wait_picking',  count: 15,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
-  { id: 5, labelKey: 'status.packing',       count: 35,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
-  { id: 6, labelKey: 'status.wait_shipping', count: 30,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
-  { id: 7, labelKey: 'status.shipping',      count: 20,  dotColor: 'bg-blue-500',    iconBg: 'bg-blue-500/10'    },
-  { id: 8, labelKey: 'status.returning',     count: 5,   dotColor: 'bg-rose-500',    iconBg: 'bg-rose-500/10'    },
-];
+  { id: 1, labelKey: 'status.wait_confirm',  count: 150, color: 'emerald' },
+  { id: 2, labelKey: 'status.wait_stock',    count: 42,  color: 'teal'    },
+  { id: 3, labelKey: 'status.wait_pickup',   count: 28,  color: 'orange'  },
+  { id: 4, labelKey: 'status.wait_picking',  count: 15,  color: 'blue'    },
+  { id: 5, labelKey: 'status.packing',       count: 35,  color: 'violet'  },
+  { id: 6, labelKey: 'status.wait_shipping', count: 30,  color: 'indigo'  },
+  { id: 7, labelKey: 'status.shipping',      count: 20,  color: 'sky'     },
+  { id: 8, labelKey: 'status.returning',     count: 5,   color: 'rose'    },
+] as const;
 
 const MOCK_ORDERS: ProcessingOrder[] = [
   {
@@ -391,14 +391,17 @@ export default function ProcessingOrdersPage() {
             ref={statusRef}
             onScroll={checkStatus}
             className="flex gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+            style={{
+              maskImage: `linear-gradient(to right, ${statusLeft ? 'transparent 0, black 72px' : 'black 0'}, ${statusRight ? 'black calc(100% - 72px), transparent 100%' : 'black 100%'})`,
+              WebkitMaskImage: `linear-gradient(to right, ${statusLeft ? 'transparent 0, black 72px' : 'black 0'}, ${statusRight ? 'black calc(100% - 72px), transparent 100%' : 'black 100%'})`,
+            }}
           >
             {STATUS_TABS.map((tab, i) => (
               <OrderStatusTab
                 key={tab.id}
                 label={t(tab.labelKey)}
                 count={tab.count}
-                dotColor={tab.dotColor}
-                iconBg={tab.iconBg}
+                color={tab.color}
                 isActive={activeTab === i}
                 onClick={() => setActiveTab(i)}
               />
