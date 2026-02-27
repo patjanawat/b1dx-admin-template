@@ -515,7 +515,7 @@ export default function ProcessingOrdersPage() {
       <DataTable
         columns={columns}
         data={MOCK_ORDERS}
-        sorting={sorting}
+        sorting={sorting}        
         onSortingChange={setSorting}
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}

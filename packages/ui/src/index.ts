@@ -17,6 +17,8 @@ export { Section } from './components/app/Section';
 export type { SectionProps } from './components/app/Section';
 export { OrderStatusTab } from './components/app/OrderStatusTab';
 export type { OrderStatusTabProps, OrderStatusTabColor } from './components/app/OrderStatusTab';
+export { AppFooter } from './components/app/AppFooter';
+export type { AppFooterProps, AppFooterStatusItem } from './components/app/AppFooter';
 export { AppButton } from './components/app/AppButton';
 export { AppDialogConfirm } from './components/app/AppDialogConfirm';
 export { AppEmptyState } from './components/app/AppEmptyState';

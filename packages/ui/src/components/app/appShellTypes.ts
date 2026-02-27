@@ -98,4 +98,6 @@ export interface AppShellConfig {
 
   // ── Slot overrides ────────────────────────────────────────────────────────
   topBar?: TopBarConfig;
+  /** Footer rendered below the scrollable main area, always visible. */
+  footer?: React.ReactNode;
 }

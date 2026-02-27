@@ -34,6 +34,7 @@ export const AppShell = ({ config, children }: AppShellProps) => {
     onCollapsedChange,
     renderLink,
     topBar,
+    footer,
   } = config;
   const fallbackTitle = breadcrumbs?.[breadcrumbs.length - 1]?.label;
 
@@ -73,6 +74,8 @@ export const AppShell = ({ config, children }: AppShellProps) => {
             </div>
           </main>
         </ScrollArea>
+
+        {footer}
 
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AppShell } from "@b1dx/ui";
+import { AppShell, AppFooter } from "@b1dx/ui";
 import type { AppShellConfig, RenderLinkFn } from "@b1dx/ui";
 import { appShellConfig, useTranslatedNavGroups } from "@/appShellConfig";
 import { ProtectedRoute } from "@/lib/auth/ProtectedRoute";
@@ -36,6 +36,12 @@ export default function Layout({ children }: AppLayoutProps) {
       collapsed,
       onCollapsedChange: setCollapsed,
       renderLink,
+      footer: (
+        <AppFooter
+          version="v1.0.0"
+          company="© 2026 B1DX. All rights reserved."
+        />
+      ),
     }),
     [pathname, collapsed, renderLink, navGroups]
   );
