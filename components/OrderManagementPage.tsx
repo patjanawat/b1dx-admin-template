@@ -8,7 +8,14 @@ import {
   Download, 
   ListFilter,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ShoppingCart,
+  Clock,
+  Truck,
+  AlertCircle,
+  Filter,
+  ArrowUpDown,
+  Facebook
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -123,139 +130,200 @@ export const OrderManagementPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* 1. Order Progress Tabs with Improved Horizontal Scroll */}
-      <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-        
-        {/* Navigation Wrapper with Sticky/Gradient Effects */}
-        <div className="relative">
-          {/* Left Arrow with Theme-Aware Gradient */}
-          {showLeftArrow && (
-            <div className="absolute left-0 top-0 bottom-0 z-20 flex items-center bg-gradient-to-r from-background via-background/80 to-transparent pr-12 pl-2 pointer-events-none">
-              <button 
-                onClick={(e) => { e.preventDefault(); scroll('left'); }}
-                className="p-2 rounded-full bg-background border border-border shadow-lg text-muted-foreground hover:text-primary transition-all hover:scale-110 active:scale-95 pointer-events-auto shadow-black/5"
-                aria-label="Scroll Left"
-              >
-                <ChevronLeft size={20} />
-              </button>
-            </div>
-          )}
-          
-          {/* Right Arrow with Theme-Aware Gradient */}
-          {showRightArrow && (
-            <div className="absolute right-0 top-0 bottom-0 z-20 flex items-center bg-gradient-to-l from-background via-background/80 to-transparent pl-12 pr-2 pointer-events-none">
-              <button 
-                onClick={(e) => { e.preventDefault(); scroll('right'); }}
-                className="p-2 rounded-full bg-background border border-border shadow-lg text-muted-foreground hover:text-primary transition-all hover:scale-110 active:scale-95 pointer-events-auto shadow-black/5"
-                aria-label="Scroll Right"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          )}
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Orders Overview</h1>
+          <p className="text-muted-foreground font-medium">Efficiently manage all incoming customer orders across channels.</p>
+        </div>
+        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 px-6 rounded-xl gap-2 shadow-lg shadow-emerald-500/20">
+          <Download size={18} />
+          Export Excel
+        </Button>
+      </div>
 
-          <div 
-            ref={scrollContainerRef}
-            onScroll={checkScroll}
-            className="flex overflow-x-auto no-scrollbar border-b border-border scroll-smooth relative z-10"
-          >
-            {STATUS_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2.5 px-6 py-4.5 whitespace-nowrap border-b-2 transition-all relative shrink-0 outline-none ${
-                  activeTab === tab.id 
-                    ? 'border-primary bg-primary/5' 
-                    : 'border-transparent hover:bg-accent/50'
-                }`}
-              >
-                <div className={`w-5.5 h-5.5 rounded-full flex items-center justify-center text-[11px] text-white font-bold shadow-sm ${tab.color}`}>
-                  {tab.id}
-                </div>
-                <span className={`text-[14px] font-bold tracking-tight ${activeTab === tab.id ? 'text-foreground' : 'text-muted-foreground'}`}>
-                  {t(tab.labelKey)} ({tab.count})
-                </span>
-              </button>
-            ))}
+      {/* Warehouse View Selector */}
+      <div className="flex items-center gap-4">
+        <span className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Warehouse View:</span>
+        <div className="relative w-64 group">
+          <select className="w-full bg-card border border-border rounded-xl py-2.5 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10">
+            <option>All Warehouses</option>
+          </select>
+          <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+        </div>
+      </div>
+
+      {/* Stats Carousel Section */}
+      <div className="relative group/carousel">
+        <div className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+          <button onClick={() => scroll('left')} className="p-2.5 rounded-full bg-background border border-border shadow-xl text-muted-foreground hover:text-primary transition-all">
+            <ChevronLeft size={20} />
+          </button>
+        </div>
+        <div className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+          <button onClick={() => scroll('right')} className="p-2.5 rounded-full bg-background border border-border shadow-xl text-muted-foreground hover:text-primary transition-all">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+        
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth pb-2"
+        >
+          {/* Stat Card 1 */}
+          <div className="min-w-[280px] bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div className="w-14 h-14 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+              <ShoppingCart size={28} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Total Orders</p>
+              <p className="text-2xl font-black text-foreground">1,284</p>
+            </div>
+          </div>
+          {/* Stat Card 2 */}
+          <div className="min-w-[280px] bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div className="w-14 h-14 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
+              <Clock size={28} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Pending</p>
+              <p className="text-2xl font-black text-foreground">42</p>
+            </div>
+          </div>
+          {/* Stat Card 3 */}
+          <div className="min-w-[280px] bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div className="w-14 h-14 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <Truck size={28} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Shipped</p>
+              <p className="text-2xl font-black text-foreground">856</p>
+            </div>
+          </div>
+          {/* Stat Card 4 */}
+          <div className="min-w-[280px] bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <div className="w-14 h-14 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-500">
+              <AlertCircle size={28} />
+            </div>
+            <div>
+              <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1">Issues</p>
+              <p className="text-2xl font-black text-foreground">12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search & Filter Card */}
+      <div className="bg-card border border-border rounded-2xl p-8 shadow-sm space-y-8">
+        {/* Row 1: Search By */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
+          <div className="lg:col-span-3 space-y-3">
+            <label className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Search By</label>
+            <div className="relative group">
+              <select className="w-full bg-muted/30 border border-border rounded-xl h-12 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10">
+                <option>Recipient Name</option>
+                <option>Order ID</option>
+                <option>Tracking ID</option>
+              </select>
+              <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+            </div>
+          </div>
+          <div className="lg:col-span-4 space-y-3">
+            <Input 
+              placeholder="Enter search keywords..." 
+              className="h-12 rounded-xl bg-muted/30 border-border focus:bg-background transition-all font-medium"
+            />
+          </div>
+          <div className="lg:col-span-5 flex items-center gap-3">
+            <Button onClick={handleSearch} className="h-12 px-8 rounded-xl font-bold gap-2 shadow-lg shadow-primary/20 flex-1 lg:flex-none">
+              <Search size={18} />
+              Search
+            </Button>
+            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+              <Filter size={18} />
+              Advanced
+            </Button>
+            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+              <ArrowUpDown size={18} />
+              Sort
+            </Button>
           </div>
         </div>
 
-        {/* 2. Filter Bar with Enhanced UI */}
-        <div className="p-6 md:p-8 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                {t('common.warehouse')}
-              </label>
-              <div className="relative group">
-                <select className="w-full bg-muted/50 border border-border rounded-xl py-3 px-4 text-sm outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all">
-                  <option>{t('common.total')}</option>
-                </select>
-                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+        {/* Row 2: Secondary Filters */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Warehouse Filter */}
+          <div className="space-y-3">
+            <label className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Warehouse</label>
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                <span className="text-sm font-bold text-foreground">SAUCE THAI</span>
               </div>
-            </div>
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                {t('common.channel')}
-              </label>
-              <div className="relative group">
-                <select className="w-full bg-muted/50 border border-border rounded-xl py-3 px-4 text-sm outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all">
-                  <option>{t('common.total')}</option>
-                </select>
-                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+              <div className="absolute right-10 top-1/2 -translate-y-1/2">
+                <Badge className="bg-rose-500 hover:bg-rose-600 text-white border-none h-5 min-w-[20px] flex items-center justify-center px-1 text-[10px] font-black rounded-full">2</Badge>
               </div>
-            </div>
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                {t('common.shipping')}
-              </label>
-              <div className="relative group">
-                <select className="w-full bg-muted/50 border border-border rounded-xl py-3 px-4 text-sm outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all">
-                  <option>{t('common.total')}</option>
-                </select>
-                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
-              </div>
-            </div>
-            <div className="space-y-2.5">
-              <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                {t('common.order_id')}
-              </label>
-              <Input 
-                type="text" 
-                placeholder={t('common.order_id')}
-                className="w-full h-12 rounded-xl"
-              />
+              <select className="w-full bg-muted/30 border border-border rounded-xl h-12 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10 opacity-0 cursor-pointer">
+                <option>SAUCE THAI</option>
+              </select>
+              <div className="absolute inset-0 border border-border rounded-xl pointer-events-none group-focus-within:border-primary transition-colors" />
+              <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Button 
-                onClick={handleSearch}
-                className="px-10 h-12 rounded-xl gap-2.5 font-bold shadow-lg shadow-primary/20 transition-all active:scale-95"
-              >
-                <Search size={18} />
-                {t('common.search')}
-              </Button>
-              <Button variant="outline" className="h-12 rounded-xl px-6 bg-muted/50 text-muted-foreground border-border font-bold hover:bg-muted transition-colors">
-                {t('common.clear')}
-              </Button>
-              <button className="text-primary font-bold text-[13px] ml-2 hover:underline transition-all">
-                {t('common.advanced_search')}
-              </button>
+          {/* Sales Channel Filter */}
+          <div className="space-y-3">
+            <label className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Sales Channel</label>
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                <Facebook size={18} className="text-blue-600 fill-blue-600" />
+                <span className="text-sm font-bold text-foreground">Facebook</span>
+              </div>
+              <div className="absolute right-10 top-1/2 -translate-y-1/2">
+                <Badge className="bg-rose-500 hover:bg-rose-600 text-white border-none h-5 min-w-[20px] flex items-center justify-center px-1 text-[10px] font-black rounded-full">2</Badge>
+              </div>
+              <select className="w-full bg-muted/30 border border-border rounded-xl h-12 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10 opacity-0 cursor-pointer">
+                <option>Facebook</option>
+              </select>
+              <div className="absolute inset-0 border border-border rounded-xl pointer-events-none group-focus-within:border-primary transition-colors" />
+              <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
             </div>
+          </div>
 
-            <div className="flex items-center gap-2.5 w-full sm:w-auto">
-              <Button variant="outline" className="h-12 rounded-xl px-5 bg-card border-border text-foreground font-bold gap-2 hover:bg-accent transition-colors">
-                <ListFilter size={18} />
-                {t('common.sort')}
-                <ChevronDown size={14} className="ml-0.5 opacity-60" />
-              </Button>
-              <Button variant="outline" className="h-12 rounded-xl px-5 bg-emerald-500/10 text-emerald-600 border-emerald-500/20 font-bold gap-2 hover:bg-emerald-500/20 transition-colors">
-                <Download size={18} />
-                {t('common.export_excel')}
-              </Button>
+          {/* Logistics Filter */}
+          <div className="space-y-3">
+            <label className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Logistics</label>
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                <Truck size={18} className="text-orange-500" />
+                <span className="text-sm font-bold text-foreground">BEST Express</span>
+              </div>
+              <div className="absolute right-10 top-1/2 -translate-y-1/2">
+                <Badge className="bg-rose-500 hover:bg-rose-600 text-white border-none h-5 min-w-[20px] flex items-center justify-center px-1 text-[10px] font-black rounded-full">1</Badge>
+              </div>
+              <select className="w-full bg-muted/30 border border-border rounded-xl h-12 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10 opacity-0 cursor-pointer">
+                <option>BEST Express</option>
+              </select>
+              <div className="absolute inset-0 border border-border rounded-xl pointer-events-none group-focus-within:border-primary transition-colors" />
+              <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+            </div>
+          </div>
+
+          {/* Print Status Filter */}
+          <div className="space-y-3">
+            <label className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Print Status</label>
+            <div className="relative group">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                <span className="text-sm font-bold text-foreground">Not yet scheduled</span>
+              </div>
+              <div className="absolute right-10 top-1/2 -translate-y-1/2">
+                <Badge className="bg-rose-500 hover:bg-rose-600 text-white border-none h-5 min-w-[20px] flex items-center justify-center px-1 text-[10px] font-black rounded-full">1</Badge>
+              </div>
+              <select className="w-full bg-muted/30 border border-border rounded-xl h-12 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10 opacity-0 cursor-pointer">
+                <option>Not yet scheduled</option>
+              </select>
+              <div className="absolute inset-0 border border-border rounded-xl pointer-events-none group-focus-within:border-primary transition-colors" />
+              <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
             </div>
           </div>
         </div>
@@ -347,21 +415,6 @@ export const OrderManagementPage: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Improved Footer Info */}
-      <div className="flex items-center justify-between py-4 border-t border-border/50">
-        <div className="flex items-center gap-6 text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50" />
-            System Online
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-primary shadow-sm shadow-primary/50" />
-            Last sync: 1 min ago
-          </div>
-        </div>
-        <p className="text-[11px] font-black text-muted-foreground/50 tracking-tighter">WMS Pro Version 2.4.0-build.821</p>
       </div>
 
       <style>{`
