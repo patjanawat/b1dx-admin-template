@@ -24,6 +24,7 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { AdvancedSearchModal } from './AdvancedSearchModal';
+import { SortModal } from './SortModal';
 
 interface StatusTab {
   id: number;
@@ -99,13 +100,14 @@ export const OrderManagementPage: React.FC = () => {
   const [showRightArrow, setShowRightArrow] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [isSortModalOpen, setIsSortModalOpen] = useState(false);
 
-  const handleSort = (key: string) => {
-    let direction: 'asc' | 'desc' = 'asc';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+  const handleSort = (key: string, direction?: 'asc' | 'desc') => {
+    let newDirection: 'asc' | 'desc' = direction || 'asc';
+    if (!direction && sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      newDirection = 'desc';
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key, direction: newDirection });
   };
 
   const sortedData = [...MOCK_DATA].sort((a, b) => {
@@ -283,7 +285,11 @@ export const OrderManagementPage: React.FC = () => {
               <Filter size={18} />
               Advanced
             </Button>
-            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+            <Button 
+              variant="outline" 
+              className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors"
+              onClick={() => setIsSortModalOpen(true)}
+            >
               <ArrowUpDown size={18} />
               Sort
             </Button>
@@ -501,6 +507,13 @@ export const OrderManagementPage: React.FC = () => {
           console.log('Advanced Search Filters:', filters);
           handleSearch();
         }}
+      />
+
+      <SortModal
+        isOpen={isSortModalOpen}
+        onClose={() => setIsSortModalOpen(false)}
+        onSort={handleSort}
+        currentSort={sortConfig}
       />
     </div>
   );
