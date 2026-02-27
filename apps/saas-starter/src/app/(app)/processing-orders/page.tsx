@@ -12,17 +12,13 @@ import {
   type ComboboxOption,
 } from '@b1dx/ui';
 import {
-  AlertCircle,
   ChevronLeft,
   ChevronRight,
-  Clock,
   Download,
   Eye,
   Filter,
   ArrowUpDown,
   Search,
-  ShoppingCart,
-  Truck,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -180,28 +176,11 @@ export default function ProcessingOrdersPage() {
     setStatusRight(s.right);
   };
 
-  /* Stats carousel */
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [showLeft, setShowLeft] = useState(false);
-  const [showRight, setShowRight] = useState(false);
-
-  const checkScroll = () => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    setShowLeft(scrollLeft > 1);
-    setShowRight(scrollLeft < scrollWidth - clientWidth - 1);
-  };
-
   useEffect(() => {
     checkStatus();
-    checkScroll();
-    window.addEventListener('resize', () => { checkStatus(); checkScroll(); });
-    return () => window.removeEventListener('resize', () => { checkStatus(); checkScroll(); });
+    window.addEventListener('resize', checkStatus);
+    return () => window.removeEventListener('resize', checkStatus);
   }, []);
-
-  const scrollCarousel = (dir: 'left' | 'right') => {
-    carouselRef.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
-  };
 
   /* Search handler */
   const handleSearch = () => {
@@ -366,37 +345,6 @@ export default function ProcessingOrdersPage() {
     },
   ];
 
-  /* ── Stat cards ────────────────────────────────────────────────── */
-  const STAT_CARDS = [
-    {
-      label: 'Total Orders',
-      value: '1,284',
-      icon: ShoppingCart,
-      iconBg: 'bg-blue-500/10',
-      iconColor: 'text-blue-500',
-    },
-    {
-      label: 'Pending',
-      value: '42',
-      icon: Clock,
-      iconBg: 'bg-amber-500/10',
-      iconColor: 'text-amber-500',
-    },
-    {
-      label: 'Shipped',
-      value: '856',
-      icon: Truck,
-      iconBg: 'bg-emerald-500/10',
-      iconColor: 'text-emerald-500',
-    },
-    {
-      label: 'Issues',
-      value: '12',
-      icon: AlertCircle,
-      iconBg: 'bg-rose-500/10',
-      iconColor: 'text-rose-500',
-    },
-  ];
 
   /* ── Render ─────────────────────────────────────────────────────── */
   return (
@@ -456,59 +404,6 @@ export default function ProcessingOrdersPage() {
               />
             ))}
           </div>
-        </div>
-      </div>
-
-      {/* ── Stats Carousel ────────────────────────────────────────── */}
-      <div className="relative group/carousel">
-        {showLeft && (
-          <button
-            type="button"
-            onClick={() => scrollCarousel('left')}
-            className="absolute -left-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background p-2.5 shadow-xl text-muted-foreground hover:text-primary transition-all"
-          >
-            <ChevronLeft size={20} />
-          </button>
-        )}
-        {showRight && (
-          <button
-            type="button"
-            onClick={() => scrollCarousel('right')}
-            className="absolute -right-4 top-1/2 z-10 -translate-y-1/2 rounded-full border border-border bg-background p-2.5 shadow-xl text-muted-foreground hover:text-primary transition-all"
-          >
-            <ChevronRight size={20} />
-          </button>
-        )}
-        <div
-          ref={carouselRef}
-          onScroll={checkScroll}
-          className="flex gap-4 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
-        >
-          {STAT_CARDS.map((card) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={card.label}
-                className="flex min-w-[260px] cursor-pointer items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <div
-                  className={[
-                    'flex h-14 w-14 shrink-0 items-center justify-center rounded-xl',
-                    card.iconBg,
-                    card.iconColor,
-                  ].join(' ')}
-                >
-                  <Icon size={28} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">
-                    {card.label}
-                  </p>
-                  <p className="text-2xl font-black text-foreground">{card.value}</p>
-                </div>
-              </div>
-            );
-          })}
         </div>
       </div>
 

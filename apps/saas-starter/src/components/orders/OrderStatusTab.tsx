@@ -24,11 +24,10 @@ export const OrderStatusTab = ({
       type="button"
       onClick={onClick}
       className={[
-        'flex min-w-50 cursor-pointer items-center gap-4 rounded-2xl border p-5 text-left transition-all',
-        'shadow-sm hover:shadow-md',
+        'flex min-w-50 cursor-pointer items-center gap-4 rounded-2xl border p-5 text-left transition-all duration-200',
         isActive
-          ? 'border-primary bg-primary/5 shadow-primary/10'
-          : 'border-border bg-card hover:border-primary/30',
+          ? 'border-primary bg-primary/5 shadow-md shadow-primary/15 scale-[1.02]'
+          : 'border-border bg-card shadow-sm hover:border-primary/60 hover:bg-primary/3 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-0.5 hover:scale-[1.01]',
       ].join(' ')}
     >
       {/* Icon box */}
