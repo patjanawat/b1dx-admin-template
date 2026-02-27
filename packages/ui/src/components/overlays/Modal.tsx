@@ -45,7 +45,7 @@ export const Modal = ({
       <DialogContent
         ariaLabelledBy={title ? titleId : undefined}
         ariaDescribedBy={description ? descriptionId : undefined}
-        className={`${sizeClassMap[size]} ${className}`}
+        className={`${sizeClassMap[size]} p-6 ${className}`}
       >
         {title ? (
           <DialogTitle id={titleId} className="text-xl">

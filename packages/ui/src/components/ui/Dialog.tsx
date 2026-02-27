@@ -68,7 +68,7 @@ export const DialogContent = ({
         aria-labelledby={ariaLabelledBy}
         aria-describedby={ariaDescribedBy}
         tabIndex={-1}
-        className={`relative z-10 w-full max-w-lg rounded-xl bg-white p-6 text-slate-950 shadow-lg dark:bg-slate-900 dark:text-slate-50 ${className}`}
+        className={`relative z-10 w-full max-w-lg rounded-xl bg-card text-card-foreground shadow-lg ${className}`}
         onKeyDown={handleKeyDown}
         {...props}
       />

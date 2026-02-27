@@ -25,6 +25,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { OrderStatusTab } from '@b1dx/ui';
+import { AdvancedSearchDialog } from '@/components/orders/AdvancedSearchDialog';
+import {
+  OrderAdvancedSearchFields,
+  DEFAULT_ORDER_ADVANCED_FILTERS,
+  type OrderAdvancedSearchFilters,
+} from '@/components/orders/OrderAdvancedSearchFields';
 
 /* ── Types ────────────────────────────────────────────────────────── */
 interface ProcessingOrder {
@@ -156,6 +162,10 @@ export default function ProcessingOrdersPage() {
   const [printStatus, setPrintStatus] = useState('all');
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [draftFilters, setDraftFilters] = useState<OrderAdvancedSearchFilters>(
+    DEFAULT_ORDER_ADVANCED_FILTERS
+  );
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -461,7 +471,11 @@ export default function ProcessingOrdersPage() {
               <Search size={16} />
               {t('common.search')}
             </Button>
-            <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold">
+            <Button
+              variant="outline"
+              className="h-10 gap-2 rounded-xl font-bold"
+              onClick={() => setIsAdvancedSearchOpen(true)}
+            >
               <Filter size={16} />
               {t('common.advanced')}
             </Button>
@@ -535,6 +549,25 @@ export default function ProcessingOrdersPage() {
           },
         }}
       />
+
+      {/* ── Advanced Search Dialog ───────────────────────────────── */}
+      <AdvancedSearchDialog
+        isOpen={isAdvancedSearchOpen}
+        onClose={() => setIsAdvancedSearchOpen(false)}
+        onSearch={() => {
+          setIsAdvancedSearchOpen(false);
+          handleSearch();
+        }}
+        onReset={() => setDraftFilters(DEFAULT_ORDER_ADVANCED_FILTERS)}
+      >
+        <OrderAdvancedSearchFields
+          filters={draftFilters}
+          onChange={setDraftFilters}
+          channelOptions={CHANNEL_OPTIONS}
+          logisticsOptions={LOGISTICS_OPTIONS}
+        />
+      </AdvancedSearchDialog>
+
     </div>
   );
 }

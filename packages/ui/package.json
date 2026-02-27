@@ -41,6 +41,8 @@
   "dependencies": {
     "@radix-ui/react-popover": "^1.1.15",
     "@tanstack/react-table": "^8.21.3",
-    "radix-ui": "^1.4.3"
+    "date-fns": "^4.1.0",
+    "radix-ui": "^1.4.3",
+    "react-day-picker": "^9.14.0"
   }
 }
