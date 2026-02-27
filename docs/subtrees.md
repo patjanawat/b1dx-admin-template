@@ -2,5 +2,5 @@
 
 - prefix: vendor/admin-template
   upstream: https://github.com/patjanawat/b1dx-admin-template.git
-  branch: main
+  branch: dev
   mode: squash
