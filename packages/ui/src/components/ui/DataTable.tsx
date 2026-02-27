@@ -42,6 +42,8 @@ export interface DataTableProps<TData, TValue = unknown> {
   className?: string;
   /** Show skeleton rows when loading */
   isLoading?: boolean;
+  /** Text shown when there are no rows */
+  noResultsText?: string;
 }
 
 export function DataTable<TData, TValue = unknown>({
@@ -55,6 +57,7 @@ export function DataTable<TData, TValue = unknown>({
   pagination,
   className,
   isLoading,
+  noResultsText = 'No results.',
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -138,7 +141,7 @@ export function DataTable<TData, TValue = unknown>({
                   colSpan={columns.length}
                   className="h-32 text-center text-sm text-muted-foreground"
                 >
-                  No results.
+                  {noResultsText}
                 </TableCell>
               </TableRow>
             ) : (

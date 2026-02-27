@@ -77,13 +77,13 @@ export const FormField = ({
   return (
     <div className="space-y-2">
       {label ? (
-        <label htmlFor={childId} className="text-sm font-medium text-slate-900">
+        <label htmlFor={childId} className="text-sm font-medium text-foreground">
           {label}
-          {required ? <span className="text-red-500"> *</span> : null}
+          {required ? <span className="text-destructive"> *</span> : null}
         </label>
       ) : null}
 
-      {description ? <p id={descriptionId} className="text-sm text-slate-500">{description}</p> : null}
+      {description ? <p id={descriptionId} className="text-sm text-muted-foreground">{description}</p> : null}
 
       <div className="relative">
         {control}
@@ -98,7 +98,7 @@ export const FormField = ({
               aria-label="Show error"
               aria-describedby={errorId}
               aria-expanded={tooltipOpen}
-              className="text-red-500"
+              className="text-destructive"
               onFocus={() => setTooltipOpen(true)}
               onBlur={() => setTooltipOpen(shouldAutoShow)}
             >
@@ -109,7 +109,7 @@ export const FormField = ({
                 role="tooltip"
                 id={errorId}
                 tabIndex={0}
-                className="absolute right-0 mt-2 w-56 rounded-md border border-red-200 bg-white p-2 text-xs text-red-700 shadow-lg"
+                className="absolute right-0 mt-2 w-56 rounded-md border border-destructive/30 bg-card p-2 text-xs text-destructive shadow-lg"
               >
                 {error}
               </div>

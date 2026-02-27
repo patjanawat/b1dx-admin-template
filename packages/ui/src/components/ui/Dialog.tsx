@@ -85,7 +85,7 @@ export const DialogTitle = ({ className = '', ...props }: DialogTitleProps) => (
 export interface DialogDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const DialogDescription = ({ className = '', ...props }: DialogDescriptionProps) => (
-  <p className={`text-sm text-slate-500 dark:text-slate-400 ${className}`} {...props} />
+  <p className={`text-sm text-muted-foreground ${className}`} {...props} />
 );
 
 export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
