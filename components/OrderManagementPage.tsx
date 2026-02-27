@@ -101,6 +101,14 @@ export const OrderManagementPage: React.FC = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
+  const [selectedWarehouse, setSelectedWarehouse] = useState('all');
+
+  const warehouses = [
+    { id: 'all', label: 'All Warehouses' },
+    { id: 'sauce-thai', label: 'SAUCE THAI' },
+    { id: 'warehouse-b', label: 'Warehouse B' },
+    { id: 'warehouse-c', label: 'Warehouse C' },
+  ];
 
   const handleSort = (key: string, direction?: 'asc' | 'desc') => {
     let newDirection: 'asc' | 'desc' = direction || 'asc';
@@ -180,14 +188,26 @@ export const OrderManagementPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Warehouse View Selector */}
-      <div className="flex items-center gap-4">
-        <span className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Warehouse View:</span>
-        <div className="relative w-64 group">
-          <select className="w-full bg-card border border-border rounded-xl py-2.5 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10">
-            <option>All Warehouses</option>
-          </select>
-          <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+
+      {/* Warehouse Line Tabs */}
+      <div className="border-b border-border w-full">
+        <div className="flex items-center gap-8">
+          {warehouses.map((w) => (
+            <button
+              key={w.id}
+              onClick={() => setSelectedWarehouse(w.id)}
+              className={`relative pb-4 text-sm font-bold transition-all ${
+                selectedWarehouse === w.id
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {w.label}
+              {selectedWarehouse === w.id && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
