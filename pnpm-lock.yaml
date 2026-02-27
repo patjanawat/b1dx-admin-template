@@ -46,46 +46,6 @@ importers:
         specifier: ~5.8.2
         version: 5.8.3
 
-  apps/admin-web:
-    dependencies:
-      '@b1dx/theme':
-        specifier: workspace:*
-        version: link:../../packages/theme
-      '@b1dx/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      next:
-        specifier: ^15.1.0
-        version: 15.5.12(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      react:
-        specifier: ^19.2.4
-        version: 19.2.4
-      react-dom:
-        specifier: ^19.2.4
-        version: 19.2.4(react@19.2.4)
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@b1dx/eslint-config':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config
-      '@b1dx/typescript-config':
-        specifier: workspace:*
-        version: link:../../packages/typescript-config
-      '@types/node':
-        specifier: ^22.14.0
-        version: 22.19.11
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.0.0
-        version: 19.2.3(@types/react@19.2.14)
-      typescript:
-        specifier: ~5.8.2
-        version: 5.8.3
-
   apps/saas-starter:
     dependencies:
       '@b1dx/gateway-core':
@@ -288,6 +248,9 @@ importers:
       '@types/react':
         specifier: ^19.0.0
         version: 19.2.14
+      lucide-react:
+        specifier: ^0.575.0
+        version: 0.575.0(react@19.2.4)
       react-hook-form:
         specifier: ^7.71.2
         version: 7.71.2(react@19.2.4)
