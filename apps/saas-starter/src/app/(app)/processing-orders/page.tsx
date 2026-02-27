@@ -5,11 +5,13 @@ import {
   Button,
   Combobox,
   DataTable,
+  LineTabs,
   Section,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
   type ComboboxOption,
+  type LineTab,
 } from '@b1dx/ui';
 import {
   ChevronLeft,
@@ -101,12 +103,14 @@ function generateMockOrders(count: number): ProcessingOrder[] {
 
 const MOCK_ORDERS: ProcessingOrder[] = generateMockOrders(42);
 
-/* ── Combobox options ─────────────────────────────────────────────── */
-const WAREHOUSE_OPTIONS: ComboboxOption[] = [
-  { value: 'all', label: 'All Warehouses' },
-  { value: 'sauce-thai', label: 'SAUCE THAI' },
-  { value: 'central', label: 'Central WH' },
+/* ── Warehouse tabs ───────────────────────────────────────────────── */
+const WAREHOUSE_TABS: LineTab[] = [
+  { value: 'all',        label: 'All Warehouses' },
+  { value: 'sauce-thai', label: 'SAUCE THAI'     },
+  { value: 'central',    label: 'Central WH'     },
 ];
+
+/* ── Combobox options ─────────────────────────────────────────────── */
 
 const CHANNEL_OPTIONS: ComboboxOption[] = [
   { value: 'all', label: 'All Channels' },
@@ -369,6 +373,13 @@ export default function ProcessingOrdersPage() {
         }
       />
 
+      {/* ── Warehouse Line Tabs ──────────────────────────────────── */}
+      <LineTabs
+        tabs={WAREHOUSE_TABS}
+        value={warehouse}
+        onValueChange={setWarehouse}
+      />
+
       {/* ── Status Tabs Carousel ─────────────────────────────────── */}
       <div>
         <p className="mb-3 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
@@ -462,20 +473,7 @@ export default function ProcessingOrdersPage() {
         </div>
 
         {/* Row 2: Secondary filters */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
-              {t('common.warehouse')}
-            </p>
-            <Combobox
-              options={WAREHOUSE_OPTIONS}
-              value={warehouse}
-              onValueChange={(v) => setWarehouse(v || 'all')}
-              placeholder={t('common.all_warehouses')}
-              badgeCount={warehouse !== 'all' ? 1 : undefined}
-            />
-          </div>
-
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-muted-foreground">
               {t('common.sales_channel')}

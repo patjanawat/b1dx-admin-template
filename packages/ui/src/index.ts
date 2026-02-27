@@ -38,6 +38,8 @@ export { FormField } from './components/forms/FormField';
 export { RHFNumberInput } from './components/forms/inputs/RHFNumberInput';
 export { RHFDecimalInput } from './components/forms/inputs/RHFDecimalInput';
 export { RHFDatePicker } from './components/forms/inputs/RHFDatePicker';
+export { LineTabs } from './components/app/LineTabs';
+export type { LineTab, LineTabsProps } from './components/app/LineTabs';
 export { AppShell } from './components/app/AppShell';
 export type { AppShellProps } from './components/app/AppShell';
 export { Sidebar } from './components/app/Sidebar';
