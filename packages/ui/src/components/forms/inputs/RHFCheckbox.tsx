@@ -22,7 +22,7 @@ export const RHFCheckbox = <TFieldValues extends FieldValues>({
   <Controller
     name={name}
     control={control}
-    render={({ field }) => (
+    render={({ field, fieldState }) => (
       <div className="space-y-1">
         <label className={cn('flex cursor-pointer items-center gap-2', !!disabled && 'cursor-not-allowed opacity-60')}>
           <input
@@ -33,11 +33,18 @@ export const RHFCheckbox = <TFieldValues extends FieldValues>({
             name={field.name}
             ref={field.ref}
             disabled={disabled}
-            className="h-4 w-4 rounded border-border accent-primary"
+            className={cn(
+              'h-4 w-4 rounded border-border accent-primary',
+              !!fieldState.error && 'border-destructive ring-1 ring-destructive'
+            )}
           />
           {label ? <span className="text-sm text-foreground">{label}</span> : null}
         </label>
-        {description ? <p className="text-xs text-muted-foreground">{description}</p> : null}
+        {fieldState.error ? (
+          <p className="text-sm text-destructive">{fieldState.error.message}</p>
+        ) : description ? (
+          <p className="text-xs text-muted-foreground">{description}</p>
+        ) : null}
       </div>
     )}
   />

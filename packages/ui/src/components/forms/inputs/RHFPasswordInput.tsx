@@ -58,6 +58,7 @@ export const RHFPasswordInput = <TFieldValues extends FieldValues>({
               placeholder={placeholder}
               autoComplete={autoComplete}
               disabled={disabled}
+              aria-invalid={!!fieldState.error || undefined}
               value={field.value ?? ''}
               onChange={field.onChange}
               onBlur={field.onBlur}
