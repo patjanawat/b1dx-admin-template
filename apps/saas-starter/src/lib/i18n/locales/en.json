@@ -13,7 +13,15 @@
     "submitting": "Signing in…",
     "no_account": "Don't have an account?",
     "contact_admin": "Contact Admin",
-    "server_online": "SERVER ONLINE"
+    "server_online": "SERVER ONLINE",
+    "errors": {
+      "invalid_credentials": "Invalid username or password.",
+      "account_locked": "Account locked. Please try again in 15 minutes.",
+      "account_suspended": "Account suspended. Please contact your administrator.",
+      "account_inactive": "Account is not active. Please contact your administrator.",
+      "server_error": "Server error. Please try again later.",
+      "unknown": "An error occurred. Please try again."
+    }
   },
   "forgot_password": {
     "title": "Forgot Password",

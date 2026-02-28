@@ -10,6 +10,7 @@ import { Button, Form, RHFPasswordInput, RHFTextInput } from "@b1dx/ui";
 import { useLogin } from "@/features/auth/hooks";
 import { createLoginSchema, type LoginFormValues } from "@/features/auth/schema/login.schema";
 import { AuthError } from "@/lib/auth/authApi";
+import { mapLoginError } from "@/features/auth/utils/authErrors";
 
 interface LoginFormProps {
   version: string;
@@ -47,7 +48,7 @@ export function LoginForm({ version }: LoginFormProps) {
     resolver: zodResolver(schema),
   });
 
-  const serverError = error instanceof AuthError ? error.message : null;
+  const serverError = error instanceof AuthError ? mapLoginError(error, t) : null;
 
   const onSubmit = (data: LoginFormValues) => {
     mutate(data);
