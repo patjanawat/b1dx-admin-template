@@ -1,2 +1,2 @@
 export { LoginForm } from './components/LoginForm';
-export { loginSchema, type LoginFormValues } from './schema/login.schema';
+export { createLoginSchema, type LoginFormValues, type LoginSchemaMsgs } from './schema/login.schema';

@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Rocket } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
@@ -14,7 +14,7 @@ import {
   RHFTextInput,
 } from "@b1dx/ui";
 import { useLogin } from "@/features/auth/useLogin";
-import { loginSchema, type LoginFormValues } from "@/features/auth/schema/login.schema";
+import { createLoginSchema, type LoginFormValues } from "@/features/auth/schema/login.schema";
 import { ApiRequestError } from "@/lib/api/apiRequest";
 
 interface LoginFormProps {
@@ -40,8 +40,21 @@ export function LoginForm({ version }: LoginFormProps) {
     };
   });
 
+  const schema = useMemo(
+    () =>
+      createLoginSchema({
+        email: {
+          required: t("validation.email_required"),
+          tooLong: t("validation.email_too_long"),
+          invalid: t("validation.email_invalid"),
+        },
+        passwordRequired: t("validation.password_required"),
+      }),
+    [t]
+  );
+
   const { control, handleSubmit } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(schema),
     defaultValues: { rememberMe: false },
   });
 

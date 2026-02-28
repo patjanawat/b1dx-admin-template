@@ -126,6 +126,12 @@
     "cancel": "Cancel",
     "apply": "Apply Search"
   },
+  "validation": {
+    "email_required": "Email is required",
+    "email_too_long": "Email is too long",
+    "email_invalid": "Invalid email format",
+    "password_required": "Password is required"
+  },
   "dashboard": {
     "title": "Dashboard Overview",
     "welcome": "Welcome back, Alex. Here's what's happening today.",
