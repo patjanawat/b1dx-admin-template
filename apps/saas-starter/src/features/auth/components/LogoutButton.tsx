@@ -3,7 +3,7 @@
 import { Loader2, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@b1dx/ui";
-import { useLogout } from "@/features/auth/useLogout";
+import { useLogout } from "@/features/auth/hooks";
 
 export function LogoutButton() {
   const { t } = useTranslation();

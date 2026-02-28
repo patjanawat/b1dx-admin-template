@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button, Form, RHFTextInput } from "@b1dx/ui";
-import { useForgotPassword } from "@/features/auth/useForgotPassword";
+import { useForgotPassword } from "@/features/auth/hooks";
 import {
   createForgotPasswordSchema,
   type ForgotPasswordFormValues,

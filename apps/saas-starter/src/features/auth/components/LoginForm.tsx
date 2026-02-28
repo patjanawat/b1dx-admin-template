@@ -13,7 +13,7 @@ import {
   RHFPasswordInput,
   RHFTextInput,
 } from "@b1dx/ui";
-import { useLogin } from "@/features/auth/useLogin";
+import { useLogin } from "@/features/auth/hooks";
 import { createLoginSchema, type LoginFormValues } from "@/features/auth/schema/login.schema";
 import { ApiRequestError } from "@/lib/api/apiRequest";
 
