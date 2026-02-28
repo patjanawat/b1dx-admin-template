@@ -94,6 +94,86 @@ Every refresh call atomically:
 
 Both operations run in a single DB transaction.
 
+### 3.5 FE Implementation Flow (Visual)
+
+**App Bootstrap**
+
+```
+AuthProvider mount
+       │
+       ▼
+localStorage.getItem("b1dx_rft")
+       │
+   ┌───┴────────────────────────────┐
+  ไม่มี                            มี
+   │                                │
+   ▼                                ▼
+status = "unauthenticated"    authApi.refresh(refreshToken)
+(→ redirect /login)               │  POST /api/auth/refresh
+                              ┌───┴────┐
+                            สำเร็จ   ล้มเหลว
+                              │          │
+                              ▼          ▼
+                        store tokens  clearAuth()
+                        status =      status =
+                        "authenticated" "unauthenticated"
+```
+
+**Login**
+
+```
+LoginForm → useLogin() → useAuth().login()
+                               │
+                               ▼
+                         authApi.login({ username, password })
+                               │
+                               ▼
+              apiRequest → fetch /gateway/proxy/core/api/auth/login
+                               │
+                               ▼
+                    Gateway (Next.js route handler)
+                               │ forward
+                               ▼
+                          BE  POST /api/auth/login
+                               │
+                       ┌───────┴────────┐
+                    error              200 { success: true, data: LoginData }
+                       │                       │
+                       ▼                       ▼
+                  throw AuthError       store:
+                                        ├─ accessToken → memory (authStore)
+                                        ├─ refreshToken → localStorage "b1dx_rft"
+                                        └─ user → memory (authStore)
+                                        status = "authenticated"
+                                        router.replace("/")
+```
+
+**Authenticated API Call**
+
+```
+component → withAuth()
+                │
+                ▼
+         getAccessToken()   ← memory (authStore)
+                │  เพิ่ม Authorization: Bearer <token>
+                ▼
+         apiRequest → Gateway → BE
+```
+
+**Logout**
+
+```
+useLogout() → useAuth().logout()
+       │
+       ▼
+authApi.logout({ refreshToken })   ← ยิงไป BE ก่อน (error → ignore)
+       │
+       ▼
+clearAuth()                ← clear memory
+setStoredRefreshToken(null) ← clear localStorage
+status = "unauthenticated"
+```
+
 ---
 
 ## 4. API Contract
@@ -218,6 +298,32 @@ if (error instanceof AuthError) {
   error.httpStatus; // 400 | 401 | 403 | 423 | 500
 }
 ```
+
+### Known Issues
+
+**Error details lost through gateway (2026-02-28)**
+
+BE returns errors as `AuthEnvelope` (`application/json`), แต่ gateway แปลง non-2xx responses ทุกตัวให้เป็น `application/problem+json` (ProblemDetails) โดยทิ้ง body ของ BE ทิ้ง:
+
+```
+BE: HTTP 401, application/json
+    { "success": false, "error": { "code": "AUTH_INVALID_CREDENTIALS" } }
+       │
+Gateway: ไม่ใช่ application/problem+json
+       → buildUpstreamErrorProblem()
+       → { status: 401, detail: "Upstream request failed with status 401." }
+       │
+apiRequest.tryParseJson: ตรวจ content-type "application/problem+json"
+       → ".includes('application/json')" = FALSE → data = null
+       │
+authRequest: err.data = undefined
+       → code = "AUTH_INTERNAL_ERROR"   ← error code จาก BE หาย
+       → msg  = "Request failed with 401"
+```
+
+ผลกระทบ: `AuthError.code` จะเป็น `"AUTH_INTERNAL_ERROR"` เสมอแทนที่จะเป็น code จริงจาก BE เช่น `"AUTH_INVALID_CREDENTIALS"`
+
+---
 
 ### Error Codes
 
