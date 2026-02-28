@@ -126,6 +126,12 @@
     "cancel": "ยกเลิก",
     "apply": "ค้นหา"
   },
+  "validation": {
+    "email_required": "กรุณากรอกอีเมล",
+    "email_too_long": "อีเมลยาวเกินไป",
+    "email_invalid": "รูปแบบอีเมลไม่ถูกต้อง",
+    "password_required": "กรุณากรอกรหัสผ่าน"
+  },
   "dashboard": {
     "title": "ภาพรวมแดชบอร์ด",
     "welcome": "ยินดีต้อนรับกลับ Alex นี่คือข้อมูลล่าสุดวันนี้",

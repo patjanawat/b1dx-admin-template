@@ -1,6 +1,6 @@
-import pkg from "../../../../package.json";
-import { LoginForm } from "./LoginForm";
+import { LoginForm } from "@/features/auth";
+import { version } from "@/lib/version";
 
 export default function LoginPage() {
-  return <LoginForm version={pkg.version} />;
+  return <LoginForm version={version} />;
 }
