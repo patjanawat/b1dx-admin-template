@@ -4,11 +4,10 @@
     "app_tagline": "Order Management System",
     "heading": "Sign In",
     "subtitle": "Enter your credentials to access your account.",
-    "email_label": "Email",
+    "username_label": "Username",
     "password_label": "Password",
     "show_password": "Show password",
     "hide_password": "Hide password",
-    "remember_me": "Remember me",
     "forgot_password": "Forgot password?",
     "submit": "Sign In",
     "submitting": "Signing in…",
@@ -127,10 +126,11 @@
     "apply": "Apply Search"
   },
   "validation": {
+    "username_required": "Username is required",
+    "password_required": "Password is required",
     "email_required": "Email is required",
     "email_too_long": "Email is too long",
-    "email_invalid": "Invalid email format",
-    "password_required": "Password is required"
+    "email_invalid": "Invalid email format"
   },
   "dashboard": {
     "title": "Dashboard Overview",

@@ -10,7 +10,7 @@ export function useLogin() {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (credentials: { email: string; password: string; rememberMe?: boolean }) =>
+    mutationFn: (credentials: { username: string; password: string }) =>
       login(credentials),
     onSuccess: () => {
       router.replace("/");

@@ -13,6 +13,8 @@ export type GatewayConfig = {
   runtime?: "nodejs" | "edge";
   maxBodyBytes?: number;
   allowedMethods?: string[];
+  /** Allow private/loopback upstream URLs (dev only — never enable in production) */
+  allowPrivateHosts?: boolean;
 };
 
 export class UnknownUpstreamError extends Error {

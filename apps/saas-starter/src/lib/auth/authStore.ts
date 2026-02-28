@@ -1,9 +1,15 @@
 export type AuthUser = {
-  id: string;
-  email: string;
-  name: string;
-  membership?: unknown;
-  role?: unknown;
+  userId: string;
+  username: string;
+  displayName: string;
+  status: "ACTIVE" | "LOCKED" | "SUSPENDED";
+  tenantId: string | null;
+  tenantCode: string | null;
+  level: string | null;
+  roles: string[];
+  warehouseIds: number[];
+  brandIds: string[];
+  shopIds: string[];
 };
 
 type AuthState = {
@@ -52,3 +58,20 @@ export const subscribeAuth = (listener: Listener) => {
 };
 
 export const getAuthSnapshot = (): AuthState => ({ ...state });
+
+// Refresh token persistence (localStorage)
+const RT_KEY = "b1dx_rft";
+
+export const getStoredRefreshToken = (): string | null => {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(RT_KEY);
+};
+
+export const setStoredRefreshToken = (token: string | null) => {
+  if (typeof window === "undefined") return;
+  if (token) {
+    localStorage.setItem(RT_KEY, token);
+  } else {
+    localStorage.removeItem(RT_KEY);
+  }
+};

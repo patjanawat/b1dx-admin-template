@@ -101,7 +101,9 @@ export const createGatewayHandler = (config: GatewayConfig) => {
     }
 
     try {
-      assertSafeUpstreamBaseUrl(upstream.baseUrl);
+      if (!config.allowPrivateHosts) {
+        assertSafeUpstreamBaseUrl(upstream.baseUrl);
+      }
       const rawPath = buildPathname(params.path ?? []);
       const normalizedPath = normalizeAndValidatePath(rawPath);
       assertAllowedPath(normalizedPath, upstream.allowedPathPrefixes);

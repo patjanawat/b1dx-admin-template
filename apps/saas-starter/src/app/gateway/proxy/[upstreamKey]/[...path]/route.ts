@@ -4,14 +4,16 @@ export const runtime = "nodejs";
 
 const CORE_API_BASE_URL = process.env.CORE_API_BASE_URL ?? "";
 const CRM_BASE_URL = process.env.CRM_BASE_URL ?? "";
+const ALLOW_PRIVATE_HOSTS = process.env.GATEWAY_ALLOW_PRIVATE_HOSTS === "1";
 
 const gateway = createGatewayHandler({
   allowedMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   maxBodyBytes: 5_000_000,
+  allowPrivateHosts: ALLOW_PRIVATE_HOSTS,
   upstreams: {
     core: {
       baseUrl: CORE_API_BASE_URL,
-      allowedPathPrefixes: ["/auth", "/users", "/roles", "/audit-logs"],
+      allowedPathPrefixes: ["/api/auth", "/auth", "/users", "/roles", "/audit-logs"],
       forwardCookies: true,
     },
     ...(CRM_BASE_URL
