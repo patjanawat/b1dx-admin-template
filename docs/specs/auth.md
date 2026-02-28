@@ -299,29 +299,23 @@ if (error instanceof AuthError) {
 }
 ```
 
-### Known Issues
+### ~~Known Issues~~ (Fixed 2026-03-01)
 
-**Error details lost through gateway (2026-02-28)**
+**~~Error details lost through gateway~~** — fixed in `createGatewayHandler.ts`
 
-BE returns errors as `AuthEnvelope` (`application/json`), แต่ gateway แปลง non-2xx responses ทุกตัวให้เป็น `application/problem+json` (ProblemDetails) โดยทิ้ง body ของ BE ทิ้ง:
+Gateway now passes through non-2xx `application/json` responses from BE as-is, so `AuthError.code` correctly receives the BE error code (e.g., `"AUTH_INVALID_CREDENTIALS"`).
 
 ```
 BE: HTTP 401, application/json
     { "success": false, "error": { "code": "AUTH_INVALID_CREDENTIALS" } }
        │
-Gateway: ไม่ใช่ application/problem+json
-       → buildUpstreamErrorProblem()
-       → { status: 401, detail: "Upstream request failed with status 401." }
+Gateway: !ok + application/json → pass through as-is ✓
        │
-apiRequest.tryParseJson: ตรวจ content-type "application/problem+json"
-       → ".includes('application/json')" = FALSE → data = null
+apiRequest.tryParseJson: application/json → parses AuthEnvelope ✓
        │
-authRequest: err.data = undefined
-       → code = "AUTH_INTERNAL_ERROR"   ← error code จาก BE หาย
-       → msg  = "Request failed with 401"
+authRequest: body.error.code = "AUTH_INVALID_CREDENTIALS" ✓
+       → throw AuthError("AUTH_INVALID_CREDENTIALS", "...", 401)
 ```
-
-ผลกระทบ: `AuthError.code` จะเป็น `"AUTH_INTERNAL_ERROR"` เสมอแทนที่จะเป็น code จริงจาก BE เช่น `"AUTH_INVALID_CREDENTIALS"`
 
 ---
 

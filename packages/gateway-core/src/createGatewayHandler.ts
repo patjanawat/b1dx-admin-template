@@ -135,6 +135,18 @@ export const createGatewayHandler = (config: GatewayConfig) => {
       }
 
       if (!upstreamRes.ok) {
+        const upstreamContentType = upstreamRes.headers.get("content-type") ?? "";
+        if (upstreamContentType.includes("application/json")) {
+          return new Response(upstreamRes.body, {
+            status: upstreamRes.status,
+            statusText: upstreamRes.statusText,
+            headers: buildResponseHeaders(
+              upstreamRes,
+              responseRequestId,
+              upstream.forwardCookies ?? false
+            ),
+          });
+        }
         return toProblemDetailsResponse({
           problem: buildUpstreamErrorProblem(upstreamRes),
           headers: buildResponseHeaders(
