@@ -23,7 +23,6 @@ import {
   Languages,
   LayoutDashboard,
   LayoutGrid,
-  LogOut,
   Moon,
   Monitor,
   Plus,
@@ -40,7 +39,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n/i18n";
-import { useAuth } from "@/lib/auth/AuthProvider";
+import { LogoutButton } from "@/features/auth/components/LogoutButton";
 
 type Theme = "light" | "dark" | "system";
 
@@ -352,7 +351,7 @@ const NotificationsDropdown = () => {
   );
 };
 
-const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
+const ProfileDropdown = () => {
   const { t } = useTranslation();
   const menuItems = [
     { label: t("profile.my_profile"), icon: User },
@@ -394,21 +393,13 @@ const ProfileDropdown = ({ onLogout }: { onLogout?: () => void }) => {
       </div>
 
       <div className="border-t border-border bg-muted/20 p-3 pt-2">
-        <button
-          type="button"
-          onClick={onLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-destructive/10 py-2.5 text-xs font-bold uppercase tracking-widest text-destructive transition-all hover:bg-destructive hover:text-destructive-foreground active:scale-95"
-        >
-          {t("profile.logout")}
-          <LogOut size={14} />
-        </button>
+        <LogoutButton />
       </div>
     </div>
   );
 };
 
 const TopBarActions = () => {
-  const { logout } = useAuth();
   const [language, setLanguage] = useState("en");
   const [activeTheme, setActiveTheme] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
@@ -551,7 +542,7 @@ const TopBarActions = () => {
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="border-none p-0 shadow-none">
-          <ProfileDropdown onLogout={logout} />
+          <ProfileDropdown />
         </DropdownMenuContent>
       </DropdownMenu>
     </>
