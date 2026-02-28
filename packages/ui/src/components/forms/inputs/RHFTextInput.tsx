@@ -16,6 +16,7 @@ export interface RHFTextInputProps<TFieldValues extends FieldValues> {
   disabled?: boolean;
   errorMode?: ErrorMode;
   type?: 'text' | 'email';
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
   placeholder?: string;
   autoComplete?: string;
 }
@@ -29,6 +30,7 @@ export const RHFTextInput = <TFieldValues extends FieldValues>({
   disabled,
   errorMode = 'inline',
   type = 'text',
+  inputMode,
   placeholder,
   autoComplete,
 }: RHFTextInputProps<TFieldValues>) => (
@@ -47,6 +49,7 @@ export const RHFTextInput = <TFieldValues extends FieldValues>({
       >
         <Input
           type={type}
+          inputMode={inputMode}
           placeholder={placeholder}
           autoComplete={autoComplete}
           disabled={disabled}

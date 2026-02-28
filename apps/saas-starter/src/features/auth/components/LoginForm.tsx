@@ -76,7 +76,7 @@ export function LoginForm({ version }: LoginFormProps) {
           <p className="text-sm text-muted-foreground">{t("login.subtitle")}</p>
         </div>
 
-        <Form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+        <Form noValidate onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
           {serverError ? (
             <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
               {serverError}
@@ -86,7 +86,8 @@ export function LoginForm({ version }: LoginFormProps) {
           <RHFTextInput
             control={control}
             name="email"
-            type="email"
+            type="text"
+            inputMode="email"
             label={t("login.email_label")}
             placeholder="admin@company.com"
             autoComplete="email"
