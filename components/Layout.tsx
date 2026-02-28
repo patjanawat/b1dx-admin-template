@@ -6,19 +6,18 @@ import { Footer } from './Footer';
 interface LayoutProps {
   children: React.ReactNode;
   activeView?: string;
-  onViewChange?: (view: string) => void;
   onLogout?: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, activeView, onViewChange, onLogout }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, activeView, onLogout }) => {
   return (
     <div className="flex h-screen overflow-hidden bg-background text-foreground transition-colors duration-200">
       {/* Sidebar - Handles its own width based on collapse state */}
-      <Sidebar activeView={activeView} onViewChange={onViewChange} />
+      <Sidebar />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Navigation Bar */}
-        <TopBar onViewChange={onViewChange} onLogout={onLogout} />
+        <TopBar onLogout={onLogout} />
         
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto p-4 md:p-8 custom-scrollbar bg-background">

@@ -1,14 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, Settings, DollarSign, HelpCircle, LogOut } from 'lucide-react';
 
 interface ProfileDropdownProps {
-  onProfileClick?: () => void;
   onLogout?: () => void;
 }
 
-export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onProfileClick, onLogout }) => {
+export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onLogout }) => {
+  const navigate = useNavigate();
   const menuItems = [
-    { label: 'My Profile', icon: User, onClick: onProfileClick },
+    { label: 'My Profile', icon: User, onClick: () => navigate('/profile') },
     { label: 'Settings', icon: Settings },
     { label: 'Pricing', icon: DollarSign },
     { label: 'FAQ', icon: HelpCircle },
