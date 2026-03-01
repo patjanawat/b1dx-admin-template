@@ -7,6 +7,7 @@ import {
   DataTable,
   SimpleLineTabs,
   SimpleStatusCarousel,
+  SimpleSearchDialog,
   AppPageHeader,
   type ColumnDef,
   type SortingState,
@@ -25,7 +26,6 @@ import {
   getSearchByOptions,
   getWarehouseTabs,
   OrderSearchSection,
-  AdvancedSearchDialog,
   OrderAdvancedSearchFields,
   DEFAULT_ORDER_ADVANCED_FILTERS,
   DEFAULT_ORDER_SEARCH_VALUES,
@@ -281,11 +281,15 @@ export default function ProcessingOrdersPage() {
         }}
       />
 
-      <AdvancedSearchDialog
+      <SimpleSearchDialog
         isOpen={isAdvancedSearchOpen}
         onClose={() => setIsAdvancedSearchOpen(false)}
         onSearch={() => { setIsAdvancedSearchOpen(false); handleSearch(); }}
         onReset={() => setDraftFilters(DEFAULT_ORDER_ADVANCED_FILTERS)}
+        title={t('advanced_search.title')}
+        resetLabel={t('advanced_search.reset')}
+        cancelLabel={t('advanced_search.cancel')}
+        applyLabel={t('advanced_search.apply')}
       >
         <OrderAdvancedSearchFields
           filters={draftFilters}
@@ -293,7 +297,7 @@ export default function ProcessingOrdersPage() {
           channelOptions={channelOptions}
           logisticsOptions={logisticsOptions}
         />
-      </AdvancedSearchDialog>
+      </SimpleSearchDialog>
 
     </div>
   );

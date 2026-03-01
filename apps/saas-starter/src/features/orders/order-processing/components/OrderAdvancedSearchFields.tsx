@@ -1,9 +1,8 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { Input, Combobox, DatePicker } from '@b1dx/ui';
+import { Input, Combobox, DatePicker, useSimpleSearchDialogBoundary } from '@b1dx/ui';
 import type { ComboboxOption } from '@b1dx/ui';
-import { useDialogBoundary } from './AdvancedSearchDialog';
 import type { OrderAdvancedSearchFilters } from '../../types';
 import { DEFAULT_ORDER_ADVANCED_FILTERS } from '../../types';
 import {
@@ -52,7 +51,7 @@ export function OrderAdvancedSearchFields({
   paymentStatusOptions,
 }: OrderAdvancedSearchFieldsProps) {
   const { t } = useTranslation();
-  const collisionBoundary = useDialogBoundary();
+  const collisionBoundary = useSimpleSearchDialogBoundary();
 
   const set = <K extends keyof OrderAdvancedSearchFilters>(
     key: K,

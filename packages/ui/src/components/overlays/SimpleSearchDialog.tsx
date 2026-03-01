@@ -1,39 +1,50 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Search, RotateCcw } from 'lucide-react';
-import { Dialog, DialogContent, Button } from '@b1dx/ui';
+import { Dialog, DialogContent } from '../app/Dialog';
+import { Button } from '../ui/Button';
 import type { ReactNode } from 'react';
 
 /* ── Context — scrollable content div as Radix collision boundary ── */
 
 const DialogBoundaryContext = createContext<Element | null>(null);
 
-export function useDialogBoundary() {
+export function useSimpleSearchDialogBoundary() {
   return useContext(DialogBoundaryContext);
 }
 
 /* ── Props ───────────────────────────────────────────────────────── */
 
-interface AdvancedSearchDialogProps {
+export interface SimpleSearchDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onSearch: () => void;
   onReset: () => void;
   children: ReactNode;
+  /** Dialog title. Default: "Advanced Search" */
+  title?: string;
+  /** Reset button label. Default: "Reset" */
+  resetLabel?: string;
+  /** Cancel button label. Default: "Cancel" */
+  cancelLabel?: string;
+  /** Apply/search button label. Default: "Search" */
+  applyLabel?: string;
 }
 
 /* ── Component ───────────────────────────────────────────────────── */
 
-export function AdvancedSearchDialog({
+export function SimpleSearchDialog({
   isOpen,
   onClose,
   onSearch,
   onReset,
   children,
-}: AdvancedSearchDialogProps) {
-  const { t } = useTranslation();
+  title = 'Advanced Search',
+  resetLabel = 'Reset',
+  cancelLabel = 'Cancel',
+  applyLabel = 'Search',
+}: SimpleSearchDialogProps) {
   const [contentEl, setContentEl] = useState<HTMLDivElement | null>(null);
 
   return (
@@ -47,7 +58,7 @@ export function AdvancedSearchDialog({
               <Search size={20} />
             </div>
             <h2 className="text-xl font-black tracking-tight">
-              {t('advanced_search.title')}
+              {title}
             </h2>
           </div>
         </div>
@@ -69,7 +80,7 @@ export function AdvancedSearchDialog({
               className="gap-2 font-bold text-muted-foreground hover:text-foreground"
             >
               <RotateCcw size={15} />
-              {t('advanced_search.reset')}
+              {resetLabel}
             </Button>
             <div className="flex items-center gap-2">
               <Button
@@ -78,7 +89,7 @@ export function AdvancedSearchDialog({
                 onClick={onClose}
                 className="rounded-xl px-6 font-bold"
               >
-                {t('advanced_search.cancel')}
+                {cancelLabel}
               </Button>
               <Button
                 type="button"
@@ -86,7 +97,7 @@ export function AdvancedSearchDialog({
                 className="gap-2 rounded-xl px-8 font-bold shadow-lg shadow-primary/20"
               >
                 <Search size={16} />
-                {t('advanced_search.apply')}
+                {applyLabel}
               </Button>
             </div>
           </div>
