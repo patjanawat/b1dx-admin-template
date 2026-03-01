@@ -85,6 +85,11 @@
     "sales_channel": "Sales Channel",
     "logistics": "Logistics",
     "print_status": "Print Status",
+    "all": "All",
+    "all_channels": "All Channels",
+    "all_logistics": "All Logistics",
+    "print_not_scheduled": "Not yet scheduled",
+    "print_printed": "Printed",
     "search_placeholder": "Enter search keywords...",
     "showing_results": "Showing {{from}}–{{to}} of {{total}} results"
   },

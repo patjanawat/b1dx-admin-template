@@ -69,3 +69,5 @@ export type {
   AppShellConfig,
   TopBarConfig,
 } from './components/app/appShellTypes';
+export { RHFCombobox } from './components/forms/inputs/RHFCombobox';
+export type { RHFComboboxProps } from './components/forms/inputs/RHFCombobox';
