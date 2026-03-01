@@ -92,7 +92,12 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
         <TableBody>
           {orders.map((order) => (
             <TableRow key={order.id} className="border-border/50">
-              <TableCell className="font-bold text-foreground">{order.id}</TableCell>
+              <TableCell 
+                className="font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4"
+                onClick={() => window.open(`/orders/${order.id}`, '_blank')}
+              >
+                {order.id}
+              </TableCell>
               <TableCell>
                 <div className="flex items-center gap-3">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold shadow-sm ${order.customerColor}`}>

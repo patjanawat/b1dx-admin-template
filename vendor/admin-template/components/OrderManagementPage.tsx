@@ -101,6 +101,8 @@ export const OrderManagementPage: React.FC = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
   const [selectedWarehouse, setSelectedWarehouse] = useState('all');
 
   const warehouses = [
@@ -172,6 +174,10 @@ export const OrderManagementPage: React.FC = () => {
       success: 'Search completed successfully!',
       error: 'Search failed.',
     });
+  };
+
+  const handleOpenOrderDetail = (order: any) => {
+    window.open(`/orders/${order.orderId}`, '_blank');
   };
 
   return (
@@ -447,7 +453,12 @@ export const OrderManagementPage: React.FC = () => {
                     <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
                   </td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{idx + 1}</td>
-                  <td className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4">{row.orderId}</td>
+                  <td 
+                    className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4"
+                    onClick={() => handleOpenOrderDetail(row)}
+                  >
+                    {row.orderId}
+                  </td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium tracking-tight">{row.trackingId}</td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{row.date}</td>
                   <td className="px-4 py-4.5">

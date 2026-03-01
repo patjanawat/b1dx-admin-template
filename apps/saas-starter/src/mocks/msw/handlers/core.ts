@@ -2,19 +2,58 @@ import { db } from "../db";
 import { http, HttpResponse } from "msw";
 
 const CORE_BASE = "/gateway/proxy/core";
-const REFRESH_COOKIE = "b1dx_refresh";
 
-const getCookieValue = (req: Request, name: string): string | null => {
-  const cookie = req.headers.get("cookie") ?? "";
-  const match = cookie.match(new RegExp(`(?:^|; )${name}=([^;]+)`));
-  return match ? decodeURIComponent(match[1]) : null;
+// ─── Envelope helpers ────────────────────────────────────────────────────────
+
+const envelope = <T>(data: T) => ({
+  success: true,
+  correlationId: crypto.randomUUID(),
+  data,
+  error: null,
+});
+
+const envelopeError = (code: string, message: string) => ({
+  success: false,
+  correlationId: crypto.randomUUID(),
+  data: null,
+  error: { code, message, details: null },
+});
+
+// ─── DB helpers ──────────────────────────────────────────────────────────────
+
+const toAuthUser = (userId: string) => {
+  const user = db.users.find((u) => u.id === userId);
+  if (!user) return null;
+  const membership = db.memberships.find((m) => m.userId === userId) ?? null;
+  const tenant = membership
+    ? db.tenants.find((t) => t.id === membership.tenantId) ?? null
+    : null;
+  const role = membership
+    ? db.roles.find((r) => r.id === membership.roleId) ?? null
+    : null;
+  return {
+    userId: user.id,
+    username: user.email.split("@")[0],
+    displayName: user.name,
+    status: "ACTIVE" as const,
+    tenantId: tenant?.id ?? null,
+    tenantCode: tenant?.name ?? null,
+    level: null,
+    roles: role ? [role.name] : [],
+    warehouseIds: [] as number[],
+    brandIds: [] as string[],
+    shopIds: [] as string[],
+  };
 };
 
-const setRefreshCookie = (token: string): string =>
-  `${REFRESH_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax`;
-
-const clearRefreshCookie = (): string =>
-  `${REFRESH_COOKIE}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax`;
+const toLoginData = (session: { accessToken: string; refreshToken: string; userId: string }) => ({
+  accessToken: session.accessToken,
+  tokenType: "Bearer",
+  expiresIn: 900,
+  refreshToken: session.refreshToken,
+  refreshExpiresIn: 2592000,
+  user: toAuthUser(session.userId),
+});
 
 const requireAuth = (req: Request) => {
   const auth = req.headers.get("authorization") ?? "";
@@ -32,95 +71,81 @@ const parsePagination = (url: URL) => {
   };
 };
 
+// ─── Handlers ────────────────────────────────────────────────────────────────
+
 export const coreHandlers = [
-  http.post(`${CORE_BASE}/auth/login`, async ({ request }) => {
+  // POST /api/auth/login
+  http.post(`${CORE_BASE}/api/auth/login`, async ({ request }) => {
     const body = (await request.json().catch(() => ({}))) as {
-      email?: string;
+      username?: string;
       password?: string;
-      rememberMe?: boolean;
     };
-    const email = body.email ?? "user@acme.io";
-    let user = db.users.find((u) => u.email === email);
+    const username = body.username ?? "";
+
+    // Match by email prefix (e.g. "admin" → "admin@acme.io") or full email
+    const user = db.users.find(
+      (u) => u.email.split("@")[0] === username || u.email === username
+    );
+
     if (!user) {
-      user = db.createUser({ email, name: "New User" });
-      db.memberships.push({
-        id: db.nextId("mem"),
-        tenantId: db.tenants[0].id,
-        userId: user.id,
-        roleId: db.roles[0].id,
-      });
+      return HttpResponse.json(
+        envelopeError("AUTH_INVALID_CREDENTIALS", "Invalid username or password."),
+        { status: 401 }
+      );
     }
 
     const session = db.createSession(user.id);
-    const me = db.getUserProfile(user.id);
-
-    const cookieStr = body.rememberMe
-      ? `${REFRESH_COOKIE}=${encodeURIComponent(session.refreshToken)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=2592000`
-      : setRefreshCookie(session.refreshToken);
-
-    return HttpResponse.json(
-      {
-        accessToken: session.accessToken,
-        me,
-      },
-      {
-        headers: {
-          "set-cookie": cookieStr,
-        },
-      }
-    );
+    return HttpResponse.json(envelope(toLoginData(session)));
   }),
 
-  http.post(`${CORE_BASE}/auth/refresh`, async ({ request }) => {
-    const refreshToken = getCookieValue(request, REFRESH_COOKIE);
-    if (!refreshToken) {
+  // POST /api/auth/refresh
+  http.post(`${CORE_BASE}/api/auth/refresh`, async ({ request }) => {
+    const body = (await request.json().catch(() => ({}))) as {
+      refreshToken?: string;
+    };
+
+    if (!body.refreshToken) {
       return HttpResponse.json(
-        { message: "Missing refresh token." },
-        { status: 401 }
+        envelopeError("AUTH_REFRESH_BAD_REQUEST", "Refresh token is required."),
+        { status: 400 }
       );
     }
 
-    const session = db.rotateSession(refreshToken);
+    const session = db.rotateSession(body.refreshToken);
     if (!session) {
       return HttpResponse.json(
-        { message: "Invalid refresh token." },
+        envelopeError("AUTH_REFRESH_INVALID", "Invalid or expired refresh token."),
         { status: 401 }
       );
     }
 
-    return HttpResponse.json(
-      { accessToken: session.accessToken },
-      {
-        headers: {
-          "set-cookie": setRefreshCookie(session.refreshToken),
-        },
-      }
-    );
+    return HttpResponse.json(envelope(toLoginData(session)));
   }),
 
-  http.post(`${CORE_BASE}/auth/logout`, async ({ request }) => {
-    const refreshToken = getCookieValue(request, REFRESH_COOKIE);
-    if (refreshToken) {
-      db.invalidateSession(refreshToken);
+  // POST /api/auth/logout
+  http.post(`${CORE_BASE}/api/auth/logout`, async ({ request }) => {
+    const body = (await request.json().catch(() => ({}))) as {
+      refreshToken?: string;
+    };
+    if (body.refreshToken) {
+      db.invalidateSession(body.refreshToken);
     }
-    return HttpResponse.json(
-      { ok: true },
-      {
-        headers: {
-          "set-cookie": clearRefreshCookie(),
-        },
-      }
-    );
+    return HttpResponse.json(envelope(null));
   }),
 
-  http.get(`${CORE_BASE}/auth/me`, ({ request }) => {
+  // GET /api/auth/me
+  http.get(`${CORE_BASE}/api/auth/me`, ({ request }) => {
     const session = requireAuth(request);
     if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return HttpResponse.json(
+        envelopeError("AUTH_INVALID_TOKEN", "Unauthorized."),
+        { status: 401 }
+      );
     }
-    const me = db.getUserProfile(session.userId);
-    return HttpResponse.json(me);
+    return HttpResponse.json(envelope(toAuthUser(session.userId)));
   }),
+
+  // ─── Other endpoints (unchanged paths) ────────────────────────────────────
 
   http.get(`${CORE_BASE}/users`, ({ request }) => {
     const session = requireAuth(request);
@@ -141,17 +166,11 @@ export const coreHandlers = [
     let users = members
       .map((m) => {
         const user = db.users.find((u) => u.id === m.userId)!;
-        return {
-          ...user,
-          role: roleMap.get(m.roleId) ?? null,
-        };
+        return { ...user, role: roleMap.get(m.roleId) ?? null };
       })
       .filter(Boolean);
 
-    if (roleId) {
-      users = users.filter((u) => u.role?.id === roleId);
-    }
-
+    if (roleId) users = users.filter((u) => u.role?.id === roleId);
     if (q) {
       users = users.filter(
         (u) => u.email.toLowerCase().includes(q) || u.name.toLowerCase().includes(q)
@@ -160,9 +179,7 @@ export const coreHandlers = [
 
     const total = users.length;
     const start = (page - 1) * pageSize;
-    const items = users.slice(start, start + pageSize);
-
-    return HttpResponse.json({ items, page, pageSize, total });
+    return HttpResponse.json({ items: users.slice(start, start + pageSize), page, pageSize, total });
   }),
 
   http.post(`${CORE_BASE}/users`, async ({ request }) => {
@@ -194,27 +211,18 @@ export const coreHandlers = [
 
   http.get(`${CORE_BASE}/users/:id`, ({ params, request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
     const user = db.users.find((u) => u.id === params.id);
-    if (!user) {
-      return HttpResponse.json({ message: "Not found" }, { status: 404 });
-    }
+    if (!user) return HttpResponse.json({ message: "Not found" }, { status: 404 });
     return HttpResponse.json(user);
   }),
 
   http.patch(`${CORE_BASE}/users/:id`, async ({ params, request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const user = db.users.find((u) => u.id === params.id);
-    if (!user) {
-      return HttpResponse.json({ message: "Not found" }, { status: 404 });
-    }
+    if (!user) return HttpResponse.json({ message: "Not found" }, { status: 404 });
 
     const body = (await request.json().catch(() => ({}))) as {
       email?: string;
@@ -224,7 +232,6 @@ export const coreHandlers = [
 
     if (body.email) user.email = body.email;
     if (body.name) user.name = body.name;
-
     if (body.roleId) {
       const membership = db.memberships.find((m) => m.userId === user.id);
       if (membership) membership.roleId = body.roleId;
@@ -235,14 +242,10 @@ export const coreHandlers = [
 
   http.delete(`${CORE_BASE}/users/:id`, ({ params, request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const idx = db.users.findIndex((u) => u.id === params.id);
-    if (idx === -1) {
-      return HttpResponse.json({ message: "Not found" }, { status: 404 });
-    }
+    if (idx === -1) return HttpResponse.json({ message: "Not found" }, { status: 404 });
 
     db.users.splice(idx, 1);
     db.memberships = db.memberships.filter((m) => m.userId !== params.id);
@@ -251,36 +254,25 @@ export const coreHandlers = [
 
   http.get(`${CORE_BASE}/roles`, ({ request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
     return HttpResponse.json({ items: db.roles });
   }),
 
   http.put(`${CORE_BASE}/roles/:id/permissions`, async ({ params, request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const role = db.roles.find((r) => r.id === params.id);
-    if (!role) {
-      return HttpResponse.json({ message: "Not found" }, { status: 404 });
-    }
+    if (!role) return HttpResponse.json({ message: "Not found" }, { status: 404 });
 
-    const body = (await request.json().catch(() => ({}))) as {
-      permissions?: string[];
-    };
-
+    const body = (await request.json().catch(() => ({}))) as { permissions?: string[] };
     role.permissions = body.permissions ?? [];
     return HttpResponse.json(role);
   }),
 
   http.get(`${CORE_BASE}/audit-logs`, ({ request }) => {
     const session = requireAuth(request);
-    if (!session) {
-      return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
 
     const url = new URL(request.url);
     const { page, pageSize } = parsePagination(url);
@@ -291,15 +283,11 @@ export const coreHandlers = [
     let items = [...db.auditLogs];
     if (action) items = items.filter((log) => log.action === action);
     if (userId) items = items.filter((log) => log.actorUserId === userId);
-    if (q) {
-      items = items.filter((log) => log.summary.toLowerCase().includes(q));
-    }
+    if (q) items = items.filter((log) => log.summary.toLowerCase().includes(q));
 
     const total = items.length;
     const start = (page - 1) * pageSize;
-    const paged = items.slice(start, start + pageSize);
-
-    return HttpResponse.json({ items: paged, page, pageSize, total });
+    return HttpResponse.json({ items: items.slice(start, start + pageSize), page, pageSize, total });
   }),
 
   http.post(`${CORE_BASE}/auth/forgot-password`, async () => {
