@@ -6,16 +6,11 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  Button,
-  Form,
-  RHFCheckbox,
-  RHFPasswordInput,
-  RHFTextInput,
-} from "@b1dx/ui";
+import { Button, Form, RHFPasswordInput, RHFTextInput } from "@b1dx/ui";
 import { useLogin } from "@/features/auth/hooks";
 import { createLoginSchema, type LoginFormValues } from "@/features/auth/schema/login.schema";
-import { ApiRequestError } from "@/lib/api/apiRequest";
+import { AuthError } from "@/lib/auth/authApi";
+import { mapLoginError } from "@/features/auth/utils/authErrors";
 
 interface LoginFormProps {
   version: string;
@@ -43,11 +38,7 @@ export function LoginForm({ version }: LoginFormProps) {
   const schema = useMemo(
     () =>
       createLoginSchema({
-        email: {
-          required: t("validation.email_required"),
-          tooLong: t("validation.email_too_long"),
-          invalid: t("validation.email_invalid"),
-        },
+        usernameRequired: t("validation.username_required"),
         passwordRequired: t("validation.password_required"),
       }),
     [t]
@@ -55,13 +46,9 @@ export function LoginForm({ version }: LoginFormProps) {
 
   const { control, handleSubmit } = useForm<LoginFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { rememberMe: false },
   });
 
-  const serverError =
-    error instanceof ApiRequestError
-      ? (error.problem?.detail ?? error.message)
-      : null;
+  const serverError = error instanceof AuthError ? mapLoginError(error, t) : null;
 
   const onSubmit = (data: LoginFormValues) => {
     mutate(data);
@@ -98,12 +85,11 @@ export function LoginForm({ version }: LoginFormProps) {
 
           <RHFTextInput
             control={control}
-            name="email"
+            name="username"
             type="text"
-            inputMode="email"
-            label={t("login.email_label")}
-            placeholder="admin@company.com"
-            autoComplete="email"
+            label={t("login.username_label")}
+            placeholder="admin"
+            autoComplete="username"
           />
 
           <RHFPasswordInput
@@ -116,13 +102,8 @@ export function LoginForm({ version }: LoginFormProps) {
             hidePasswordLabel={t("login.hide_password")}
           />
 
-          {/* Remember me + Forgot password */}
-          <div className="flex items-center justify-between">
-            <RHFCheckbox
-              control={control}
-              name="rememberMe"
-              label={t("login.remember_me")}
-            />
+          {/* Forgot password */}
+          <div className="flex justify-end">
             <Link
               href="/forgot-password"
               className="text-sm font-medium text-primary hover:underline"

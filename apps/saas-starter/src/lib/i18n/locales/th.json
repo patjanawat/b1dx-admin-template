@@ -4,17 +4,24 @@
     "app_tagline": "ระบบจัดการออเดอร์",
     "heading": "เข้าสู่ระบบ",
     "subtitle": "กรอกข้อมูลเพื่อเข้าใช้งานบัญชีของคุณ",
-    "email_label": "อีเมล",
+    "username_label": "ชื่อผู้ใช้",
     "password_label": "รหัสผ่าน",
     "show_password": "แสดงรหัสผ่าน",
     "hide_password": "ซ่อนรหัสผ่าน",
-    "remember_me": "จดจำฉัน",
     "forgot_password": "ลืมรหัสผ่าน?",
     "submit": "เข้าสู่ระบบ",
     "submitting": "กำลังเข้าสู่ระบบ…",
     "no_account": "ยังไม่มีบัญชี?",
     "contact_admin": "ติดต่อผู้ดูแลระบบ",
-    "server_online": "เซิร์ฟเวอร์ออนไลน์"
+    "server_online": "เซิร์ฟเวอร์ออนไลน์",
+    "errors": {
+      "invalid_credentials": "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",
+      "account_locked": "บัญชีถูกล็อก กรุณาลองใหม่ใน 15 นาที",
+      "account_suspended": "บัญชีถูกระงับ กรุณาติดต่อผู้ดูแลระบบ",
+      "account_inactive": "บัญชีไม่พร้อมใช้งาน กรุณาติดต่อผู้ดูแลระบบ",
+      "server_error": "เกิดข้อผิดพลาดที่เซิร์ฟเวอร์ กรุณาลองใหม่",
+      "unknown": "เกิดข้อผิดพลาด กรุณาลองใหม่"
+    }
   },
   "forgot_password": {
     "title": "ลืมรหัสผ่าน",
@@ -127,10 +134,11 @@
     "apply": "ค้นหา"
   },
   "validation": {
+    "username_required": "กรุณากรอกชื่อผู้ใช้",
+    "password_required": "กรุณากรอกรหัสผ่าน",
     "email_required": "กรุณากรอกอีเมล",
     "email_too_long": "อีเมลยาวเกินไป",
-    "email_invalid": "รูปแบบอีเมลไม่ถูกต้อง",
-    "password_required": "กรุณากรอกรหัสผ่าน"
+    "email_invalid": "รูปแบบอีเมลไม่ถูกต้อง"
   },
   "dashboard": {
     "title": "ภาพรวมแดชบอร์ด",

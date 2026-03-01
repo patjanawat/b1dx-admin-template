@@ -4,17 +4,24 @@
     "app_tagline": "Order Management System",
     "heading": "Sign In",
     "subtitle": "Enter your credentials to access your account.",
-    "email_label": "Email",
+    "username_label": "Username",
     "password_label": "Password",
     "show_password": "Show password",
     "hide_password": "Hide password",
-    "remember_me": "Remember me",
     "forgot_password": "Forgot password?",
     "submit": "Sign In",
     "submitting": "Signing in…",
     "no_account": "Don't have an account?",
     "contact_admin": "Contact Admin",
-    "server_online": "SERVER ONLINE"
+    "server_online": "SERVER ONLINE",
+    "errors": {
+      "invalid_credentials": "Invalid username or password.",
+      "account_locked": "Account locked. Please try again in 15 minutes.",
+      "account_suspended": "Account suspended. Please contact your administrator.",
+      "account_inactive": "Account is not active. Please contact your administrator.",
+      "server_error": "Server error. Please try again later.",
+      "unknown": "An error occurred. Please try again."
+    }
   },
   "forgot_password": {
     "title": "Forgot Password",
@@ -127,10 +134,11 @@
     "apply": "Apply Search"
   },
   "validation": {
+    "username_required": "Username is required",
+    "password_required": "Password is required",
     "email_required": "Email is required",
     "email_too_long": "Email is too long",
-    "email_invalid": "Invalid email format",
-    "password_required": "Password is required"
+    "email_invalid": "Invalid email format"
   },
   "dashboard": {
     "title": "Dashboard Overview",

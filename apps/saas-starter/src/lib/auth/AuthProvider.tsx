@@ -1,7 +1,5 @@
 "use client";
 
-import { ApiRequestError } from "@/lib/api/apiRequest";
-import { useServerErrors } from "@/lib/errors/server-errors-context";
 import type { ReactNode } from "react";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { authApi } from "./authApi";
@@ -9,8 +7,10 @@ import {
   clearAuth,
   getAccessToken,
   getAuthSnapshot,
+  getStoredRefreshToken,
   setAccessToken,
   setAuthUser,
+  setStoredRefreshToken,
   subscribeAuth,
 } from "./authStore";
 import type { AuthUser } from "./authStore";
@@ -21,7 +21,7 @@ type AuthContextValue = {
   status: AuthStatus;
   user: AuthUser | null;
   accessToken: string | null;
-  login: (credentials: { email: string; password: string; rememberMe?: boolean }) => Promise<void>;
+  login: (credentials: { username: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
   setAccessToken: (token: string | null) => void;
   clearAuth: () => void;
@@ -36,7 +36,6 @@ type AuthProviderProps = {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [snapshot, setSnapshot] = useState(getAuthSnapshot);
   const [status, setStatus] = useState<AuthStatus>("idle");
-  const { setProblem, clear } = useServerErrors();
 
   useEffect(() => subscribeAuth(setSnapshot), []);
 
@@ -45,43 +44,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const bootstrap = async () => {
       setStatus("loading");
-      clear();
+
+      const storedRefreshToken = getStoredRefreshToken();
+      if (!storedRefreshToken) {
+        setStatus("unauthenticated");
+        return;
+      }
 
       try {
-        const me = await authApi.me();
+        const data = await authApi.refresh({ refreshToken: storedRefreshToken });
         if (!active) return;
-        setAuthUser(me);
+        setAccessToken(data.accessToken);
+        setStoredRefreshToken(data.refreshToken);
+        setAuthUser(data.user);
         setStatus("authenticated");
-        return;
-      } catch (err) {
+      } catch {
         if (!active) return;
-
-        if (err instanceof ApiRequestError && err.status === 401) {
-          try {
-            const refreshed = await authApi.refresh();
-            if (!active) return;
-            setAccessToken(refreshed.accessToken);
-            const me = await authApi.me();
-            if (!active) return;
-            setAuthUser(me);
-            setStatus("authenticated");
-            return;
-          } catch (refreshErr) {
-            if (!active) return;
-            clearAuth();
-            setStatus("unauthenticated");
-            if (refreshErr instanceof ApiRequestError && refreshErr.problem) {
-              setProblem(refreshErr.problem);
-            }
-            return;
-          }
-        }
-
         clearAuth();
+        setStoredRefreshToken(null);
         setStatus("unauthenticated");
-        if (err instanceof ApiRequestError && err.problem) {
-          setProblem(err.problem);
-        }
       }
     };
 
@@ -90,25 +71,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => {
       active = false;
     };
-  }, [clear, setProblem]);
+  }, []);
 
-  const login = useCallback(
-    async (credentials: { email: string; password: string; rememberMe?: boolean }) => {
-      const data = await authApi.login(credentials);
-      setAccessToken(data.accessToken);
-      setAuthUser(data.me);
-      setStatus("authenticated");
-    },
-    []
-  );
+  const login = useCallback(async (credentials: { username: string; password: string }) => {
+    const data = await authApi.login(credentials);
+    setAccessToken(data.accessToken);
+    setStoredRefreshToken(data.refreshToken);
+    setAuthUser(data.user);
+    setStatus("authenticated");
+  }, []);
 
   const logout = useCallback(async () => {
+    const storedRefreshToken = getStoredRefreshToken();
     try {
-      await authApi.logout();
+      if (storedRefreshToken) {
+        await authApi.logout({ refreshToken: storedRefreshToken });
+      }
     } catch {
       // ignore server errors — always clear client state
     }
     clearAuth();
+    setStoredRefreshToken(null);
     setStatus("unauthenticated");
   }, []);
 
