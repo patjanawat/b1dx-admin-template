@@ -151,7 +151,7 @@ export default function ProcessingOrdersPage() {
           ].join(' ')}>
             {row.original.shopInitial}
           </div>
-          <span className="max-w-[140px] truncate text-sm font-bold text-foreground/80 tracking-tight">
+          <span className="max-w-35 truncate text-sm font-bold text-foreground/80 tracking-tight">
             {row.original.shop}
           </span>
         </div>
@@ -251,8 +251,7 @@ export default function ProcessingOrdersPage() {
       <SimpleStatusCarousel
         name="activeTab"
         control={control}
-        tabs={statusTabs}
-        label={t('common.status')}
+        tabs={statusTabs}        
       />
 
       <OrderSearchSection
