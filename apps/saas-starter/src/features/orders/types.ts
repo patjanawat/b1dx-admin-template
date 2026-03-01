@@ -16,6 +16,24 @@ export interface ProcessingOrder {
   statusKey: string;
 }
 
+/* ── Search bar form values (used with RHFOrderSearchSection) ─────── */
+
+export interface OrderSearchFormValues {
+  searchBy: string;
+  searchQuery: string;
+  channel: string;
+  logistics: string;
+  printStatus: string;
+}
+
+export const DEFAULT_ORDER_SEARCH_VALUES: OrderSearchFormValues = {
+  searchBy: 'recipient',
+  searchQuery: '',
+  channel: 'all',
+  logistics: 'all',
+  printStatus: 'all',
+};
+
 /* ── Advanced search filter shape ─────────────────────────────────── */
 
 export interface OrderAdvancedSearchFilters {
