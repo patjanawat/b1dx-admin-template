@@ -16,31 +16,19 @@ export interface ProcessingOrder {
   statusKey: string;
 }
 
-/* ── Search bar form values (used with RHFOrderSearchSection) ─────── */
+/* ── Unified page filter form (quick bar + advanced search) ───────── */
 
-export interface OrderSearchFormValues {
+export interface OrderPageFilters {
+  // Status carousel + warehouse tabs
   activeTab: number;
   warehouse: string;
+  // Quick search bar
   searchBy: string;
   searchQuery: string;
   channel: string;
   logistics: string;
   printStatus: string;
-}
-
-export const DEFAULT_ORDER_SEARCH_VALUES: OrderSearchFormValues = {
-  activeTab: 0,
-  warehouse: 'all',
-  searchBy: 'recipient',
-  searchQuery: '',
-  channel: 'all',
-  logistics: 'all',
-  printStatus: 'all',
-};
-
-/* ── Advanced search filter shape ─────────────────────────────────── */
-
-export interface OrderAdvancedSearchFilters {
+  // Advanced search
   orderId: string;
   trackingId: string;
   recipientName: string;
@@ -49,12 +37,17 @@ export interface OrderAdvancedSearchFilters {
   endDate: Date | undefined;
   shop: string;
   shopId: string;
-  channel: string;
-  logistics: string;
   paymentStatus: string;
 }
 
-export const DEFAULT_ORDER_ADVANCED_FILTERS: OrderAdvancedSearchFilters = {
+export const DEFAULT_ORDER_PAGE_FILTERS: OrderPageFilters = {
+  activeTab: 0,
+  warehouse: 'all',
+  searchBy: 'recipient',
+  searchQuery: '',
+  channel: 'all',
+  logistics: 'all',
+  printStatus: 'all',
   orderId: '',
   trackingId: '',
   recipientName: '',
@@ -63,7 +56,5 @@ export const DEFAULT_ORDER_ADVANCED_FILTERS: OrderAdvancedSearchFilters = {
   endDate: undefined,
   shop: 'all',
   shopId: '',
-  channel: 'all',
-  logistics: 'all',
   paymentStatus: 'all',
 };

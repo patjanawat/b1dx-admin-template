@@ -10,10 +10,10 @@ import {
   type ComboboxOption,
 } from '@b1dx/ui';
 import { Search, Filter, ArrowUpDown } from 'lucide-react';
-import type { OrderSearchFormValues } from '../../types';
+import type { OrderPageFilters } from '../../types';
 
 export interface OrderSearchSectionProps {
-  control: Control<OrderSearchFormValues>;
+  control: Control<OrderPageFilters>;
   onSearch: () => void;
   onAdvancedSearch: () => void;
   searchByOptions: ComboboxOption[];

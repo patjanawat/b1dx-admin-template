@@ -27,11 +27,9 @@ import {
   getWarehouseTabs,
   OrderSearchSection,
   OrderAdvancedSearchFields,
-  DEFAULT_ORDER_ADVANCED_FILTERS,
-  DEFAULT_ORDER_SEARCH_VALUES,
+  DEFAULT_ORDER_PAGE_FILTERS,
   type ProcessingOrder,
-  type OrderAdvancedSearchFilters,
-  type OrderSearchFormValues,
+  type OrderPageFilters,
 } from '@/features/orders';
 
 /* ── Component ────────────────────────────────────────────────────── */
@@ -50,14 +48,16 @@ export default function ProcessingOrdersPage() {
     [t]
   );
 
-  /* ── Form (search filters) ───────────────────────────────────────── */
-  const { control, handleSubmit } = useForm<OrderSearchFormValues>({
-    defaultValues: DEFAULT_ORDER_SEARCH_VALUES,
+  /* ── Form ───────────────────────────────────────────────────────── */
+  const { control, handleSubmit, reset, getValues } = useForm<OrderPageFilters>({
+    defaultValues: DEFAULT_ORDER_PAGE_FILTERS,
   });
 
-  /* ── Form (advanced search filters) ─────────────────────────────── */
-  const { control: advancedControl, reset: resetAdvanced } = useForm<OrderAdvancedSearchFilters>({
-    defaultValues: DEFAULT_ORDER_ADVANCED_FILTERS,
+  const resetAdvanced = () => reset({
+    ...getValues(),
+    orderId: '', trackingId: '', recipientName: '', phone: '',
+    startDate: undefined, endDate: undefined,
+    shop: 'all', shopId: '', paymentStatus: 'all',
   });
 
   /* ── State ───────────────────────────────────────────────────────── */
@@ -294,7 +294,7 @@ export default function ProcessingOrdersPage() {
         applyLabel={t('advanced_search.apply')}
       >
         <OrderAdvancedSearchFields
-          control={advancedControl}
+          control={control}
           channelOptions={channelOptions}
           logisticsOptions={logisticsOptions}
         />

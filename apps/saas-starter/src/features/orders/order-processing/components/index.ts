@@ -1,6 +1,2 @@
-export {
-  OrderAdvancedSearchFields,
-  DEFAULT_ORDER_ADVANCED_FILTERS,
-  type OrderAdvancedSearchFilters,
-} from './OrderAdvancedSearchFields';
+export { OrderAdvancedSearchFields } from './OrderAdvancedSearchFields';
 export { OrderSearchSection, type OrderSearchSectionProps } from './OrderSearchSection';

@@ -9,8 +9,7 @@ import {
 } from '@b1dx/ui';
 import type { ComboboxOption } from '@b1dx/ui';
 import type { Control } from 'react-hook-form';
-import type { OrderAdvancedSearchFilters } from '../../types';
-import { DEFAULT_ORDER_ADVANCED_FILTERS } from '../../types';
+import type { OrderPageFilters } from '../../types';
 import {
   getChannelOptions,
   getLogisticsOptions,
@@ -18,13 +17,10 @@ import {
   getDefaultPaymentStatusOptions,
 } from '../../__mocks__/mockOptions';
 
-export type { OrderAdvancedSearchFilters };
-export { DEFAULT_ORDER_ADVANCED_FILTERS };
-
 /* ── Props ───────────────────────────────────────────────────────── */
 
 interface OrderAdvancedSearchFieldsProps {
-  control: Control<OrderAdvancedSearchFilters>;
+  control: Control<OrderPageFilters>;
   shopOptions?: ComboboxOption[];
   channelOptions?: ComboboxOption[];
   logisticsOptions?: ComboboxOption[];
