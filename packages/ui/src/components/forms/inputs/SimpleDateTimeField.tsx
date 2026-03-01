@@ -3,7 +3,8 @@
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 import { DatePicker } from '../../ui/DatePicker';
 
-function FilterLabel({ text }: { text: string }) {
+function FilterLabel({ text }: { text?: string }) {
+  if (!text) return <p className="mb-2 text-xs opacity-0 select-none">&nbsp;</p>;
   return (
     <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
       {text}
@@ -13,7 +14,7 @@ function FilterLabel({ text }: { text: string }) {
 
 export interface SimpleDateTimeFieldProps<TFieldValues extends FieldValues> {
   className?: string;
-  label: string;
+  label?: string;
   name: FieldPath<TFieldValues>;
   control: Control<TFieldValues>;
   placeholder?: string;

@@ -49,8 +49,7 @@ export function OrderSearchSection({
         />
 
         <SimpleInputField
-          className="lg:col-span-4"
-          label={t('common.keyword')}
+          className="lg:col-span-4"        
           name="searchQuery"
           control={control}
           placeholder={t('common.search_placeholder')}
