@@ -3,13 +3,14 @@
 import { type Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
-  Button,
   Section,
   SimpleOptionField,
   SimpleInputField,
+  ApplySearchButton,
+  AdvanceButton,
+  SortButton,
   type ComboboxOption,
 } from '@b1dx/ui';
-import { Search, Filter, ArrowUpDown } from 'lucide-react';
 import type { OrderPageFilters } from '../types';
 
 export interface OrderSearchSectionProps {
@@ -65,39 +66,15 @@ export function OrderSearchSection({
         />
 
         <div className="lg:col-span-5 flex items-center gap-2">
-          <Button
-            onClick={onSearch}
-            className="h-10 flex-1 gap-2 rounded-xl font-bold lg:flex-none lg:px-8"
-          >
-            <Search size={16} />
+          <ApplySearchButton onClick={onSearch} className="flex-1 lg:flex-none">
             {t('common.search')}
-          </Button>
-          <Button
-            variant="outline"
-            className="relative h-10 gap-2 rounded-xl font-bold"
-            onClick={onAdvancedSearch}
-          >
-            <Filter size={16} />
+          </ApplySearchButton>
+          <AdvanceButton onClick={onAdvancedSearch} count={activeFilterCount}>
             {t('common.advanced')}
-            {activeFilterCount > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">
-                {activeFilterCount}
-              </span>
-            )}
-          </Button>
-          <Button
-            variant="outline"
-            className="relative h-10 gap-2 rounded-xl font-bold"
-            onClick={onSort}
-          >
-            <ArrowUpDown size={16} />
+          </AdvanceButton>
+          <SortButton onClick={onSort} count={activeSortCount}>
             {t('common.sort')}
-            {activeSortCount > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">
-                {activeSortCount}
-              </span>
-            )}
-          </Button>
+          </SortButton>
         </div>
 
       </div>

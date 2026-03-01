@@ -145,7 +145,7 @@
     "unpaid": "ยังไม่ชำระ",
     "reset": "รีเซ็ตตัวกรอง",
     "cancel": "ยกเลิก",
-    "apply": "ค้นหา"
+    "apply": "ใช้ตัวกรอง"
   },
   "validation": {
     "username_required": "กรุณากรอกชื่อผู้ใช้",

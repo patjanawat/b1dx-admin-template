@@ -3,19 +3,19 @@
 import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  Button,
   DataTable,
   SimpleLineTabs,
   SimpleStatusCarousel,
   SimpleSearchDialog,
   SimpleSortDialog,
   AppPageHeader,
+  ExportExcelButton,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
   type StatusCarouselTab,
 } from '@b1dx/ui';
-import { Download, Eye } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
@@ -262,10 +262,7 @@ export default function ProcessingOrdersPage() {
         title={t('processing_orders.title')}
         description={t('processing_orders.subtitle')}
         actions={
-          <Button variant="success" className="gap-2 font-bold h-11 px-6 rounded-xl">
-            <Download size={18} />
-            {t('common.export_excel')}
-          </Button>
+          <ExportExcelButton>{t('common.export_excel')}</ExportExcelButton>
         }
       />
             

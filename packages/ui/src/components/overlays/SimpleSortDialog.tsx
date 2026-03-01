@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import { ArrowUpDown, ArrowUp, ArrowDown, Plus, X, GripVertical } from 'lucide-react';
 import { SimpleDialog } from './SimpleDialog';
-import { Button } from '../ui/Button';
+import { CancelButton, ApplySortButton } from '../app/ActionButtons';
 
 /* ── Types ───────────────────────────────────────────────────────── */
 
@@ -140,22 +140,8 @@ export function SimpleSortDialog({
       }
       footer={
         <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            type="button"
-            onClick={onClose}
-            className="flex-1 h-11 rounded-xl font-bold"
-          >
-            {cancelLabel}
-          </Button>
-          <Button
-            type="button"
-            onClick={handleApply}
-            className="flex-1 h-11 rounded-xl font-bold gap-2 shadow-lg shadow-primary/20"
-          >
-            <ArrowUpDown size={16} />
-            {applyLabel}
-          </Button>
+          <CancelButton onClick={onClose} className="flex-1">{cancelLabel}</CancelButton>
+          <ApplySortButton onClick={handleApply} className="flex-1">{applyLabel}</ApplySortButton>
         </div>
       }
     >
