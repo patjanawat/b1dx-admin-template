@@ -8,6 +8,7 @@ import {
   SimpleLineTabs,
   SimpleStatusCarousel,
   SimpleSearchDialog,
+  SimpleSortDialog,
   AppPageHeader,
   type ColumnDef,
   type SortingState,
@@ -24,12 +25,15 @@ import {
   getLogisticsOptions,
   getPrintStatusOptions,
   getSearchByOptions,
+  getSortOptions,
   getWarehouseTabs,
   OrderSearchSection,
   OrderAdvancedSearchFields,
   DEFAULT_ORDER_PAGE_FILTERS,
+  DEFAULT_ORDER_SORT,
   type ProcessingOrder,
   type OrderPageFilters,
+  type OrderSortState,
 } from '@/features/orders';
 
 /* ── Component ────────────────────────────────────────────────────── */
@@ -42,6 +46,7 @@ export default function ProcessingOrdersPage() {
   const logisticsOptions = useMemo(() => getLogisticsOptions(t),   [t]);
   const printOptions     = useMemo(() => getPrintStatusOptions(t), [t]);
   const searchByOptions  = useMemo(() => getSearchByOptions(t),    [t]);
+  const sortOptions      = useMemo(() => getSortOptions(t),        [t]);
   const warehouseTabs    = useMemo(() => getWarehouseTabs(t),      [t]);
   const statusTabs       = useMemo<StatusCarouselTab[]>(
     () => STATUS_TABS.map((tab) => ({ ...tab, label: t(tab.labelKey) })),
@@ -66,6 +71,8 @@ export default function ProcessingOrdersPage() {
   const [pageIndex,            setPageIndex]            = useState(0);
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [isSortOpen,           setIsSortOpen]           = useState(false);
+  const [sortState,            setSortState]            = useState<OrderSortState>(DEFAULT_ORDER_SORT);
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -260,6 +267,7 @@ export default function ProcessingOrdersPage() {
         control={control}
         onSearch={handleSearch}
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
+        onSort={() => setIsSortOpen(true)}
         searchByOptions={searchByOptions}
         channelOptions={channelOptions}
         logisticsOptions={logisticsOptions}
@@ -281,6 +289,21 @@ export default function ProcessingOrdersPage() {
           pageSizeOptions: [10, 20, 50],
           onPageSizeChange: (size) => { setPageSize(size); setPageIndex(0); },
         }}
+      />
+
+      <SimpleSortDialog
+        isOpen={isSortOpen}
+        onClose={() => setIsSortOpen(false)}
+        onSort={(s) => setSortState(s as OrderSortState)}
+        currentSort={sortState}
+        options={sortOptions}
+        title={t('sort_dialog.title')}
+        fieldLabel={t('sort_dialog.field_label')}
+        directionLabel={t('sort_dialog.direction_label')}
+        ascLabel={t('sort_dialog.ascending')}
+        descLabel={t('sort_dialog.descending')}
+        cancelLabel={t('sort_dialog.cancel')}
+        applyLabel={t('sort_dialog.apply')}
       />
 
       <SimpleSearchDialog

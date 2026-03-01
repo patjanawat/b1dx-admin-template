@@ -108,6 +108,15 @@
     "title": "Orders Overview",
     "subtitle": "Efficiently manage all incoming customer orders across channels."
   },
+  "sort_dialog": {
+    "title": "Sort Orders",
+    "field_label": "Sort By Field",
+    "direction_label": "Direction",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "apply": "Apply Sort",
+    "cancel": "Cancel"
+  },
   "advanced_search": {
     "title": "Advanced Search",
     "section_order": "Order Details",

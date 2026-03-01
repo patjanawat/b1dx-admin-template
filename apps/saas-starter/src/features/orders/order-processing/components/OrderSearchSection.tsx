@@ -16,6 +16,7 @@ export interface OrderSearchSectionProps {
   control: Control<OrderPageFilters>;
   onSearch: () => void;
   onAdvancedSearch: () => void;
+  onSort: () => void;
   searchByOptions: ComboboxOption[];
   channelOptions: ComboboxOption[];
   logisticsOptions: ComboboxOption[];
@@ -26,6 +27,7 @@ export function OrderSearchSection({
   control,
   onSearch,
   onAdvancedSearch,
+  onSort,
   searchByOptions,
   channelOptions,
   logisticsOptions,
@@ -72,7 +74,7 @@ export function OrderSearchSection({
             <Filter size={16} />
             {t('common.advanced')}
           </Button>
-          <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold">
+          <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold" onClick={onSort}>
             <ArrowUpDown size={16} />
             {t('common.sort')}
           </Button>
