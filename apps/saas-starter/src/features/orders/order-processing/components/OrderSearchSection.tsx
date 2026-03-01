@@ -17,6 +17,8 @@ export interface OrderSearchSectionProps {
   onSearch: () => void;
   onAdvancedSearch: () => void;
   onSort: () => void;
+  /** Number of active sort fields; shows badge on Sort button when > 0 */
+  activeSortCount?: number;
   searchByOptions: ComboboxOption[];
   channelOptions: ComboboxOption[];
   logisticsOptions: ComboboxOption[];
@@ -28,6 +30,7 @@ export function OrderSearchSection({
   onSearch,
   onAdvancedSearch,
   onSort,
+  activeSortCount = 0,
   searchByOptions,
   channelOptions,
   logisticsOptions,
@@ -74,9 +77,18 @@ export function OrderSearchSection({
             <Filter size={16} />
             {t('common.advanced')}
           </Button>
-          <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold" onClick={onSort}>
+          <Button
+            variant="outline"
+            className="relative h-10 gap-2 rounded-xl font-bold"
+            onClick={onSort}
+          >
             <ArrowUpDown size={16} />
             {t('common.sort')}
+            {activeSortCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">
+                {activeSortCount}
+              </span>
+            )}
           </Button>
         </div>
 

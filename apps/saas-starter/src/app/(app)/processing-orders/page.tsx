@@ -268,6 +268,7 @@ export default function ProcessingOrdersPage() {
         onSearch={handleSearch}
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
         onSort={() => setIsSortOpen(true)}
+        activeSortCount={sortState.length}
         searchByOptions={searchByOptions}
         channelOptions={channelOptions}
         logisticsOptions={logisticsOptions}
