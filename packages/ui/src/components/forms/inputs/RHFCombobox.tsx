@@ -9,7 +9,9 @@ export interface RHFComboboxProps<TFieldValues extends FieldValues> {
   name: FieldPath<TFieldValues>;
   control: Control<TFieldValues>;
   options: ComboboxOption[];
+  // eslint-disable-next-line no-undef
   label?: React.ReactNode;
+  // eslint-disable-next-line no-undef
   description?: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
