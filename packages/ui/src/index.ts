@@ -31,6 +31,8 @@ export type { ClampOptions } from './lib/number';
 export { ErrorBanner } from './components/feedback/ErrorBanner';
 export { Modal } from './components/overlays/Modal';
 export { ConfirmDialog } from './components/overlays/ConfirmDialog';
+export { SimpleDialog, useSimpleDialogBoundary } from './components/overlays/SimpleDialog';
+export type { SimpleDialogProps } from './components/overlays/SimpleDialog';
 export { SimpleSearchDialog, useSimpleSearchDialogBoundary } from './components/overlays/SimpleSearchDialog';
 export { SimpleSortDialog } from './components/overlays/SimpleSortDialog';
 export type { ModalProps, ModalSize } from './components/overlays/Modal';
