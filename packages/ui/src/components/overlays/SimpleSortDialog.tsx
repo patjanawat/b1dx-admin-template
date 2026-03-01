@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowUpDown, ArrowUp, ArrowDown, Plus, X, GripVertical } from 'lucide-react';
 import { SimpleDialog } from './SimpleDialog';
 import { Button } from '../ui/Button';
