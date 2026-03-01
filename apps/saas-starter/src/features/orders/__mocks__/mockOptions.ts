@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next';
-import type { ComboboxOption, LineTab } from '@b1dx/ui';
+import type { ComboboxOption, LineTab, SortOption } from '@b1dx/ui';
 
 /* ── Status tabs (counts are mock; labels use i18n keys) ──────────── */
 
@@ -65,4 +65,15 @@ export const getDefaultPaymentStatusOptions = (t: TFunction): ComboboxOption[] =
   { value: 'paid',   label: t('advanced_search.paid')       },
   { value: 'cod',    label: t('advanced_search.cod')        },
   { value: 'unpaid', label: t('advanced_search.unpaid')     },
+];
+
+/* ── Sort options ─────────────────────────────────────────────────── */
+
+export const getSortOptions = (t: TFunction): SortOption[] => [
+  { value: 'date',      label: t('common.date_created') },
+  { value: 'orderId',   label: t('common.order_id')     },
+  { value: 'statusKey', label: t('common.status')       },
+  { value: 'shop',      label: t('common.shop')         },
+  { value: 'sku',       label: t('common.sku_count')    },
+  { value: 'items',     label: t('common.item_count')   },
 ];

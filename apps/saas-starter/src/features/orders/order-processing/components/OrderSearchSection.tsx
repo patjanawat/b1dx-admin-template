@@ -16,6 +16,11 @@ export interface OrderSearchSectionProps {
   control: Control<OrderPageFilters>;
   onSearch: () => void;
   onAdvancedSearch: () => void;
+  onSort: () => void;
+  /** Number of active advanced-search fields; shows badge on Advanced button when > 0 */
+  activeFilterCount?: number;
+  /** Number of active sort fields; shows badge on Sort button when > 0 */
+  activeSortCount?: number;
   searchByOptions: ComboboxOption[];
   channelOptions: ComboboxOption[];
   logisticsOptions: ComboboxOption[];
@@ -26,6 +31,9 @@ export function OrderSearchSection({
   control,
   onSearch,
   onAdvancedSearch,
+  onSort,
+  activeFilterCount = 0,
+  activeSortCount = 0,
   searchByOptions,
   channelOptions,
   logisticsOptions,
@@ -66,15 +74,29 @@ export function OrderSearchSection({
           </Button>
           <Button
             variant="outline"
-            className="h-10 gap-2 rounded-xl font-bold"
+            className="relative h-10 gap-2 rounded-xl font-bold"
             onClick={onAdvancedSearch}
           >
             <Filter size={16} />
             {t('common.advanced')}
+            {activeFilterCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">
+                {activeFilterCount}
+              </span>
+            )}
           </Button>
-          <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold">
+          <Button
+            variant="outline"
+            className="relative h-10 gap-2 rounded-xl font-bold"
+            onClick={onSort}
+          >
             <ArrowUpDown size={16} />
             {t('common.sort')}
+            {activeSortCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-black text-primary-foreground">
+                {activeSortCount}
+              </span>
+            )}
           </Button>
         </div>
 

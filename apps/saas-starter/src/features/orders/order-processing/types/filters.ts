@@ -1,3 +1,13 @@
+import type { MultiSortState } from '@b1dx/ui';
+
+/* ── Order Sort ────────────────────────────────────────────────────── */
+
+export type OrderSortKey = 'date' | 'orderId' | 'statusKey' | 'shop' | 'sku' | 'items';
+
+export type OrderSortState = MultiSortState;
+
+export const DEFAULT_ORDER_SORT: OrderSortState = [{ key: 'date', direction: 'desc' }];
+
 /* ── Order Processing — unified page filter form ──────────────────── */
 
 export interface OrderPageFilters {

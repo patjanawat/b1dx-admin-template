@@ -8,6 +8,7 @@ import {
   SimpleLineTabs,
   SimpleStatusCarousel,
   SimpleSearchDialog,
+  SimpleSortDialog,
   AppPageHeader,
   type ColumnDef,
   type SortingState,
@@ -24,12 +25,15 @@ import {
   getLogisticsOptions,
   getPrintStatusOptions,
   getSearchByOptions,
+  getSortOptions,
   getWarehouseTabs,
   OrderSearchSection,
   OrderAdvancedSearchFields,
   DEFAULT_ORDER_PAGE_FILTERS,
+  DEFAULT_ORDER_SORT,
   type ProcessingOrder,
   type OrderPageFilters,
+  type OrderSortState,
 } from '@/features/orders';
 
 /* ── Component ────────────────────────────────────────────────────── */
@@ -42,6 +46,7 @@ export default function ProcessingOrdersPage() {
   const logisticsOptions = useMemo(() => getLogisticsOptions(t),   [t]);
   const printOptions     = useMemo(() => getPrintStatusOptions(t), [t]);
   const searchByOptions  = useMemo(() => getSearchByOptions(t),    [t]);
+  const sortOptions      = useMemo(() => getSortOptions(t),        [t]);
   const warehouseTabs    = useMemo(() => getWarehouseTabs(t),      [t]);
   const statusTabs       = useMemo<StatusCarouselTab[]>(
     () => STATUS_TABS.map((tab) => ({ ...tab, label: t(tab.labelKey) })),
@@ -49,7 +54,7 @@ export default function ProcessingOrdersPage() {
   );
 
   /* ── Form ───────────────────────────────────────────────────────── */
-  const { control, handleSubmit, reset, getValues } = useForm<OrderPageFilters>({
+  const { control, handleSubmit, reset, getValues, watch } = useForm<OrderPageFilters>({
     defaultValues: DEFAULT_ORDER_PAGE_FILTERS,
   });
 
@@ -60,12 +65,28 @@ export default function ProcessingOrdersPage() {
     shop: 'all', shopId: '', paymentStatus: 'all',
   });
 
+  /* Reactively count non-default advanced search fields */
+  const [
+    wOrderId, wTrackingId, wRecipientName, wPhone,
+    wStartDate, wEndDate, wShop, wShopId, wPaymentStatus,
+  ] = watch([
+    'orderId', 'trackingId', 'recipientName', 'phone',
+    'startDate', 'endDate', 'shop', 'shopId', 'paymentStatus',
+  ]);
+  const activeFilterCount = [
+    !!wOrderId, !!wTrackingId, !!wRecipientName, !!wPhone,
+    !!wStartDate, !!wEndDate,
+    wShop !== 'all', !!wShopId, wPaymentStatus !== 'all',
+  ].filter(Boolean).length;
+
   /* ── State ───────────────────────────────────────────────────────── */
   const [sorting,              setSorting]              = useState<SortingState>([]);
   const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
   const [pageIndex,            setPageIndex]            = useState(0);
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [isSortOpen,           setIsSortOpen]           = useState(false);
+  const [sortState,            setSortState]            = useState<OrderSortState>(DEFAULT_ORDER_SORT);
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -260,6 +281,9 @@ export default function ProcessingOrdersPage() {
         control={control}
         onSearch={handleSearch}
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
+        onSort={() => setIsSortOpen(true)}
+        activeFilterCount={activeFilterCount}
+        activeSortCount={sortState.length}
         searchByOptions={searchByOptions}
         channelOptions={channelOptions}
         logisticsOptions={logisticsOptions}
@@ -281,6 +305,18 @@ export default function ProcessingOrdersPage() {
           pageSizeOptions: [10, 20, 50],
           onPageSizeChange: (size) => { setPageSize(size); setPageIndex(0); },
         }}
+      />
+
+      <SimpleSortDialog
+        isOpen={isSortOpen}
+        onClose={() => setIsSortOpen(false)}
+        onSort={setSortState}
+        currentSort={sortState}
+        options={sortOptions}
+        title={t('sort_dialog.title')}
+        fieldLabel={t('sort_dialog.field_label')}
+        cancelLabel={t('sort_dialog.cancel')}
+        applyLabel={t('sort_dialog.apply')}
       />
 
       <SimpleSearchDialog
