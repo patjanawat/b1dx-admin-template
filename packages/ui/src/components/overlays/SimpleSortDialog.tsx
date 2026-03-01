@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowUpDown, ArrowUp, ArrowDown, Plus, X } from 'lucide-react';
 import { Dialog, DialogContent } from '../app/Dialog';
 import { Button } from '../ui/Button';
 
@@ -27,6 +27,8 @@ export interface SimpleSortDialogProps {
   onSort: (sort: MultiSortState) => void;
   currentSort: MultiSortState;
   options: SortOption[];
+  /** Max number of fields that can be selected. Default: 10 */
+  maxFields?: number;
   /** Dialog title. Default: "Sort" */
   title?: string;
   /** Section label above field list. Default: "Sort By Field" */
@@ -45,6 +47,7 @@ export function SimpleSortDialog({
   onSort,
   currentSort,
   options,
+  maxFields = 10,
   title = 'Sort',
   fieldLabel = 'Sort By Field',
   cancelLabel = 'Cancel',
@@ -52,12 +55,15 @@ export function SimpleSortDialog({
 }: SimpleSortDialogProps) {
   const [fields, setFields] = useState<MultiSortState>(currentSort);
 
-  const toggleField = (value: string) => {
-    setFields((prev) => {
-      const exists = prev.find((f) => f.key === value);
-      if (exists) return prev.filter((f) => f.key !== value);
-      return [...prev, { key: value, direction: 'asc' }];
-    });
+  const atMax = fields.length >= maxFields;
+
+  const addField = (value: string) => {
+    if (atMax) return;
+    setFields((prev) => [...prev, { key: value, direction: 'asc' }]);
+  };
+
+  const removeField = (value: string) => {
+    setFields((prev) => prev.filter((f) => f.key !== value));
   };
 
   const toggleDirection = (value: string) => {
@@ -77,20 +83,25 @@ export function SimpleSortDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="flex flex-col overflow-hidden p-0 sm:max-w-[450px]">
+      <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden p-0 sm:max-w-[450px]">
 
         {/* ── Fixed header ─────────────────────────────────────────── */}
         <div className="shrink-0 border-b border-border bg-muted/30 px-8 py-5">
-          <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <ArrowUpDown size={20} />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <ArrowUpDown size={20} />
+              </div>
+              <h2 className="text-xl font-black tracking-tight">{title}</h2>
             </div>
-            <h2 className="text-xl font-black tracking-tight">{title}</h2>
+            <span className="text-xs font-black text-muted-foreground tabular-nums">
+              {fields.length} / {maxFields}
+            </span>
           </div>
         </div>
 
-        {/* ── Content ──────────────────────────────────────────────── */}
-        <div className="px-8 py-6 space-y-3">
+        {/* ── Scrollable content ────────────────────────────────────── */}
+        <div className="flex-1 overflow-y-auto px-8 py-6 space-y-3">
           <p className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
             {fieldLabel}
           </p>
@@ -98,6 +109,7 @@ export function SimpleSortDialog({
             {options.map((option) => {
               const active = fields.find((f) => f.key === option.value);
               const priority = fields.findIndex((f) => f.key === option.value);
+              const disabled = !active && atMax;
 
               return (
                 <div
@@ -106,7 +118,9 @@ export function SimpleSortDialog({
                     'flex items-center gap-3 px-4 py-3 rounded-xl border transition-all',
                     active
                       ? 'bg-primary/5 border-primary'
-                      : 'bg-muted/30 border-border hover:bg-muted/50',
+                      : disabled
+                        ? 'bg-muted/20 border-border opacity-40'
+                        : 'bg-muted/30 border-border',
                   ].join(' ')}
                 >
                   {/* Priority badge */}
@@ -121,34 +135,51 @@ export function SimpleSortDialog({
                     {active ? priority + 1 : '·'}
                   </span>
 
-                  {/* Label — click to toggle selection */}
-                  <button
-                    type="button"
-                    className="flex-1 text-left"
-                    onClick={() => toggleField(option.value)}
+                  {/* Label */}
+                  <span
+                    className={[
+                      'flex-1 text-sm font-bold',
+                      active ? 'text-primary' : 'text-muted-foreground',
+                    ].join(' ')}
                   >
-                    <span
-                      className={[
-                        'text-sm font-bold',
-                        active ? 'text-primary' : 'text-muted-foreground',
-                      ].join(' ')}
-                    >
-                      {option.label}
-                    </span>
-                  </button>
+                    {option.label}
+                  </span>
 
-                  {/* Direction toggle — only shown when selected */}
-                  {active && (
+                  {active ? (
+                    <>
+                      {/* Direction toggle */}
+                      <button
+                        type="button"
+                        onClick={() => toggleDirection(option.value)}
+                        className="flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-black text-primary hover:bg-primary/20 transition-colors"
+                      >
+                        {active.direction === 'asc' ? (
+                          <><ArrowUp size={12} />ASC</>
+                        ) : (
+                          <><ArrowDown size={12} />DESC</>
+                        )}
+                      </button>
+
+                      {/* Remove button */}
+                      <button
+                        type="button"
+                        onClick={() => removeField(option.value)}
+                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                        aria-label="Remove"
+                      >
+                        <X size={14} />
+                      </button>
+                    </>
+                  ) : (
+                    /* Add button */
                     <button
                       type="button"
-                      onClick={() => toggleDirection(option.value)}
-                      className="flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-black text-primary hover:bg-primary/20 transition-colors"
+                      onClick={() => addField(option.value)}
+                      disabled={disabled}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors disabled:pointer-events-none"
+                      aria-label="Add"
                     >
-                      {active.direction === 'asc' ? (
-                        <><ArrowUp size={12} />ASC</>
-                      ) : (
-                        <><ArrowDown size={12} />DESC</>
-                      )}
+                      <Plus size={14} />
                     </button>
                   )}
                 </div>
