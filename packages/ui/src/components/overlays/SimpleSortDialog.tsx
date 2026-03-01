@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUpDown, SortAsc, SortDesc, Check } from 'lucide-react';
+import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Dialog, DialogContent } from '../app/Dialog';
 import { Button } from '../ui/Button';
 
@@ -17,24 +17,20 @@ export interface SortState {
   direction: 'asc' | 'desc';
 }
 
+export type MultiSortState = SortState[];
+
 /* ── Props ───────────────────────────────────────────────────────── */
 
 export interface SimpleSortDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  onSort: (sort: SortState) => void;
-  currentSort: SortState;
+  onSort: (sort: MultiSortState) => void;
+  currentSort: MultiSortState;
   options: SortOption[];
   /** Dialog title. Default: "Sort" */
   title?: string;
   /** Section label above field list. Default: "Sort By Field" */
   fieldLabel?: string;
-  /** Section label above direction buttons. Default: "Direction" */
-  directionLabel?: string;
-  /** Ascending button label. Default: "Ascending" */
-  ascLabel?: string;
-  /** Descending button label. Default: "Descending" */
-  descLabel?: string;
   /** Cancel button label. Default: "Cancel" */
   cancelLabel?: string;
   /** Apply button label. Default: "Apply Sort" */
@@ -51,17 +47,31 @@ export function SimpleSortDialog({
   options,
   title = 'Sort',
   fieldLabel = 'Sort By Field',
-  directionLabel = 'Direction',
-  ascLabel = 'Ascending',
-  descLabel = 'Descending',
   cancelLabel = 'Cancel',
   applyLabel = 'Apply Sort',
 }: SimpleSortDialogProps) {
-  const [sortKey, setSortKey] = useState(currentSort.key);
-  const [direction, setDirection] = useState<'asc' | 'desc'>(currentSort.direction);
+  const [fields, setFields] = useState<MultiSortState>(currentSort);
+
+  const toggleField = (value: string) => {
+    setFields((prev) => {
+      const exists = prev.find((f) => f.key === value);
+      if (exists) return prev.filter((f) => f.key !== value);
+      return [...prev, { key: value, direction: 'asc' }];
+    });
+  };
+
+  const toggleDirection = (value: string) => {
+    setFields((prev) =>
+      prev.map((f) =>
+        f.key === value
+          ? { ...f, direction: f.direction === 'asc' ? 'desc' : 'asc' }
+          : f
+      )
+    );
+  };
 
   const handleApply = () => {
-    onSort({ key: sortKey, direction });
+    onSort(fields);
     onClose();
   };
 
@@ -80,68 +90,71 @@ export function SimpleSortDialog({
         </div>
 
         {/* ── Content ──────────────────────────────────────────────── */}
-        <div className="px-8 py-6 space-y-8">
+        <div className="px-8 py-6 space-y-3">
+          <p className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
+            {fieldLabel}
+          </p>
+          <div className="grid grid-cols-1 gap-2">
+            {options.map((option) => {
+              const active = fields.find((f) => f.key === option.value);
+              const priority = fields.findIndex((f) => f.key === option.value);
 
-          {/* Field picker */}
-          <div className="space-y-3">
-            <p className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
-              {fieldLabel}
-            </p>
-            <div className="grid grid-cols-1 gap-2">
-              {options.map((option) => (
-                <button
+              return (
+                <div
                   key={option.value}
-                  type="button"
-                  onClick={() => setSortKey(option.value)}
                   className={[
-                    'flex items-center justify-between px-5 py-3.5 rounded-xl border transition-all text-left',
-                    sortKey === option.value
-                      ? 'bg-primary/5 border-primary text-primary shadow-sm'
-                      : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50',
+                    'flex items-center gap-3 px-4 py-3 rounded-xl border transition-all',
+                    active
+                      ? 'bg-primary/5 border-primary'
+                      : 'bg-muted/30 border-border hover:bg-muted/50',
                   ].join(' ')}
                 >
-                  <span className="text-sm font-bold">{option.label}</span>
-                  {sortKey === option.value && <Check size={16} className="text-primary shrink-0" />}
-                </button>
-              ))}
-            </div>
-          </div>
+                  {/* Priority badge */}
+                  <span
+                    className={[
+                      'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-black',
+                      active
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-transparent',
+                    ].join(' ')}
+                  >
+                    {active ? priority + 1 : '·'}
+                  </span>
 
-          {/* Direction picker */}
-          <div className="space-y-3">
-            <p className="text-[11px] font-black text-muted-foreground uppercase tracking-[0.2em]">
-              {directionLabel}
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setDirection('asc')}
-                className={[
-                  'flex flex-col items-center justify-center gap-2.5 py-5 rounded-2xl border transition-all',
-                  direction === 'asc'
-                    ? 'bg-primary/5 border-primary text-primary shadow-sm'
-                    : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50',
-                ].join(' ')}
-              >
-                <SortAsc size={22} />
-                <span className="text-xs font-black uppercase tracking-widest">{ascLabel}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setDirection('desc')}
-                className={[
-                  'flex flex-col items-center justify-center gap-2.5 py-5 rounded-2xl border transition-all',
-                  direction === 'desc'
-                    ? 'bg-primary/5 border-primary text-primary shadow-sm'
-                    : 'bg-muted/30 border-border text-muted-foreground hover:bg-muted/50',
-                ].join(' ')}
-              >
-                <SortDesc size={22} />
-                <span className="text-xs font-black uppercase tracking-widest">{descLabel}</span>
-              </button>
-            </div>
-          </div>
+                  {/* Label — click to toggle selection */}
+                  <button
+                    type="button"
+                    className="flex-1 text-left"
+                    onClick={() => toggleField(option.value)}
+                  >
+                    <span
+                      className={[
+                        'text-sm font-bold',
+                        active ? 'text-primary' : 'text-muted-foreground',
+                      ].join(' ')}
+                    >
+                      {option.label}
+                    </span>
+                  </button>
 
+                  {/* Direction toggle — only shown when selected */}
+                  {active && (
+                    <button
+                      type="button"
+                      onClick={() => toggleDirection(option.value)}
+                      className="flex items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-black text-primary hover:bg-primary/20 transition-colors"
+                    >
+                      {active.direction === 'asc' ? (
+                        <><ArrowUp size={12} />ASC</>
+                      ) : (
+                        <><ArrowDown size={12} />DESC</>
+                      )}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* ── Fixed footer ─────────────────────────────────────────── */}

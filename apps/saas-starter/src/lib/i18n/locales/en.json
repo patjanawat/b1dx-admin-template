@@ -111,9 +111,6 @@
   "sort_dialog": {
     "title": "Sort Orders",
     "field_label": "Sort By Field",
-    "direction_label": "Direction",
-    "ascending": "Ascending",
-    "descending": "Descending",
     "apply": "Apply Sort",
     "cancel": "Cancel"
   },

@@ -36,7 +36,7 @@ export { SimpleSortDialog } from './components/overlays/SimpleSortDialog';
 export type { ModalProps, ModalSize } from './components/overlays/Modal';
 export type { ConfirmDialogProps } from './components/overlays/ConfirmDialog';
 export type { SimpleSearchDialogProps } from './components/overlays/SimpleSearchDialog';
-export type { SimpleSortDialogProps, SortOption, SortState } from './components/overlays/SimpleSortDialog';
+export type { SimpleSortDialogProps, SortOption, SortState, MultiSortState } from './components/overlays/SimpleSortDialog';
 export { Dialog, DialogContent, DialogTitle, DialogDescription, DialogFooter, DialogOverlay } from './components/app/Dialog';
 export type { DialogProps, DialogContentProps, DialogTitleProps, DialogDescriptionProps, DialogFooterProps } from './components/app/Dialog';
 export { Calendar } from './components/app/Calendar';

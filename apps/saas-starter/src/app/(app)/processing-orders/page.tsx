@@ -294,14 +294,11 @@ export default function ProcessingOrdersPage() {
       <SimpleSortDialog
         isOpen={isSortOpen}
         onClose={() => setIsSortOpen(false)}
-        onSort={(s) => setSortState(s as OrderSortState)}
+        onSort={setSortState}
         currentSort={sortState}
         options={sortOptions}
         title={t('sort_dialog.title')}
         fieldLabel={t('sort_dialog.field_label')}
-        directionLabel={t('sort_dialog.direction_label')}
-        ascLabel={t('sort_dialog.ascending')}
-        descLabel={t('sort_dialog.descending')}
         cancelLabel={t('sort_dialog.cancel')}
         applyLabel={t('sort_dialog.apply')}
       />

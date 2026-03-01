@@ -111,9 +111,6 @@
   "sort_dialog": {
     "title": "เรียงลำดับออเดอร์",
     "field_label": "เรียงตามฟิลด์",
-    "direction_label": "ทิศทาง",
-    "ascending": "น้อยไปมาก",
-    "descending": "มากไปน้อย",
     "apply": "ยืนยันการเรียง",
     "cancel": "ยกเลิก"
   },
