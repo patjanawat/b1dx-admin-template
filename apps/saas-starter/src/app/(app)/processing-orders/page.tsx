@@ -55,15 +55,17 @@ export default function ProcessingOrdersPage() {
     defaultValues: DEFAULT_ORDER_SEARCH_VALUES,
   });
 
+  /* ── Form (advanced search filters) ─────────────────────────────── */
+  const { control: advancedControl, reset: resetAdvanced } = useForm<OrderAdvancedSearchFilters>({
+    defaultValues: DEFAULT_ORDER_ADVANCED_FILTERS,
+  });
+
   /* ── State ───────────────────────────────────────────────────────── */
   const [sorting,              setSorting]              = useState<SortingState>([]);
   const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
   const [pageIndex,            setPageIndex]            = useState(0);
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
-  const [draftFilters,         setDraftFilters]         = useState<OrderAdvancedSearchFilters>(
-    DEFAULT_ORDER_ADVANCED_FILTERS
-  );
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -285,15 +287,14 @@ export default function ProcessingOrdersPage() {
         isOpen={isAdvancedSearchOpen}
         onClose={() => setIsAdvancedSearchOpen(false)}
         onSearch={() => { setIsAdvancedSearchOpen(false); handleSearch(); }}
-        onReset={() => setDraftFilters(DEFAULT_ORDER_ADVANCED_FILTERS)}
+        onReset={() => resetAdvanced()}
         title={t('advanced_search.title')}
         resetLabel={t('advanced_search.reset')}
         cancelLabel={t('advanced_search.cancel')}
         applyLabel={t('advanced_search.apply')}
       >
         <OrderAdvancedSearchFields
-          filters={draftFilters}
-          onChange={setDraftFilters}
+          control={advancedControl}
           channelOptions={channelOptions}
           logisticsOptions={logisticsOptions}
         />
