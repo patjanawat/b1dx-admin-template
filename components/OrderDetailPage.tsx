@@ -16,7 +16,9 @@ import {
   ShoppingCart,
   ArrowLeft,
   Download,
-  Printer
+  Printer,
+  Check,
+  Hourglass
 } from 'lucide-react';
 
 // Mock data lookup (in a real app, this would be an API call)
@@ -86,7 +88,7 @@ export const OrderDetailPage: React.FC = () => {
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground">{order.orderId}</h1>
-              <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20 px-4 py-1.5 text-xs font-black uppercase tracking-widest rounded-full">
+              <Badge className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 px-4 py-1.5 text-xs font-black uppercase tracking-widest rounded-full">
                 {order.statusKey.replace('status.', '').replace('_', ' ')}
               </Badge>
             </div>
@@ -212,7 +214,7 @@ export const OrderDetailPage: React.FC = () => {
                 <p className="text-sm font-bold text-foreground">Credit Card</p>
                 <p className="text-xs text-muted-foreground font-medium mt-1">Paid on {order.date}</p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 size={20} />
               </div>
             </div>
@@ -224,15 +226,28 @@ export const OrderDetailPage: React.FC = () => {
               <Clock size={14} />
               Order Timeline
             </div>
-            <div className="bg-card rounded-2xl p-8 border border-border shadow-sm space-y-8 relative before:absolute before:left-[43px] before:top-12 before:bottom-12 before:w-0.5 before:bg-border">
+            <div className="bg-card rounded-2xl p-8 border border-border shadow-sm space-y-8 relative 
+              before:absolute before:left-[48px] before:top-0 before:bottom-0 before:w-px before:bg-linear-to-b before:from-transparent before:via-border/60 before:to-transparent
+              after:absolute after:left-[48px] after:top-0 after:bottom-0 after:w-2 after:-translate-x-1/2 after:bg-linear-to-b after:from-transparent after:via-primary/5 after:to-transparent after:blur-[2px]">
               {[
                 { status: 'Order Placed', time: order.date, active: true, desc: 'Order successfully created by customer' },
                 { status: 'Payment Confirmed', time: order.date, active: true, desc: 'Payment verified via credit card' },
                 { status: 'Processing', time: 'Pending', active: false, desc: 'Warehouse is preparing items' },
               ].map((step, idx) => (
                 <div key={idx} className="flex gap-6 relative">
-                  <div className={`w-8 h-8 rounded-full border-4 border-background z-10 shrink-0 flex items-center justify-center ${step.active ? 'bg-primary text-white' : 'bg-muted text-muted-foreground'}`}>
-                    {step.active ? <CheckCircle2 size={14} /> : <div className="w-2 h-2 rounded-full bg-current" />}
+                  <div className={`w-8 h-8 rounded-full border-4 z-10 shrink-0 flex items-center justify-center relative overflow-hidden ${step.active ? 'bg-card border-emerald-500/20' : 'bg-card border-muted/30 text-muted-foreground'}`}>
+                    {/* Faint background overlay to maintain the look while being opaque to the line */}
+                    <div className={`absolute inset-0 ${step.active ? 'bg-emerald-500/10' : 'bg-muted/10'}`} />
+                    
+                    <div className="relative z-20 flex items-center justify-center w-full h-full">
+                      {step.active ? (
+                        <div className="w-5 h-5 rounded-full border-2 border-emerald-500 flex items-center justify-center">
+                          <Check size={10} strokeWidth={4} className="text-emerald-500" />
+                        </div>
+                      ) : (
+                        <Hourglass size={12} className="opacity-60" />
+                      )}
+                    </div>
                   </div>
                   <div className="space-y-1">
                     <p className={`text-sm font-bold ${step.active ? 'text-foreground' : 'text-muted-foreground'}`}>{step.status}</p>
