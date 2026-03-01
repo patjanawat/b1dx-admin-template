@@ -5,4 +5,3 @@ export {
   type OrderAdvancedSearchFilters,
 } from './OrderAdvancedSearchFields';
 export { OrderSearchSection, type OrderSearchSectionProps } from './OrderSearchSection';
-export { RHFOrderSearchSection, type RHFOrderSearchSectionProps } from './RHFOrderSearchSection';

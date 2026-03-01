@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Button,
   DataTable,
@@ -27,8 +28,10 @@ import {
   AdvancedSearchDialog,
   OrderAdvancedSearchFields,
   DEFAULT_ORDER_ADVANCED_FILTERS,
+  DEFAULT_ORDER_SEARCH_VALUES,
   type ProcessingOrder,
   type OrderAdvancedSearchFilters,
+  type OrderSearchFormValues,
 } from '@/features/orders';
 
 /* ── Component ────────────────────────────────────────────────────── */
@@ -47,16 +50,16 @@ export default function ProcessingOrdersPage() {
     [t]
   );
 
+  /* ── Form (search filters) ───────────────────────────────────────── */
+  const { control, handleSubmit } = useForm<OrderSearchFormValues>({
+    defaultValues: DEFAULT_ORDER_SEARCH_VALUES,
+  });
+
   /* ── State ───────────────────────────────────────────────────────── */
   const [activeTab,            setActiveTab]            = useState(0);
   const [sorting,              setSorting]              = useState<SortingState>([]);
   const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
-  const [searchQuery,          setSearchQuery]          = useState('');
-  const [searchBy,             setSearchBy]             = useState('recipient');
   const [warehouse,            setWarehouse]            = useState('all');
-  const [channel,              setChannel]              = useState('all');
-  const [logistics,            setLogistics]            = useState('all');
-  const [printStatus,          setPrintStatus]          = useState('all');
   const [pageIndex,            setPageIndex]            = useState(0);
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
@@ -70,14 +73,14 @@ export default function ProcessingOrdersPage() {
   );
 
   /* ── Handlers ────────────────────────────────────────────────────── */
-  const handleSearch = () => {
+  const handleSearch = handleSubmit(() => {
     const promise = new Promise<void>((resolve) => setTimeout(resolve, 800));
     toast.promise(promise, {
       loading: `${t('common.search')}...`,
       success: `${t('common.search')} OK`,
       error: 'Error',
     });
-  };
+  });
 
   /* ── Column definitions ──────────────────────────────────────────── */
   const columns: ColumnDef<ProcessingOrder>[] = [
@@ -255,22 +258,13 @@ export default function ProcessingOrdersPage() {
       />
 
       <OrderSearchSection
-        searchByOptions={searchByOptions}
-        searchBy={searchBy}
-        onSearchByChange={setSearchBy}
-        searchQuery={searchQuery}
-        onSearchQueryChange={setSearchQuery}
+        control={control}
         onSearch={handleSearch}
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
+        searchByOptions={searchByOptions}
         channelOptions={channelOptions}
-        channel={channel}
-        onChannelChange={setChannel}
         logisticsOptions={logisticsOptions}
-        logistics={logistics}
-        onLogisticsChange={setLogistics}
         printStatusOptions={printOptions}
-        printStatus={printStatus}
-        onPrintStatusChange={setPrintStatus}
       />
 
       <DataTable

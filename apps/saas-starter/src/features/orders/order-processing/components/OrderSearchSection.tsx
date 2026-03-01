@@ -1,64 +1,35 @@
 'use client';
 
+import { type Control } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Button, Combobox, Section, type ComboboxOption } from '@b1dx/ui';
+import {
+  Button,
+  Section,
+  SimpleOptionField,
+  SimpleInputField,
+  type ComboboxOption,
+} from '@b1dx/ui';
 import { Search, Filter, ArrowUpDown } from 'lucide-react';
-
-/* ── Sub-component: field label ───────────────────────────────────── */
-
-function FilterLabel({ text }: { text: string }) {
-  return (
-    <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-      {text}
-    </p>
-  );
-}
-
-/* ── Props ────────────────────────────────────────────────────────── */
+import type { OrderSearchFormValues } from '../../types';
 
 export interface OrderSearchSectionProps {
-  /* Row 1 — search by + keyword + action buttons */
-  searchByOptions: ComboboxOption[];
-  searchBy: string;
-  onSearchByChange: (v: string) => void;
-  searchQuery: string;
-  onSearchQueryChange: (v: string) => void;
+  control: Control<OrderSearchFormValues>;
   onSearch: () => void;
   onAdvancedSearch: () => void;
-
-  /* Row 2 — secondary filters */
+  searchByOptions: ComboboxOption[];
   channelOptions: ComboboxOption[];
-  channel: string;
-  onChannelChange: (v: string) => void;
-
   logisticsOptions: ComboboxOption[];
-  logistics: string;
-  onLogisticsChange: (v: string) => void;
-
   printStatusOptions: ComboboxOption[];
-  printStatus: string;
-  onPrintStatusChange: (v: string) => void;
 }
 
-/* ── Component ────────────────────────────────────────────────────── */
-
 export function OrderSearchSection({
-  searchByOptions,
-  searchBy,
-  onSearchByChange,
-  searchQuery,
-  onSearchQueryChange,
+  control,
   onSearch,
   onAdvancedSearch,
+  searchByOptions,
   channelOptions,
-  channel,
-  onChannelChange,
   logisticsOptions,
-  logistics,
-  onLogisticsChange,
   printStatusOptions,
-  printStatus,
-  onPrintStatusChange,
 }: OrderSearchSectionProps) {
   const { t } = useTranslation();
 
@@ -68,27 +39,23 @@ export function OrderSearchSection({
       {/* Row 1: Search by + keyword + action buttons */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 items-end">
 
-        <div className="lg:col-span-3">
-          <FilterLabel text={t('common.search_by')} />
-          <Combobox
-            options={searchByOptions}
-            value={searchBy}
-            onValueChange={(v) => onSearchByChange(v || 'recipient')}
-            placeholder={t('common.recipient_name')}
-          />
-        </div>
+        <SimpleOptionField
+          className="lg:col-span-3"
+          label={t('common.search_by')}
+          name="searchBy"
+          control={control}
+          options={searchByOptions}
+          placeholder={t('common.recipient_name')}
+        />
 
-        <div className="lg:col-span-4">
-          {/* Spacer label keeps alignment with Row 1 label height */}
-          <p className="mb-2 text-xs opacity-0 select-none">&nbsp;</p>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => onSearchQueryChange(e.target.value)}
-            placeholder={t('common.search_placeholder')}
-            className="h-10 w-full rounded-md border border-input bg-muted/30 px-3 text-sm font-medium outline-none transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-          />
-        </div>
+        <SimpleInputField
+          className="lg:col-span-4"
+          label={t('common.keyword')}
+          name="searchQuery"
+          control={control}
+          placeholder={t('common.search_placeholder')}
+          inputClassName="h-10 bg-muted/30 font-medium"
+        />
 
         <div className="lg:col-span-5 flex items-center gap-2">
           <Button
@@ -117,38 +84,32 @@ export function OrderSearchSection({
       {/* Row 2: Secondary filters */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-        <div>
-          <FilterLabel text={t('common.sales_channel')} />
-          <Combobox
-            options={channelOptions}
-            value={channel}
-            onValueChange={(v) => onChannelChange(v || 'all')}
-            placeholder={t('common.all_channels')}
-            badgeCount={channel !== 'all' ? 1 : undefined}
-          />
-        </div>
+        <SimpleOptionField
+          label={t('common.sales_channel')}
+          name="channel"
+          control={control}
+          options={channelOptions}
+          placeholder={t('common.all_channels')}
+          noneValue="all"
+        />
 
-        <div>
-          <FilterLabel text={t('common.logistics')} />
-          <Combobox
-            options={logisticsOptions}
-            value={logistics}
-            onValueChange={(v) => onLogisticsChange(v || 'all')}
-            placeholder={t('common.all_logistics')}
-            badgeCount={logistics !== 'all' ? 1 : undefined}
-          />
-        </div>
+        <SimpleOptionField
+          label={t('common.logistics')}
+          name="logistics"
+          control={control}
+          options={logisticsOptions}
+          placeholder={t('common.all_logistics')}
+          noneValue="all"
+        />
 
-        <div>
-          <FilterLabel text={t('common.print_status')} />
-          <Combobox
-            options={printStatusOptions}
-            value={printStatus}
-            onValueChange={(v) => onPrintStatusChange(v || 'all')}
-            placeholder={t('common.all')}
-            badgeCount={printStatus !== 'all' ? 1 : undefined}
-          />
-        </div>
+        <SimpleOptionField
+          label={t('common.print_status')}
+          name="printStatus"
+          control={control}
+          options={printStatusOptions}
+          placeholder={t('common.all')}
+          noneValue="all"
+        />
 
       </div>
 
