@@ -1,55 +1,69 @@
 'use client';
 
-import { useRef, useState, useEffect, type RefObject } from 'react';
+import * as React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { OrderStatusTab, type OrderStatusTabColor } from '@b1dx/ui';
-import { STATUS_TABS } from '../../__mocks__/mockOptions';
+import { OrderStatusTab, type OrderStatusTabColor } from '../ui/OrderStatusTab';
 
-/* ── Carousel scroll helper ───────────────────────────────────────── */
+/* ── Types ────────────────────────────────────────────────────────── */
 
-function useCarousel(ref: RefObject<HTMLDivElement | null>) {
-  const [canLeft, setCanLeft] = useState(false);
-  const [canRight, setCanRight] = useState(false);
+export interface StatusCarouselTab {
+  id: number | string;
+  label: string;
+  count: number;
+  color: OrderStatusTabColor;
+}
 
-  const check = () => {
+export interface AppStatusCarouselProps {
+  tabs: StatusCarouselTab[];
+  activeTab: number;
+  onTabChange: (index: number) => void;
+  /** Section label rendered above the carousel */
+  label?: string;
+}
+
+/* ── Carousel scroll hook ─────────────────────────────────────────── */
+
+function useCarousel(ref: React.RefObject<HTMLDivElement | null>) {
+  const [canLeft,  setCanLeft]  = React.useState(false);
+  const [canRight, setCanRight] = React.useState(false);
+
+  const check = React.useCallback(() => {
     if (!ref.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = ref.current;
     setCanLeft(scrollLeft > 1);
     setCanRight(scrollLeft < scrollWidth - clientWidth - 1);
-  };
+  }, [ref]);
 
   const scroll = (dir: 'left' | 'right') =>
     ref.current?.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
 
-  useEffect(() => {
+  React.useEffect(() => {
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
-  }, []);
+  }, [check]);
 
   return { canLeft, canRight, check, scroll };
 }
 
-/* ── Props ────────────────────────────────────────────────────────── */
-
-interface OrderStatusCarouselProps {
-  activeTab: number;
-  onTabChange: (index: number) => void;
-}
-
 /* ── Component ────────────────────────────────────────────────────── */
 
-export function OrderStatusCarousel({ activeTab, onTabChange }: OrderStatusCarouselProps) {
-  const { t } = useTranslation();
-  const ref = useRef<HTMLDivElement>(null);
+export const AppStatusCarousel = ({
+  tabs,
+  activeTab,
+  onTabChange,
+  label,
+}: AppStatusCarouselProps) => {
+  const ref = React.useRef<HTMLDivElement>(null);
   const { canLeft, canRight, check, scroll } = useCarousel(ref);
 
   return (
     <div>
-      <p className="mb-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-        {t('common.status')}
-      </p>
+      {label && (
+        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+          {label}
+        </p>
+      )}
 
       <div className="relative">
         {canLeft && (
@@ -81,10 +95,10 @@ export function OrderStatusCarousel({ activeTab, onTabChange }: OrderStatusCarou
             WebkitMaskImage: `linear-gradient(to right, ${canLeft ? 'transparent 0, black 72px' : 'black 0'}, ${canRight ? 'black calc(100% - 72px), transparent 100%' : 'black 100%'})`,
           }}
         >
-          {(STATUS_TABS as readonly { id: number; labelKey: string; count: number; color: OrderStatusTabColor }[]).map((tab, i) => (
+          {tabs.map((tab, i) => (
             <OrderStatusTab
               key={tab.id}
-              label={t(tab.labelKey)}
+              label={tab.label}
               count={tab.count}
               color={tab.color}
               isActive={activeTab === i}
@@ -95,4 +109,4 @@ export function OrderStatusCarousel({ activeTab, onTabChange }: OrderStatusCarou
       </div>
     </div>
   );
-}
+};

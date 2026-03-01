@@ -71,3 +71,7 @@ export type {
 } from './components/app/appShellTypes';
 export { RHFCombobox } from './components/forms/inputs/RHFCombobox';
 export type { RHFComboboxProps } from './components/forms/inputs/RHFCombobox';
+export { AppPageHeader } from './components/app/AppPageHeader';
+export type { AppPageHeaderProps } from './components/app/AppPageHeader';
+export { AppStatusCarousel } from './components/app/AppStatusCarousel';
+export type { AppStatusCarouselProps, StatusCarouselTab } from './components/app/AppStatusCarousel';

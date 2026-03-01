@@ -5,22 +5,24 @@ import {
   Button,
   DataTable,
   LineTabs,
+  AppPageHeader,
+  AppStatusCarousel,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
+  type StatusCarouselTab,
 } from '@b1dx/ui';
 import { Download, Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
   MOCK_ORDERS,
+  STATUS_TABS,
   getChannelOptions,
   getLogisticsOptions,
   getPrintStatusOptions,
   getSearchByOptions,
   getWarehouseTabs,
-  OrderStatusCarousel,
-  OrdersPageHeader,
   OrderSearchSection,
   AdvancedSearchDialog,
   OrderAdvancedSearchFields,
@@ -40,6 +42,10 @@ export default function ProcessingOrdersPage() {
   const printOptions     = useMemo(() => getPrintStatusOptions(t), [t]);
   const searchByOptions  = useMemo(() => getSearchByOptions(t),    [t]);
   const warehouseTabs    = useMemo(() => getWarehouseTabs(t),      [t]);
+  const statusTabs       = useMemo<StatusCarouselTab[]>(
+    () => STATUS_TABS.map((tab) => ({ ...tab, label: t(tab.labelKey) })),
+    [t]
+  );
 
   /* ── State ───────────────────────────────────────────────────────── */
   const [activeTab,            setActiveTab]            = useState(0);
@@ -228,7 +234,7 @@ export default function ProcessingOrdersPage() {
   return (
     <div className="space-y-6">
 
-      <OrdersPageHeader
+      <AppPageHeader
         title={t('processing_orders.title')}
         description={t('processing_orders.subtitle')}
         actions={
@@ -238,10 +244,15 @@ export default function ProcessingOrdersPage() {
           </Button>
         }
       />
-      <div>test..</div>
+
       <LineTabs tabs={warehouseTabs} value={warehouse} onValueChange={setWarehouse} />
 
-      <OrderStatusCarousel activeTab={activeTab} onTabChange={setActiveTab} />
+      <AppStatusCarousel
+        tabs={statusTabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        label={t('common.status')}
+      />
 
       <OrderSearchSection
         searchByOptions={searchByOptions}
