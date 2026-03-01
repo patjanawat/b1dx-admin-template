@@ -3,21 +3,13 @@
 import { useState, useMemo } from 'react';
 import {
   Button,
-  Combobox,
   DataTable,
   LineTabs,
-  Section,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
 } from '@b1dx/ui';
-import {
-  Download,
-  Eye,
-  Filter,
-  ArrowUpDown,
-  Search,
-} from 'lucide-react';
+import { Download, Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
@@ -28,6 +20,8 @@ import {
   getSearchByOptions,
   getWarehouseTabs,
   OrderStatusCarousel,
+  OrdersPageHeader,
+  OrderSearchSection,
   AdvancedSearchDialog,
   OrderAdvancedSearchFields,
   DEFAULT_ORDER_ADVANCED_FILTERS,
@@ -40,27 +34,27 @@ import {
 export default function ProcessingOrdersPage() {
   const { t } = useTranslation();
 
-  /* ── Memoised options (require t()) ─────────────────────────────── */
-  const channelOptions  = useMemo(() => getChannelOptions(t),     [t]);
-  const logisticsOptions = useMemo(() => getLogisticsOptions(t),  [t]);
-  const printOptions    = useMemo(() => getPrintStatusOptions(t), [t]);
-  const searchByOptions = useMemo(() => getSearchByOptions(t),    [t]);
-  const warehouseTabs   = useMemo(() => getWarehouseTabs(t),      [t]);
+  /* ── Memoised options ────────────────────────────────────────────── */
+  const channelOptions   = useMemo(() => getChannelOptions(t),     [t]);
+  const logisticsOptions = useMemo(() => getLogisticsOptions(t),   [t]);
+  const printOptions     = useMemo(() => getPrintStatusOptions(t), [t]);
+  const searchByOptions  = useMemo(() => getSearchByOptions(t),    [t]);
+  const warehouseTabs    = useMemo(() => getWarehouseTabs(t),      [t]);
 
   /* ── State ───────────────────────────────────────────────────────── */
-  const [activeTab,             setActiveTab]             = useState(0);
-  const [sorting,               setSorting]               = useState<SortingState>([]);
-  const [rowSelection,          setRowSelection]          = useState<RowSelectionState>({});
-  const [searchQuery,           setSearchQuery]           = useState('');
-  const [searchBy,              setSearchBy]              = useState('recipient');
-  const [warehouse,             setWarehouse]             = useState('all');
-  const [channel,               setChannel]               = useState('all');
-  const [logistics,             setLogistics]             = useState('all');
-  const [printStatus,           setPrintStatus]           = useState('all');
-  const [pageIndex,             setPageIndex]             = useState(0);
-  const [pageSize,              setPageSize]              = useState(10);
-  const [isAdvancedSearchOpen,  setIsAdvancedSearchOpen]  = useState(false);
-  const [draftFilters,          setDraftFilters]          = useState<OrderAdvancedSearchFilters>(
+  const [activeTab,            setActiveTab]            = useState(0);
+  const [sorting,              setSorting]              = useState<SortingState>([]);
+  const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
+  const [searchQuery,          setSearchQuery]          = useState('');
+  const [searchBy,             setSearchBy]             = useState('recipient');
+  const [warehouse,            setWarehouse]            = useState('all');
+  const [channel,              setChannel]              = useState('all');
+  const [logistics,            setLogistics]            = useState('all');
+  const [printStatus,          setPrintStatus]          = useState('all');
+  const [pageIndex,            setPageIndex]            = useState(0);
+  const [pageSize,             setPageSize]             = useState(10);
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [draftFilters,         setDraftFilters]         = useState<OrderAdvancedSearchFilters>(
     DEFAULT_ORDER_ADVANCED_FILTERS
   );
 
@@ -73,9 +67,9 @@ export default function ProcessingOrdersPage() {
   const handleSearch = () => {
     const promise = new Promise<void>((resolve) => setTimeout(resolve, 800));
     toast.promise(promise, {
-      loading: t('common.search') + '...',
-      success: t('common.search') + '!',
-      error:   'Error',
+      loading: `${t('common.search')}...`,
+      success: `${t('common.search')} OK`,
+      error: 'Error',
     });
   };
 
@@ -144,12 +138,10 @@ export default function ProcessingOrdersPage() {
       header: t('common.shop'),
       cell: ({ row }) => (
         <div className="flex items-center gap-2.5">
-          <div
-            className={[
-              'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold shadow-sm',
-              row.original.shopColor,
-            ].join(' ')}
-          >
+          <div className={[
+            'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold shadow-sm',
+            row.original.shopColor,
+          ].join(' ')}>
             {row.original.shopInitial}
           </div>
           <span className="max-w-[140px] truncate text-sm font-bold text-foreground/80 tracking-tight">
@@ -183,12 +175,10 @@ export default function ProcessingOrdersPage() {
       accessorKey: 'channel',
       header: t('common.channel'),
       cell: ({ row }) => (
-        <span
-          className={[
-            'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider whitespace-nowrap shadow-sm',
-            row.original.channelColor,
-          ].join(' ')}
-        >
+        <span className={[
+          'rounded-full px-3 py-1.5 text-xs font-semibold uppercase tracking-wider whitespace-nowrap shadow-sm',
+          row.original.channelColor,
+        ].join(' ')}>
           {row.original.channel}
         </span>
       ),
@@ -238,9 +228,7 @@ export default function ProcessingOrdersPage() {
   return (
     <div className="space-y-6">
 
-      {/* Page Header */}
-      <Section
-        variant="flush"
+      <OrdersPageHeader
         title={t('processing_orders.title')}
         description={t('processing_orders.subtitle')}
         actions={
@@ -251,111 +239,29 @@ export default function ProcessingOrdersPage() {
         }
       />
 
-      {/* Warehouse Line Tabs */}
-      <LineTabs
-        tabs={warehouseTabs}
-        value={warehouse}
-        onValueChange={setWarehouse}
-      />
+      <LineTabs tabs={warehouseTabs} value={warehouse} onValueChange={setWarehouse} />
 
-      {/* Status Tabs Carousel */}
       <OrderStatusCarousel activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {/* Search & Filter */}
-      <Section variant="default" className="space-y-6">
+      <OrderSearchSection
+        searchByOptions={searchByOptions}
+        searchBy={searchBy}
+        onSearchByChange={setSearchBy}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+        onSearch={handleSearch}
+        onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
+        channelOptions={channelOptions}
+        channel={channel}
+        onChannelChange={setChannel}
+        logisticsOptions={logisticsOptions}
+        logistics={logistics}
+        onLogisticsChange={setLogistics}
+        printStatusOptions={printOptions}
+        printStatus={printStatus}
+        onPrintStatusChange={setPrintStatus}
+      />
 
-        {/* Row 1: Search */}
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 items-end">
-          <div className="lg:col-span-3">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              {t('common.search_by')}
-            </p>
-            <Combobox
-              options={searchByOptions}
-              value={searchBy}
-              onValueChange={(v) => setSearchBy(v || 'recipient')}
-              placeholder={t('common.recipient_name')}
-            />
-          </div>
-
-          <div className="lg:col-span-4">
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground opacity-0 select-none">
-              &nbsp;
-            </p>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t('common.search_placeholder')}
-              className="h-10 w-full rounded-md border border-input bg-muted/30 px-3 text-sm font-medium outline-none transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            />
-          </div>
-
-          <div className="lg:col-span-5 flex items-center gap-2">
-            <Button onClick={handleSearch} className="h-10 flex-1 gap-2 rounded-xl font-bold lg:flex-none lg:px-8">
-              <Search size={16} />
-              {t('common.search')}
-            </Button>
-            <Button
-              variant="outline"
-              className="h-10 gap-2 rounded-xl font-bold"
-              onClick={() => setIsAdvancedSearchOpen(true)}
-            >
-              <Filter size={16} />
-              {t('common.advanced')}
-            </Button>
-            <Button variant="outline" className="h-10 gap-2 rounded-xl font-bold">
-              <ArrowUpDown size={16} />
-              {t('common.sort')}
-            </Button>
-          </div>
-        </div>
-
-        {/* Row 2: Secondary filters */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              {t('common.sales_channel')}
-            </p>
-            <Combobox
-              options={channelOptions}
-              value={channel}
-              onValueChange={(v) => setChannel(v || 'all')}
-              placeholder={t('common.all_channels')}
-              badgeCount={channel !== 'all' ? 1 : undefined}
-            />
-          </div>
-
-          <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              {t('common.logistics')}
-            </p>
-            <Combobox
-              options={logisticsOptions}
-              value={logistics}
-              onValueChange={(v) => setLogistics(v || 'all')}
-              placeholder={t('common.all_logistics')}
-              badgeCount={logistics !== 'all' ? 1 : undefined}
-            />
-          </div>
-
-          <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
-              {t('common.print_status')}
-            </p>
-            <Combobox
-              options={printOptions}
-              value={printStatus}
-              onValueChange={(v) => setPrintStatus(v || 'all')}
-              placeholder={t('common.all')}
-              badgeCount={printStatus !== 'all' ? 1 : undefined}
-            />
-          </div>
-        </div>
-
-      </Section>
-
-      {/* Orders DataTable */}
       <DataTable
         columns={columns}
         data={pagedData}
@@ -369,21 +275,14 @@ export default function ProcessingOrdersPage() {
           total: MOCK_ORDERS.length,
           onPageChange: setPageIndex,
           pageSizeOptions: [10, 20, 50],
-          onPageSizeChange: (size) => {
-            setPageSize(size);
-            setPageIndex(0);
-          },
+          onPageSizeChange: (size) => { setPageSize(size); setPageIndex(0); },
         }}
       />
 
-      {/* Advanced Search Dialog */}
       <AdvancedSearchDialog
         isOpen={isAdvancedSearchOpen}
         onClose={() => setIsAdvancedSearchOpen(false)}
-        onSearch={() => {
-          setIsAdvancedSearchOpen(false);
-          handleSearch();
-        }}
+        onSearch={() => { setIsAdvancedSearchOpen(false); handleSearch(); }}
         onReset={() => setDraftFilters(DEFAULT_ORDER_ADVANCED_FILTERS)}
       >
         <OrderAdvancedSearchFields

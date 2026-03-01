@@ -6,6 +6,12 @@ import type { ComboboxOption } from '@b1dx/ui';
 import { useDialogBoundary } from './AdvancedSearchDialog';
 import type { OrderAdvancedSearchFilters } from '../../types';
 import { DEFAULT_ORDER_ADVANCED_FILTERS } from '../../types';
+import {
+  getChannelOptions,
+  getLogisticsOptions,
+  getDefaultWarehouseOptions,
+  getDefaultPaymentStatusOptions,
+} from '../../__mocks__/mockOptions';
 
 export type { OrderAdvancedSearchFilters };
 export { DEFAULT_ORDER_ADVANCED_FILTERS };
@@ -52,35 +58,6 @@ export function OrderAdvancedSearchFields({
     key: K,
     value: OrderAdvancedSearchFilters[K]
   ) => onChange({ ...filters, [key]: value });
-
-  const defaultWarehouseOptions: ComboboxOption[] = [
-    { value: 'all',       label: t('common.all_warehouses') },
-    { value: 'sauce-thai', label: 'SAUCE THAI'              },
-    { value: 'warehouse-b', label: 'Warehouse B'            },
-  ];
-
-  const defaultChannelOptions: ComboboxOption[] = [
-    { value: 'all',      label: t('common.all_channels') },
-    { value: 'shopee',   label: 'Shopee'                 },
-    { value: 'lazada',   label: 'Lazada'                 },
-    { value: 'tiktok',   label: 'TikTok Shop'            },
-    { value: 'facebook', label: 'Facebook'               },
-  ];
-
-  const defaultLogisticsOptions: ComboboxOption[] = [
-    { value: 'all',   label: t('common.all_logistics') },
-    { value: 'best',  label: 'BEST Express'             },
-    { value: 'kerry', label: 'Kerry Express'            },
-    { value: 'flash', label: 'Flash Express'            },
-    { value: 'jt',    label: 'J&T Express'              },
-  ];
-
-  const defaultPaymentStatusOptions: ComboboxOption[] = [
-    { value: 'all',    label: t('advanced_search.all_status') },
-    { value: 'paid',   label: t('advanced_search.paid')       },
-    { value: 'cod',    label: t('advanced_search.cod')        },
-    { value: 'unpaid', label: t('advanced_search.unpaid')     },
-  ];
 
   const inputClass = [
     'h-10 rounded-xl bg-muted/30 border-input transition-all',
@@ -173,7 +150,7 @@ export function OrderAdvancedSearchFields({
           <div>
             <FieldLabel text={t('advanced_search.warehouse')} />
             <Combobox
-              options={warehouseOptions ?? defaultWarehouseOptions}
+              options={warehouseOptions ?? getDefaultWarehouseOptions(t)}
               value={filters.warehouse}
               onValueChange={(v) => set('warehouse', v || 'all')}
             />
@@ -181,7 +158,7 @@ export function OrderAdvancedSearchFields({
           <div>
             <FieldLabel text={t('advanced_search.channel')} />
             <Combobox
-              options={channelOptions ?? defaultChannelOptions}
+              options={channelOptions ?? getChannelOptions(t)}
               value={filters.channel}
               onValueChange={(v) => set('channel', v || 'all')}
             />
@@ -189,7 +166,7 @@ export function OrderAdvancedSearchFields({
           <div>
             <FieldLabel text={t('advanced_search.logistics')} />
             <Combobox
-              options={logisticsOptions ?? defaultLogisticsOptions}
+              options={logisticsOptions ?? getLogisticsOptions(t)}
               value={filters.logistics}
               onValueChange={(v) => set('logistics', v || 'all')}
             />
@@ -197,7 +174,7 @@ export function OrderAdvancedSearchFields({
           <div>
             <FieldLabel text={t('advanced_search.payment_status')} />
             <Combobox
-              options={paymentStatusOptions ?? defaultPaymentStatusOptions}
+              options={paymentStatusOptions ?? getDefaultPaymentStatusOptions(t)}
               value={filters.paymentStatus}
               onValueChange={(v) => set('paymentStatus', v || 'all')}
             />

@@ -22,7 +22,7 @@ export const getWarehouseTabs = (t: TFunction): LineTab[] => [
   { value: 'central',    label: 'Central WH'               },
 ];
 
-/* ── Combobox option factories ────────────────────────────────────── */
+/* ── Page-level filter options ────────────────────────────────────── */
 
 export const getChannelOptions = (t: TFunction): ComboboxOption[] => [
   { value: 'all',      label: t('common.all_channels') },
@@ -41,13 +41,28 @@ export const getLogisticsOptions = (t: TFunction): ComboboxOption[] => [
 ];
 
 export const getPrintStatusOptions = (t: TFunction): ComboboxOption[] => [
-  { value: 'all',           label: t('common.all')                   },
-  { value: 'not-scheduled', label: t('common.print_not_scheduled')   },
-  { value: 'printed',       label: t('common.print_printed')         },
+  { value: 'all',           label: t('common.all')                 },
+  { value: 'not-scheduled', label: t('common.print_not_scheduled') },
+  { value: 'printed',       label: t('common.print_printed')       },
 ];
 
 export const getSearchByOptions = (t: TFunction): ComboboxOption[] => [
   { value: 'recipient',   label: t('common.recipient_name')     },
   { value: 'order-id',    label: t('common.order_id_option')    },
   { value: 'tracking-id', label: t('common.tracking_id_option') },
+];
+
+/* ── Advanced search dialog default options ───────────────────────── */
+
+export const getDefaultWarehouseOptions = (t: TFunction): ComboboxOption[] => [
+  { value: 'all',         label: t('common.all_warehouses') },
+  { value: 'sauce-thai',  label: 'SAUCE THAI'               },
+  { value: 'warehouse-b', label: 'Warehouse B'              },
+];
+
+export const getDefaultPaymentStatusOptions = (t: TFunction): ComboboxOption[] => [
+  { value: 'all',    label: t('advanced_search.all_status') },
+  { value: 'paid',   label: t('advanced_search.paid')       },
+  { value: 'cod',    label: t('advanced_search.cod')        },
+  { value: 'unpaid', label: t('advanced_search.unpaid')     },
 ];

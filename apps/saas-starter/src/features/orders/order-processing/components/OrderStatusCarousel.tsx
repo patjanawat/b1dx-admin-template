@@ -3,8 +3,8 @@
 import { useRef, useState, useEffect, type RefObject } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { OrderStatusTab } from '@b1dx/ui';
-import { STATUS_TABS } from '../__mock/mockOptions';
+import { OrderStatusTab, type OrderStatusTabColor } from '@b1dx/ui';
+import { STATUS_TABS } from '../../__mocks__/mockOptions';
 
 /* ── Carousel scroll helper ───────────────────────────────────────── */
 
@@ -81,7 +81,7 @@ export function OrderStatusCarousel({ activeTab, onTabChange }: OrderStatusCarou
             WebkitMaskImage: `linear-gradient(to right, ${canLeft ? 'transparent 0, black 72px' : 'black 0'}, ${canRight ? 'black calc(100% - 72px), transparent 100%' : 'black 100%'})`,
           }}
         >
-          {STATUS_TABS.map((tab, i) => (
+          {(STATUS_TABS as readonly { id: number; labelKey: string; count: number; color: OrderStatusTabColor }[]).map((tab, i) => (
             <OrderStatusTab
               key={tab.id}
               label={t(tab.labelKey)}
