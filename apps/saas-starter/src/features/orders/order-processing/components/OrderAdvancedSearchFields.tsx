@@ -9,7 +9,7 @@ import {
 } from '@b1dx/ui';
 import type { ComboboxOption } from '@b1dx/ui';
 import type { Control } from 'react-hook-form';
-import type { OrderPageFilters } from '../../types';
+import type { OrderPageFilters } from '../types';
 import {
   getChannelOptions,
   getLogisticsOptions,

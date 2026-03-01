@@ -1,22 +1,4 @@
-/* ── Order Processing types ───────────────────────────────────────── */
-
-export interface ProcessingOrder {
-  id: number;
-  orderId: string;
-  trackingId: string;
-  date: string;
-  shop: string;
-  shopInitial: string;
-  shopColor: string;
-  sku: number;
-  items: number;
-  channel: string;
-  channelColor: string;
-  shipping: string;
-  statusKey: string;
-}
-
-/* ── Unified page filter form (quick bar + advanced search) ───────── */
+/* ── Order Processing — unified page filter form ──────────────────── */
 
 export interface OrderPageFilters {
   // Status carousel + warehouse tabs
