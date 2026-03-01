@@ -26,11 +26,10 @@ import { Separator } from "./ui/separator";
 type Theme = 'light' | 'dark' | 'system';
 
 interface TopBarProps {
-  onViewChange?: (view: string) => void;
   onLogout?: () => void;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ onViewChange, onLogout }) => {
+export const TopBar: React.FC<TopBarProps> = ({ onLogout }) => {
   const { t, i18n } = useTranslation();
   
   const [activeTheme, setActiveTheme] = useState<Theme>(() => {
@@ -182,7 +181,6 @@ export const TopBar: React.FC<TopBarProps> = ({ onViewChange, onLogout }) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="p-0 border-none shadow-none">
             <ProfileDropdown 
-              onProfileClick={() => onViewChange?.('profile')} 
               onLogout={onLogout}
             />
           </DropdownMenuContent>

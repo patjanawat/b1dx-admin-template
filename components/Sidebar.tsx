@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Rocket, 
   Package, 
@@ -37,7 +38,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     groupKey: 'common.main',
     items: [
-      { icon: LayoutGrid, labelKey: 'common.dashboard', id: 'dashboard', active: true },
+      { icon: LayoutGrid, labelKey: 'common.dashboard', id: '/', active: true },
     ]
   },
   {
@@ -47,22 +48,22 @@ const NAV_GROUPS: NavGroup[] = [
         icon: ShoppingCart, 
         labelKey: 'common.orders', 
         subItems: [
-          { labelKey: 'common.all_orders', id: 'dashboard' },
-          { labelKey: 'common.processing_orders', id: 'processing-orders' },
-          { labelKey: 'common.packing', id: 'packing' },
-          { labelKey: 'common.tracking_update', id: 'tracking-update' },
-          { labelKey: 'common.tracking_status', id: 'tracking-status' },
+          { labelKey: 'common.all_orders', id: '/' },
+          { labelKey: 'common.processing_orders', id: '/processing-orders' },
+          { labelKey: 'common.packing', id: '/packing' },
+          { labelKey: 'common.tracking_update', id: '/tracking-update' },
+          { labelKey: 'common.tracking_status', id: '/tracking-status' },
         ]
       },
       { 
         icon: Warehouse, 
         labelKey: 'common.inventory', 
         subItems: [
-          { labelKey: 'common.inventory', id: 'products' },
-          { labelKey: 'common.inventory', id: 'stock-alerts' },
+          { labelKey: 'common.inventory', id: '/products' },
+          { labelKey: 'common.inventory', id: '/stock-alerts' },
         ]
       },
-      { icon: Users, labelKey: 'common.customers', id: 'customers' },
+      { icon: Users, labelKey: 'common.customers', id: '/customers' },
     ]
   },
   {
@@ -72,8 +73,8 @@ const NAV_GROUPS: NavGroup[] = [
         icon: BarChart3, 
         labelKey: 'common.reports',
         subItems: [
-          { labelKey: 'common.reports', id: 'sales-report' },
-          { labelKey: 'common.reports', id: 'revenue' },
+          { labelKey: 'common.reports', id: '/sales-report' },
+          { labelKey: 'common.reports', id: '/revenue' },
         ]
       },
     ]
@@ -85,8 +86,10 @@ interface SidebarProps {
   activeView?: string;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ onViewChange, activeView }) => {
+export const Sidebar: React.FC<SidebarProps> = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const activeView = location.pathname;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openMenus, setOpenMenus] = useState<string[]>(['common.orders']);
 
@@ -142,53 +145,59 @@ export const Sidebar: React.FC<SidebarProps> = ({ onViewChange, activeView }) =>
                 const isOpen = openMenus.includes(item.labelKey);
                 const isActive = activeView === item.id || (hasSub && item.subItems?.some(s => s.id === activeView));
                 
+                const NavContent = (
+                  <div className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative ${
+                    isActive
+                      ? 'bg-accent text-accent-foreground font-semibold' 
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  }`}>
+                    {isActive && !isCollapsed && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
+                    )}
+
+                    <item.icon 
+                      size={22} 
+                      className={`shrink-0 ${isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`} 
+                    />
+                    
+                    <span className={`text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
+                      isCollapsed ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+                    }`}>
+                      {t(item.labelKey)}
+                    </span>
+
+                    {!isCollapsed && hasSub && (
+                      <ChevronDown 
+                        size={14} 
+                        className={`ml-auto transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'}`} 
+                      />
+                    )}
+                  </div>
+                );
+
                 return (
                   <div key={item.labelKey} className="relative">
-                    <button
-                      onClick={() => {
-                        if (hasSub) {
-                          toggleSubMenu(item.labelKey);
-                        } else if (item.id) {
-                          onViewChange?.(item.id);
-                        }
-                      }}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative ${
-                        isActive
-                          ? 'bg-accent text-accent-foreground font-semibold' 
-                          : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
-                      }`}
-                    >
-                      {isActive && !isCollapsed && (
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />
-                      )}
-
-                      <item.icon 
-                        size={22} 
-                        className={`shrink-0 ${isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`} 
-                      />
-                      
-                      <span className={`text-[14px] transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
-                        isCollapsed ? 'opacity-0 -translate-x-2' : 'opacity-100 translate-x-0'
-                      }`}>
-                        {t(item.labelKey)}
-                      </span>
-
-                      {!isCollapsed && hasSub && (
-                        <ChevronDown 
-                          size={14} 
-                          className={`ml-auto transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'}`} 
-                        />
-                      )}
-                    </button>
+                    {hasSub ? (
+                      <button
+                        onClick={() => toggleSubMenu(item.labelKey)}
+                        className="w-full text-left"
+                      >
+                        {NavContent}
+                      </button>
+                    ) : (
+                      <Link to={item.id || '#'}>
+                        {NavContent}
+                      </Link>
+                    )}
 
                     {!isCollapsed && hasSub && (
                       <div className={`grid transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0'}`}>
                         <div className="overflow-hidden">
                           <div className="ml-4 pl-4 border-l border-border space-y-1 my-1">
                             {item.subItems?.map((sub) => (
-                              <button
+                              <Link
                                 key={sub.id}
-                                onClick={() => onViewChange?.(sub.id)}
+                                to={sub.id}
                                 className={`w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-all group ${
                                   activeView === sub.id 
                                     ? 'bg-accent text-accent-foreground font-bold' 
@@ -204,7 +213,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onViewChange, activeView }) =>
                                   }`} 
                                 />
                                 {t(sub.labelKey)}
-                              </button>
+                              </Link>
                             ))}
                           </div>
                         </div>

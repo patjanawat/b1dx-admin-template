@@ -23,6 +23,8 @@ import { toast } from 'sonner';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { AdvancedSearchModal } from './AdvancedSearchModal';
+import { SortModal } from './SortModal';
 
 interface StatusTab {
   id: number;
@@ -97,13 +99,25 @@ export const OrderManagementPage: React.FC = () => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
+  const [isSortModalOpen, setIsSortModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false);
+  const [selectedWarehouse, setSelectedWarehouse] = useState('all');
 
-  const handleSort = (key: string) => {
-    let direction: 'asc' | 'desc' = 'asc';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
+  const warehouses = [
+    { id: 'all', label: 'All Warehouses' },
+    { id: 'sauce-thai', label: 'SAUCE THAI' },
+    { id: 'warehouse-b', label: 'Warehouse B' },
+    { id: 'warehouse-c', label: 'Warehouse C' },
+  ];
+
+  const handleSort = (key: string, direction?: 'asc' | 'desc') => {
+    let newDirection: 'asc' | 'desc' = direction || 'asc';
+    if (!direction && sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      newDirection = 'desc';
     }
-    setSortConfig({ key, direction });
+    setSortConfig({ key, direction: newDirection });
   };
 
   const sortedData = [...MOCK_DATA].sort((a, b) => {
@@ -162,6 +176,10 @@ export const OrderManagementPage: React.FC = () => {
     });
   };
 
+  const handleOpenOrderDetail = (order: any) => {
+    window.open(`/orders/${order.orderId}`, '_blank');
+  };
+
   return (
     <div className="space-y-8">
       {/* Header Section */}
@@ -176,14 +194,26 @@ export const OrderManagementPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Warehouse View Selector */}
-      <div className="flex items-center gap-4">
-        <span className="text-[11px] font-black text-muted-foreground uppercase tracking-widest">Warehouse View:</span>
-        <div className="relative w-64 group">
-          <select className="w-full bg-card border border-border rounded-xl py-2.5 px-4 text-sm font-bold outline-none appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all pr-10">
-            <option>All Warehouses</option>
-          </select>
-          <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none group-focus-within:text-primary transition-colors" />
+
+      {/* Warehouse Line Tabs */}
+      <div className="border-b border-border w-full">
+        <div className="flex items-center gap-8">
+          {warehouses.map((w) => (
+            <button
+              key={w.id}
+              onClick={() => setSelectedWarehouse(w.id)}
+              className={`relative pb-4 text-sm font-bold transition-all ${
+                selectedWarehouse === w.id
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {w.label}
+              {selectedWarehouse === w.id && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -273,11 +303,19 @@ export const OrderManagementPage: React.FC = () => {
               <Search size={18} />
               Search
             </Button>
-            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+            <Button 
+              variant="outline" 
+              className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors"
+              onClick={() => setIsAdvancedSearchOpen(true)}
+            >
               <Filter size={18} />
               Advanced
             </Button>
-            <Button variant="outline" className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors">
+            <Button 
+              variant="outline" 
+              className="h-12 px-6 rounded-xl font-bold gap-2 border-border bg-muted/20 hover:bg-muted transition-colors"
+              onClick={() => setIsSortModalOpen(true)}
+            >
               <ArrowUpDown size={18} />
               Sort
             </Button>
@@ -415,7 +453,12 @@ export const OrderManagementPage: React.FC = () => {
                     <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
                   </td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{idx + 1}</td>
-                  <td className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4">{row.orderId}</td>
+                  <td 
+                    className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4"
+                    onClick={() => handleOpenOrderDetail(row)}
+                  >
+                    {row.orderId}
+                  </td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium tracking-tight">{row.trackingId}</td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{row.date}</td>
                   <td className="px-4 py-4.5">
@@ -487,6 +530,22 @@ export const OrderManagementPage: React.FC = () => {
           padding-bottom: 1.125rem;
         }
       `}</style>
+
+      <AdvancedSearchModal 
+        isOpen={isAdvancedSearchOpen} 
+        onClose={() => setIsAdvancedSearchOpen(false)}
+        onSearch={(filters) => {
+          console.log('Advanced Search Filters:', filters);
+          handleSearch();
+        }}
+      />
+
+      <SortModal
+        isOpen={isSortModalOpen}
+        onClose={() => setIsSortModalOpen(false)}
+        onSort={handleSort}
+        currentSort={sortConfig}
+      />
     </div>
   );
 };
