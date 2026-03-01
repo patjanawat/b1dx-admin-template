@@ -54,7 +54,7 @@ export const getSearchByOptions = (t: TFunction): ComboboxOption[] => [
 
 /* ── Advanced search dialog default options ───────────────────────── */
 
-export const getDefaultWarehouseOptions = (t: TFunction): ComboboxOption[] => [
+export const getDefaultShopOptions = (t: TFunction): ComboboxOption[] => [
   { value: 'all',         label: t('common.all_warehouses') },
   { value: 'sauce-thai',  label: 'SAUCE THAI'               },
   { value: 'warehouse-b', label: 'Warehouse B'              },

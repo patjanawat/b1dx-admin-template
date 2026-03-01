@@ -47,7 +47,8 @@ export interface OrderAdvancedSearchFilters {
   phone: string;
   startDate: Date | undefined;
   endDate: Date | undefined;
-  warehouse: string;
+  shop: string;
+  shopId: string;
   channel: string;
   logistics: string;
   paymentStatus: string;
@@ -60,7 +61,8 @@ export const DEFAULT_ORDER_ADVANCED_FILTERS: OrderAdvancedSearchFilters = {
   phone: '',
   startDate: undefined,
   endDate: undefined,
-  warehouse: 'all',
+  shop: 'all',
+  shopId: '',
   channel: 'all',
   logistics: 'all',
   paymentStatus: 'all',

@@ -14,7 +14,7 @@ import { DEFAULT_ORDER_ADVANCED_FILTERS } from '../../types';
 import {
   getChannelOptions,
   getLogisticsOptions,
-  getDefaultWarehouseOptions,
+  getDefaultShopOptions,
   getDefaultPaymentStatusOptions,
 } from '../../__mocks__/mockOptions';
 
@@ -25,7 +25,7 @@ export { DEFAULT_ORDER_ADVANCED_FILTERS };
 
 interface OrderAdvancedSearchFieldsProps {
   control: Control<OrderAdvancedSearchFilters>;
-  warehouseOptions?: ComboboxOption[];
+  shopOptions?: ComboboxOption[];
   channelOptions?: ComboboxOption[];
   logisticsOptions?: ComboboxOption[];
   paymentStatusOptions?: ComboboxOption[];
@@ -45,7 +45,7 @@ function SectionLabel({ text }: { text: string }) {
 
 export function OrderAdvancedSearchFields({
   control,
-  warehouseOptions,
+  shopOptions,
   channelOptions,
   logisticsOptions,
   paymentStatusOptions,
@@ -130,10 +130,17 @@ export function OrderAdvancedSearchFields({
         <SectionLabel text={t('advanced_search.section_status')} />
         <div className="grid grid-cols-2 gap-4">
           <SimpleOptionField
-            name="warehouse"
+            name="shop"
             control={control}
-            label={t('advanced_search.warehouse')}
-            options={warehouseOptions ?? getDefaultWarehouseOptions(t)}
+            label={t('advanced_search.shop')}
+            options={shopOptions ?? getDefaultShopOptions(t)}
+          />
+          <SimpleInputField
+            name="shopId"
+            control={control}
+            label={t('advanced_search.shop_id')}
+            placeholder={t('advanced_search.shop_id_placeholder')}
+            inputClassName={inputClass}
           />
           <SimpleOptionField
             name="channel"
