@@ -30,6 +30,8 @@ export interface OrderPageFilters {
   shop: string;
   shopId: string;
   paymentStatus: string;
+  // Sort
+  sortFields: MultiSortState;
 }
 
 export const DEFAULT_ORDER_PAGE_FILTERS: OrderPageFilters = {
@@ -49,4 +51,5 @@ export const DEFAULT_ORDER_PAGE_FILTERS: OrderPageFilters = {
   shop: 'all',
   shopId: '',
   paymentStatus: 'all',
+  sortFields: DEFAULT_ORDER_SORT,
 };
