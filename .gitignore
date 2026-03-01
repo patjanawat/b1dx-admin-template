@@ -55,3 +55,4 @@ apps/storybook/storybook-static
 # Claude local settings
 # ================================
 .claude/settings.local.json
+.claude/worktrees/
