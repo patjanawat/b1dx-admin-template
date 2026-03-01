@@ -6,8 +6,8 @@ import {
   Button,
   DataTable,
   SimpleLineTabs,
+  SimpleStatusCarousel,
   AppPageHeader,
-  AppStatusCarousel,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
@@ -56,7 +56,6 @@ export default function ProcessingOrdersPage() {
   });
 
   /* ── State ───────────────────────────────────────────────────────── */
-  const [activeTab,            setActiveTab]            = useState(0);
   const [sorting,              setSorting]              = useState<SortingState>([]);
   const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
   const [pageIndex,            setPageIndex]            = useState(0);
@@ -249,10 +248,10 @@ export default function ProcessingOrdersPage() {
             
       <SimpleLineTabs name="warehouse" control={control} tabs={warehouseTabs} />
 
-      <AppStatusCarousel
+      <SimpleStatusCarousel
+        name="activeTab"
+        control={control}
         tabs={statusTabs}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
         label={t('common.status')}
       />
 

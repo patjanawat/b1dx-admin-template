@@ -79,6 +79,8 @@ export { SimpleDateTimeField } from './components/forms/inputs/SimpleDateTimeFie
 export type { SimpleDateTimeFieldProps } from './components/forms/inputs/SimpleDateTimeField';
 export { SimpleLineTabs } from './components/forms/inputs/SimpleLineTabs';
 export type { SimpleLineTabsProps } from './components/forms/inputs/SimpleLineTabs';
+export { SimpleStatusCarousel } from './components/forms/inputs/SimpleStatusCarousel';
+export type { SimpleStatusCarouselProps } from './components/forms/inputs/SimpleStatusCarousel';
 export { AppPageHeader } from './components/app/AppPageHeader';
 export type { AppPageHeaderProps } from './components/app/AppPageHeader';
 export { AppStatusCarousel } from './components/app/AppStatusCarousel';

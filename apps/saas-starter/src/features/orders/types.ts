@@ -19,6 +19,7 @@ export interface ProcessingOrder {
 /* ── Search bar form values (used with RHFOrderSearchSection) ─────── */
 
 export interface OrderSearchFormValues {
+  activeTab: number;
   warehouse: string;
   searchBy: string;
   searchQuery: string;
@@ -28,6 +29,7 @@ export interface OrderSearchFormValues {
 }
 
 export const DEFAULT_ORDER_SEARCH_VALUES: OrderSearchFormValues = {
+  activeTab: 0,
   warehouse: 'all',
   searchBy: 'recipient',
   searchQuery: '',
