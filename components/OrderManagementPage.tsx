@@ -9,6 +9,8 @@ import {
   ListFilter,
   ChevronLeft,
   ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
   ChevronUp,
   ShoppingCart,
   Clock,
@@ -23,6 +25,14 @@ import { toast } from 'sonner';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from './ui/select';
+import { Checkbox } from './ui/checkbox';
 import { AdvancedSearchModal } from './AdvancedSearchModal';
 import { SortModal } from './SortModal';
 
@@ -402,12 +412,52 @@ export const OrderManagementPage: React.FC = () => {
 
       {/* 3. Order List Table with Improved Spacing */}
       <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+        {/* Bulk Action & Filter Bar */}
+        <div className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border bg-card">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <Select defaultValue="none">
+              <SelectTrigger className="h-9 w-full sm:w-[140px] text-xs font-bold bg-muted/20 border-border/50">
+                <SelectValue placeholder="Bulk Action" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">Bulk Action</SelectItem>
+                <SelectItem value="mark-shipped">Mark as Shipped</SelectItem>
+                <SelectItem value="mark-processing">Mark as Processing</SelectItem>
+                <SelectItem value="cancel">Cancel Orders</SelectItem>
+                <SelectItem value="export">Export Selected</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button size="sm" variant="secondary" className="h-9 px-5 font-bold text-xs bg-primary/10 text-primary hover:bg-primary/20 border-none shadow-none">Apply</Button>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+            <div className="relative w-full sm:w-64">
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Input 
+                placeholder="Search orders..." 
+                className="h-9 pl-9 pr-4 text-xs font-medium bg-muted/20 border-border/50 rounded-full focus:bg-background transition-all"
+              />
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">Filter by:</span>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="h-8 rounded-full px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
+                  All Statuses
+                </Button>
+                <Button variant="outline" size="sm" className="h-8 rounded-full px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
+                  Last 30 Days
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-muted/30 border-b border-border">
+            <thead className="bg-muted/10 border-b border-border/50">
               <tr>
                 <th className="px-6 py-5 w-14 text-center">
-                  <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
+                  <Checkbox className="rounded-[4px]" />
                 </th>
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ลำดับ</th>
                 <th 
@@ -446,11 +496,11 @@ export const OrderManagementPage: React.FC = () => {
                 <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-right whitespace-nowrap">{t('common.manage')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/50">
+            <tbody className="divide-y divide-border/30">
               {sortedData.map((row, idx) => (
-                <tr key={row.orderId} className="hover:bg-accent/30 transition-colors group">
+                <tr key={row.orderId} className="hover:bg-muted/5 transition-colors group">
                   <td className="px-6 py-4.5 text-center">
-                    <input type="checkbox" className="rounded-md border-border text-primary focus:ring-primary/20" />
+                    <Checkbox className="rounded-[4px]" />
                   </td>
                   <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{idx + 1}</td>
                   <td 
@@ -495,24 +545,47 @@ export const OrderManagementPage: React.FC = () => {
         </div>
 
         {/* Improved Pagination Section */}
-        <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-border bg-muted/20">
-          <p className="text-[13px] text-muted-foreground font-bold uppercase tracking-widest">
-            แสดง 1 ถึง 10 จากทั้งหมด 42 รายการ
-          </p>
-          <div className="flex items-center gap-2">
-            <button className="p-2.5 border border-border rounded-xl text-muted-foreground hover:bg-card shadow-sm transition-all hover:scale-105 active:scale-95 disabled:opacity-30" disabled>
+        <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-border bg-card">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-[12px] text-muted-foreground font-medium">Items per page:</span>
+              <Select defaultValue="50">
+                <SelectTrigger className="h-8 w-[60px] text-[12px] font-bold bg-muted/10 border-border/50">
+                  <SelectValue placeholder="50" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="text-[13px] text-muted-foreground font-medium">
+              Showing <span className="font-bold text-foreground">1-50</span> of <span className="font-bold text-foreground">1,240</span> results
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground/50 hover:text-foreground">
+              <ChevronsLeft size={18} />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground/50 hover:text-foreground">
               <ChevronLeft size={18} />
-            </button>
-            <div className="flex items-center gap-1">
-              <button className="w-10 h-10 flex items-center justify-center bg-primary text-primary-foreground rounded-xl text-sm font-black shadow-lg shadow-primary/20 transform transition-all active:scale-90">1</button>
-              <button className="w-10 h-10 flex items-center justify-center border border-border text-foreground/70 hover:bg-card rounded-xl text-sm font-bold shadow-sm transition-all hover:scale-105 active:scale-90">2</button>
-              <button className="w-10 h-10 flex items-center justify-center border border-border text-foreground/70 hover:bg-card rounded-xl text-sm font-bold shadow-sm transition-all hover:scale-105 active:scale-90">3</button>
-              <span className="px-2 text-muted-foreground font-black">...</span>
-              <button className="w-10 h-10 flex items-center justify-center border border-border text-foreground/70 hover:bg-card rounded-xl text-sm font-bold shadow-sm transition-all hover:scale-105 active:scale-90">5</button>
+            </Button>
+            <div className="flex items-center gap-1 px-2">
+              <Button variant="secondary" size="sm" className="h-9 w-9 p-0 font-black text-xs bg-primary text-primary-foreground shadow-lg shadow-primary/20">1</Button>
+              <Button variant="ghost" size="sm" className="h-9 w-9 p-0 font-bold text-xs text-muted-foreground hover:text-foreground">2</Button>
+              <Button variant="ghost" size="sm" className="h-9 w-9 p-0 font-bold text-xs text-muted-foreground hover:text-foreground">3</Button>
+              <span className="text-muted-foreground px-1 font-black">...</span>
+              <Button variant="ghost" size="sm" className="h-9 w-9 p-0 font-bold text-xs text-muted-foreground hover:text-foreground">25</Button>
             </div>
             <button className="p-2.5 border border-border rounded-xl text-muted-foreground hover:bg-card shadow-sm transition-all hover:scale-105 active:scale-95">
               <ChevronRight size={18} />
             </button>
+            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-foreground">
+              <ChevronsRight size={18} />
+            </Button>
           </div>
         </div>
       </div>
