@@ -54,7 +54,7 @@ export default function ProcessingOrdersPage() {
   );
 
   /* ── Form ───────────────────────────────────────────────────────── */
-  const { control, handleSubmit, reset, getValues } = useForm<OrderPageFilters>({
+  const { control, handleSubmit, reset, getValues, watch } = useForm<OrderPageFilters>({
     defaultValues: DEFAULT_ORDER_PAGE_FILTERS,
   });
 
@@ -64,6 +64,20 @@ export default function ProcessingOrdersPage() {
     startDate: undefined, endDate: undefined,
     shop: 'all', shopId: '', paymentStatus: 'all',
   });
+
+  /* Reactively count non-default advanced search fields */
+  const [
+    wOrderId, wTrackingId, wRecipientName, wPhone,
+    wStartDate, wEndDate, wShop, wShopId, wPaymentStatus,
+  ] = watch([
+    'orderId', 'trackingId', 'recipientName', 'phone',
+    'startDate', 'endDate', 'shop', 'shopId', 'paymentStatus',
+  ]);
+  const activeFilterCount = [
+    !!wOrderId, !!wTrackingId, !!wRecipientName, !!wPhone,
+    !!wStartDate, !!wEndDate,
+    wShop !== 'all', !!wShopId, wPaymentStatus !== 'all',
+  ].filter(Boolean).length;
 
   /* ── State ───────────────────────────────────────────────────────── */
   const [sorting,              setSorting]              = useState<SortingState>([]);
@@ -268,6 +282,7 @@ export default function ProcessingOrdersPage() {
         onSearch={handleSearch}
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
         onSort={() => setIsSortOpen(true)}
+        activeFilterCount={activeFilterCount}
         activeSortCount={sortState.length}
         searchByOptions={searchByOptions}
         channelOptions={channelOptions}
