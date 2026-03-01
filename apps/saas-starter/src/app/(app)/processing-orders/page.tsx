@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import {
   Button,
   DataTable,
-  LineTabs,
+  SimpleLineTabs,
   AppPageHeader,
   AppStatusCarousel,
   type ColumnDef,
@@ -59,7 +59,6 @@ export default function ProcessingOrdersPage() {
   const [activeTab,            setActiveTab]            = useState(0);
   const [sorting,              setSorting]              = useState<SortingState>([]);
   const [rowSelection,         setRowSelection]         = useState<RowSelectionState>({});
-  const [warehouse,            setWarehouse]            = useState('all');
   const [pageIndex,            setPageIndex]            = useState(0);
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
@@ -247,8 +246,8 @@ export default function ProcessingOrdersPage() {
           </Button>
         }
       />
-
-      <LineTabs tabs={warehouseTabs} value={warehouse} onValueChange={setWarehouse} />
+            
+      <SimpleLineTabs name="warehouse" control={control} tabs={warehouseTabs} />
 
       <AppStatusCarousel
         tabs={statusTabs}
