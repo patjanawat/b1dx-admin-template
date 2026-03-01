@@ -29,11 +29,11 @@ import {
   getWarehouseTabs,
   OrderSearchSection,
   OrderAdvancedSearchFields,
+  OrderSortFields,
   DEFAULT_ORDER_PAGE_FILTERS,
   DEFAULT_ORDER_SORT,
   type ProcessingOrder,
   type OrderPageFilters,
-  type OrderSortState,
 } from '@/features/orders';
 
 /* ── Component ────────────────────────────────────────────────────── */
@@ -65,13 +65,17 @@ export default function ProcessingOrdersPage() {
     shop: 'all', shopId: '', paymentStatus: 'all',
   });
 
+  const resetSort = () => reset({ ...getValues(), sortFields: DEFAULT_ORDER_SORT });
+
   /* Reactively count non-default advanced search fields */
   const [
     wOrderId, wTrackingId, wRecipientName, wPhone,
     wStartDate, wEndDate, wShop, wShopId, wPaymentStatus,
+    wSortFields,
   ] = watch([
     'orderId', 'trackingId', 'recipientName', 'phone',
     'startDate', 'endDate', 'shop', 'shopId', 'paymentStatus',
+    'sortFields',
   ]);
   const activeFilterCount = [
     !!wOrderId, !!wTrackingId, !!wRecipientName, !!wPhone,
@@ -86,7 +90,6 @@ export default function ProcessingOrdersPage() {
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isSortOpen,           setIsSortOpen]           = useState(false);
-  const [sortState,            setSortState]            = useState<OrderSortState>(DEFAULT_ORDER_SORT);
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -280,7 +283,7 @@ export default function ProcessingOrdersPage() {
         onAdvancedSearch={() => setIsAdvancedSearchOpen(true)}
         onSort={() => setIsSortOpen(true)}
         activeFilterCount={activeFilterCount}
-        activeSortCount={sortState.length}
+        activeSortCount={wSortFields.length}
         searchByOptions={searchByOptions}
         channelOptions={channelOptions}
         logisticsOptions={logisticsOptions}
@@ -307,14 +310,20 @@ export default function ProcessingOrdersPage() {
       <SimpleSortDialog
         isOpen={isSortOpen}
         onClose={() => setIsSortOpen(false)}
-        onSort={setSortState}
-        currentSort={sortState}
-        options={sortOptions}
+        onSort={() => setIsSortOpen(false)}
+        onReset={resetSort}
+        fieldCount={wSortFields.length}
+        maxFields={10}
         title={t('sort_dialog.title')}
-        fieldLabel={t('sort_dialog.field_label')}
         cancelLabel={t('sort_dialog.cancel')}
         applyLabel={t('sort_dialog.apply')}
-      />
+      >
+        <OrderSortFields
+          control={control}
+          options={sortOptions}
+          fieldLabel={t('sort_dialog.field_label')}
+        />
+      </SimpleSortDialog>
 
       <SimpleSearchDialog
         isOpen={isAdvancedSearchOpen}
