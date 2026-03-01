@@ -1,4 +1,4 @@
-import type { ProcessingOrder } from '../types';
+import type { ProcessingOrder } from '../order-processing/types';
 
 /* ── Data pools ───────────────────────────────────────────────────── */
 
