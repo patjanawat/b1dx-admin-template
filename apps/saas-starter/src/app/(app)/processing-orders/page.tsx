@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   DataTable,
@@ -100,7 +100,11 @@ export default function ProcessingOrdersPage() {
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isSortOpen,           setIsSortOpen]           = useState(false);
-  const [mockTabValue,         setMockTabValue]         = useState('overview');
+  const [mockTabValue,         setMockTabValue]         = useState('');
+
+  useEffect(() => {
+    if (Object.keys(rowSelection).length === 0) setMockTabValue('');
+  }, [rowSelection]);
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -305,6 +309,8 @@ export default function ProcessingOrdersPage() {
         tabs={MOCK_ICON_TABS}
         tabValue={mockTabValue}
         onTabChange={setMockTabValue}
+        disabled={Object.keys(rowSelection).length === 0}
+        disabledTooltip={t('common.tabs_select_hint')}
       >
         <DataTable
           columns={columns}

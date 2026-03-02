@@ -92,7 +92,8 @@
     "print_not_scheduled": "ยังไม่ได้สั่งพิมพ์",
     "print_printed": "พิมพ์แล้ว",
     "search_placeholder": "กรอกคำค้นหา...",
-    "showing_results": "แสดง {{from}}–{{to}} จาก {{total}} รายการ"
+    "showing_results": "แสดง {{from}}–{{to}} จาก {{total}} รายการ",
+    "tabs_select_hint": "เลือกรายการก่อนเพื่อเปิดใช้งาน"
   },
   "status": {
     "wait_confirm": "รอยืนยันสินค้า",

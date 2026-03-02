@@ -9,6 +9,8 @@ export interface DataListWrapperProps {
   tabs: IconTabItem[];
   tabValue: string;
   onTabChange: (value: string) => void;
+  disabled?: boolean;
+  disabledTooltip?: string;
   actions?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
@@ -18,6 +20,8 @@ export function DataListWrapper({
   tabs,
   tabValue,
   onTabChange,
+  disabled,
+  disabledTooltip,
   actions,
   children,
   className,
@@ -30,6 +34,8 @@ export function DataListWrapper({
           tabs={tabs}
           value={tabValue}
           onValueChange={onTabChange}
+          disabled={disabled}
+          disabledTooltip={disabledTooltip}
           className="border-b-0"
         />
         {actions && (
