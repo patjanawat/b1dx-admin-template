@@ -1,16 +1,20 @@
 // Added React import to resolve the 'React' namespace for React.ReactNode
 import React from 'react';
 
-export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Cancelled';
+export type OrderStatus = 'WAIT FOR CONFIRM' | 'Pending' | 'Processing' | 'Shipped' | 'Cancelled';
 
 export interface Order {
   id: string;
-  customerName: string;
-  customerInitials: string;
-  customerColor: string;
-  date: string;
+  trackingId: string;
+  createdDate: string;
+  shopName: string;
+  shopLogo?: string;
+  skuCount: number;
+  itemCount: number;
+  channel: string;
+  channelLogo?: string;
+  shipping: string;
   status: OrderStatus;
-  amount: number;
 }
 
 export interface StatItem {

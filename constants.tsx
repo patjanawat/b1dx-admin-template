@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ShoppingCart, Truck, Package, DollarSign, BarChart2 } from 'lucide-react';
+import { ShoppingCart, Clock, Truck, AlertCircle, BarChart2 } from 'lucide-react';
 import { Order, StatItem } from './types';
 
 export interface NotificationItem {
@@ -20,98 +20,68 @@ export interface NotificationItem {
 
 export const INITIAL_ORDERS: Order[] = [
   {
-    id: '#ORD-7732',
-    customerName: 'John Smith',
-    customerInitials: 'JS',
-    customerColor: 'bg-indigo-100 text-indigo-600',
-    date: 'Oct 24, 2023',
-    status: 'Pending',
-    amount: 125.50
+    id: 'ORD-20231024-001',
+    trackingId: 'PKG-992120',
+    createdDate: '24/10/2023 09:30',
+    shopName: 'Streetwear TH',
+    skuCount: 3,
+    itemCount: 5,
+    channel: 'SHOPEE',
+    shipping: 'Kerry Express',
+    status: 'WAIT FOR CONFIRM'
   },
   {
-    id: '#ORD-7731',
-    customerName: 'Sarah Jenkins',
-    customerInitials: 'SJ',
-    customerColor: 'bg-pink-100 text-pink-600',
-    date: 'Oct 24, 2023',
-    status: 'Processing',
-    amount: 240.00
+    id: 'ORD-20231024-002',
+    trackingId: 'PKG-992121',
+    createdDate: '24/10/2023 10:15',
+    shopName: 'Fashion Hub',
+    skuCount: 1,
+    itemCount: 1,
+    channel: 'LAZADA',
+    shipping: 'Flash Express',
+    status: 'WAIT FOR CONFIRM'
   },
   {
-    id: '#ORD-7730',
-    customerName: 'Michael Chen',
-    customerInitials: 'MC',
-    customerColor: 'bg-emerald-100 text-emerald-600',
-    date: 'Oct 23, 2023',
-    status: 'Shipped',
-    amount: 89.99
-  },
-  {
-    id: '#ORD-7729',
-    customerName: 'Emma Wilson',
-    customerInitials: 'EW',
-    customerColor: 'bg-slate-100 text-slate-600',
-    date: 'Oct 23, 2023',
-    status: 'Cancelled',
-    amount: 45.00
-  },
-  {
-    id: '#ORD-7728',
-    customerName: 'David Miller',
-    customerInitials: 'DM',
-    customerColor: 'bg-blue-100 text-blue-600',
-    date: 'Oct 22, 2023',
-    status: 'Shipped',
-    amount: 312.20
-  },
-  {
-    id: '#ORD-7727',
-    customerName: 'Ava Lopez',
-    customerInitials: 'AL',
-    customerColor: 'bg-amber-100 text-amber-600',
-    date: 'Oct 22, 2023',
-    status: 'Processing',
-    amount: 54.25
+    id: 'ORD-20231024-005',
+    trackingId: 'PKG-992125',
+    createdDate: '24/10/2023 11:00',
+    shopName: 'Beauty Direct',
+    skuCount: 2,
+    itemCount: 10,
+    channel: 'TIKTOK SHOP',
+    shipping: 'J&T Express',
+    status: 'WAIT FOR CONFIRM'
   }
 ];
 
 export const STATS_DATA: StatItem[] = [
   {
-    label: 'Total Orders',
+    label: 'TOTAL ORDERS',
     value: '1,284',
-    change: '+12.5%',
-    changeType: 'positive',
-    footerText: 'vs last month',
-    icon: <ShoppingCart size={20} />,
+    icon: <ShoppingCart size={24} />,
     iconBg: 'bg-blue-50',
-    iconColor: 'text-blue-600'
+    iconColor: 'text-blue-500'
   },
   {
-    label: 'Pending Shipments',
+    label: 'PENDING',
     value: '42',
-    changeType: 'warning',
-    footerText: 'Needs attention',
-    icon: <Truck size={20} />,
-    iconBg: 'bg-amber-50',
-    iconColor: 'text-amber-600'
+    icon: <Clock size={24} />,
+    iconBg: 'bg-orange-50',
+    iconColor: 'text-orange-500'
   },
   {
-    label: 'Low Stock Items',
-    value: '12',
-    changeType: 'danger',
-    footerText: '8 critical SKUs',
-    icon: <Package size={20} />,
-    iconBg: 'bg-rose-50',
-    iconColor: 'text-rose-600'
-  },
-  {
-    label: "Today's Revenue",
-    value: '$14,250.00',
-    changeType: 'positive',
-    footerText: 'High performing',
-    icon: <DollarSign size={20} />,
+    label: 'SHIPPED',
+    value: '856',
+    icon: <Truck size={24} />,
     iconBg: 'bg-emerald-50',
-    iconColor: 'text-emerald-600'
+    iconColor: 'text-emerald-500'
+  },
+  {
+    label: 'ISSUES',
+    value: '12',
+    icon: <AlertCircle size={24} />,
+    iconBg: 'bg-rose-50',
+    iconColor: 'text-rose-500'
   }
 ];
 

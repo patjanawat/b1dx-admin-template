@@ -18,8 +18,13 @@ import {
   AlertCircle,
   Filter,
   ArrowUpDown,
-  Facebook
+  Facebook,
+  User,
+  CreditCard,
+  Bell,
+  Settings
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Badge } from './ui/badge';
@@ -33,6 +38,7 @@ import {
   SelectValue 
 } from './ui/select';
 import { Checkbox } from './ui/checkbox';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { AdvancedSearchModal } from './AdvancedSearchModal';
 import { SortModal } from './SortModal';
 
@@ -103,6 +109,7 @@ const MOCK_DATA = [
 ];
 
 export const OrderManagementPage: React.FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState(3);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -187,7 +194,7 @@ export const OrderManagementPage: React.FC = () => {
   };
 
   const handleOpenOrderDetail = (order: any) => {
-    window.open(`/orders/${order.orderId}`, '_blank');
+    navigate(`/orders/${order.orderId}`);
   };
 
   return (
@@ -412,136 +419,151 @@ export const OrderManagementPage: React.FC = () => {
 
       {/* 3. Order List Table with Improved Spacing */}
       <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-        {/* Bulk Action & Filter Bar */}
-        <div className="px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-border bg-card">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <Select defaultValue="none">
-              <SelectTrigger className="h-9 w-full sm:w-[140px] text-xs font-bold bg-muted/20 border-border/50">
-                <SelectValue placeholder="Bulk Action" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">Bulk Action</SelectItem>
-                <SelectItem value="mark-shipped">Mark as Shipped</SelectItem>
-                <SelectItem value="mark-processing">Mark as Processing</SelectItem>
-                <SelectItem value="cancel">Cancel Orders</SelectItem>
-                <SelectItem value="export">Export Selected</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button size="sm" variant="secondary" className="h-9 px-5 font-bold text-xs bg-primary/10 text-primary hover:bg-primary/20 border-none shadow-none">Apply</Button>
-          </div>
+        {/* Tabs & Filter Bar */}
+        <div className="px-6 py-4 border-b border-border bg-card">
+          <Tabs defaultValue="account" className="w-full" onValueChange={() => navigate('/product-filter')}>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-4">
+              <TabsList className="bg-slate-100 p-1 h-12 rounded-xl">
+                <TabsTrigger value="account" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg h-10 px-6 gap-2 font-bold text-slate-600">
+                  <User size={18} /> Account
+                </TabsTrigger>
+                <TabsTrigger value="billing" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg h-10 px-6 gap-2 font-bold text-slate-400">
+                  <CreditCard size={18} /> Billing
+                </TabsTrigger>
+                <TabsTrigger value="notifications" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg h-10 px-6 gap-2 font-bold text-slate-400">
+                  <Bell size={18} /> Notifications
+                </TabsTrigger>
+                <TabsTrigger value="settings" className="data-[state=active]:bg-white data-[state=active]:shadow-sm rounded-lg h-10 px-6 gap-2 font-bold text-slate-400">
+                  <Settings size={18} /> Settings
+                </TabsTrigger>
+              </TabsList>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-            <div className="relative w-full sm:w-64">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input 
-                placeholder="Search orders..." 
-                className="h-9 pl-9 pr-4 text-xs font-medium bg-muted/20 border-border/50 rounded-full focus:bg-background transition-all"
-              />
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">Filter by:</span>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="h-8 rounded-full px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
-                  All Statuses
-                </Button>
-                <Button variant="outline" size="sm" className="h-8 rounded-full px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
-                  Last 30 Days
-                </Button>
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+                <div className="relative w-full sm:w-64">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                  <Input 
+                    placeholder="Search orders..." 
+                    className="h-10 pl-9 pr-4 text-xs font-medium bg-muted/20 border-border/50 rounded-xl focus:bg-background transition-all"
+                  />
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider whitespace-nowrap">Filter by:</span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" className="h-8 rounded-lg px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
+                      All Statuses
+                    </Button>
+                    <Button variant="outline" size="sm" className="h-8 rounded-lg px-4 text-[11px] font-bold bg-muted/20 border-border/50 hover:bg-muted transition-colors">
+                      Last 30 Days
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse">
-            <thead className="bg-muted/10 border-b border-border/50">
-              <tr>
-                <th className="px-6 py-5 w-14 text-center">
-                  <Checkbox className="rounded-[4px]" />
-                </th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ลำดับ</th>
-                <th 
-                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
-                  onClick={() => handleSort('orderId')}
-                >
-                  <div className="flex items-center gap-1">
-                    {t('common.order_id')}
-                    <ArrowUpDown size={12} className={sortConfig?.key === 'orderId' ? 'text-primary' : 'opacity-30'} />
-                  </div>
-                </th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">รหัสพัสดุ</th>
-                <th 
-                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
-                  onClick={() => handleSort('date')}
-                >
-                  <div className="flex items-center gap-1">
-                    วันที่สร้าง
-                    <ArrowUpDown size={12} className={sortConfig?.key === 'date' ? 'text-primary' : 'opacity-30'} />
-                  </div>
-                </th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ร้านค้า</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวน SKU</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวนชิ้น</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ช่องทาง</th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">{t('common.shipping')}</th>
-                <th 
-                  className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
-                  onClick={() => handleSort('statusKey')}
-                >
-                  <div className="flex items-center gap-1">
-                    {t('common.status')}
-                    <ArrowUpDown size={12} className={sortConfig?.key === 'statusKey' ? 'text-primary' : 'opacity-30'} />
-                  </div>
-                </th>
-                <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-right whitespace-nowrap">{t('common.manage')}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/30">
-              {sortedData.map((row, idx) => (
-                <tr key={row.orderId} className="hover:bg-muted/5 transition-colors group">
-                  <td className="px-6 py-4.5 text-center">
-                    <Checkbox className="rounded-[4px]" />
-                  </td>
-                  <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{idx + 1}</td>
-                  <td 
-                    className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4"
-                    onClick={() => handleOpenOrderDetail(row)}
-                  >
-                    {row.orderId}
-                  </td>
-                  <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium tracking-tight">{row.trackingId}</td>
-                  <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{row.date}</td>
-                  <td className="px-4 py-4.5">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-black shrink-0 shadow-sm ${row.shopColor}`}>
-                        {row.shopInitial}
-                      </div>
-                      <span className="text-[13px] font-bold text-foreground/80 truncate max-w-[140px] tracking-tight">{row.shop}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4.5 text-sm text-foreground/80 text-center font-bold">{row.sku}</td>
-                  <td className="px-4 py-4.5 text-sm text-foreground/80 text-center font-bold">{row.items}</td>
-                  <td className="px-4 py-4.5">
-                    <span className={`px-3 py-1.5 rounded-full text-[10px] font-black whitespace-nowrap tracking-wider uppercase ${row.channelColor} shadow-sm`}>
-                      {row.channel}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4.5 text-sm text-foreground/70 font-semibold whitespace-nowrap tracking-tight">{row.shipping}</td>
-                  <td className="px-4 py-4.5">
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 rounded-full w-fit whitespace-nowrap shadow-sm border border-amber-500/20">
-                      <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
-                      <span className="text-[11px] font-bold text-amber-600 tracking-tight uppercase">{t(row.statusKey)}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-4.5 text-right">
-                    <button className="p-2.5 hover:bg-accent text-muted-foreground hover:text-primary rounded-xl transition-all group-hover:scale-110 active:scale-90">
-                      <Eye size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            <TabsContent value="account" className="mt-0 border-none p-0">
+              <div className="overflow-x-auto custom-scrollbar">
+                <table className="w-full text-left border-collapse">
+                  {/* Table Header */}
+                  <thead className="bg-muted/10 border-b border-border/50">
+                    <tr>
+                      <th className="px-6 py-5 w-14 text-center">
+                        <Checkbox className="rounded-[4px]" />
+                      </th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ลำดับ</th>
+                      <th 
+                        className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                        onClick={() => handleSort('orderId')}
+                      >
+                        <div className="flex items-center gap-1">
+                          {t('common.order_id')}
+                          <ArrowUpDown size={12} className={sortConfig?.key === 'orderId' ? 'text-primary' : 'opacity-30'} />
+                        </div>
+                      </th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">รหัสพัสดุ</th>
+                      <th 
+                        className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                        onClick={() => handleSort('date')}
+                      >
+                        <div className="flex items-center gap-1">
+                          วันที่สร้าง
+                          <ArrowUpDown size={12} className={sortConfig?.key === 'date' ? 'text-primary' : 'opacity-30'} />
+                        </div>
+                      </th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ร้านค้า</th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวน SKU</th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center whitespace-nowrap">จำนวนชิ้น</th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">ช่องทาง</th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap">{t('common.shipping')}</th>
+                      <th 
+                        className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest whitespace-nowrap cursor-pointer hover:text-primary transition-colors"
+                        onClick={() => handleSort('statusKey')}
+                      >
+                        <div className="flex items-center gap-1">
+                          {t('common.status')}
+                          <ArrowUpDown size={12} className={sortConfig?.key === 'statusKey' ? 'text-primary' : 'opacity-30'} />
+                        </div>
+                      </th>
+                      <th className="px-4 py-5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-right whitespace-nowrap">{t('common.manage')}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border/30">
+                    {sortedData.map((row, idx) => (
+                      <tr key={row.orderId} className="hover:bg-muted/5 transition-colors group">
+                        <td className="px-6 py-4.5 text-center">
+                          <Checkbox className="rounded-[4px]" />
+                        </td>
+                        <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{idx + 1}</td>
+                        <td 
+                          className="px-4 py-4.5 text-sm font-bold text-primary hover:underline cursor-pointer decoration-primary/30 underline-offset-4"
+                          onClick={() => navigate(`/orders/${row.orderId}`)}
+                        >
+                          {row.orderId}
+                        </td>
+                        <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium tracking-tight">{row.trackingId}</td>
+                        <td className="px-4 py-4.5 text-sm text-muted-foreground font-medium">{row.date}</td>
+                        <td className="px-4 py-4.5">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-black shrink-0 shadow-sm ${row.shopColor}`}>
+                              {row.shopInitial}
+                            </div>
+                            <span className="text-[13px] font-bold text-foreground/80 truncate max-w-[140px] tracking-tight">{row.shop}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4.5 text-sm text-foreground/80 text-center font-bold">{row.sku}</td>
+                        <td className="px-4 py-4.5 text-sm text-foreground/80 text-center font-bold">{row.items}</td>
+                        <td className="px-4 py-4.5">
+                          <span className={`px-3 py-1.5 rounded-full text-[10px] font-black whitespace-nowrap tracking-wider uppercase ${row.channelColor} shadow-sm`}>
+                            {row.channel}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4.5 text-sm text-foreground/70 font-semibold whitespace-nowrap tracking-tight">{row.shipping}</td>
+                        <td className="px-4 py-4.5">
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/10 rounded-full w-fit whitespace-nowrap shadow-sm border border-amber-500/20">
+                            <div className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse" />
+                            <span className="text-[11px] font-bold text-amber-600 tracking-tight uppercase">{t(row.statusKey)}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-4.5 text-right">
+                          <button className="p-2.5 hover:bg-accent text-muted-foreground hover:text-primary rounded-xl transition-all group-hover:scale-110 active:scale-90">
+                            <Eye size={18} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </TabsContent>
+            <TabsContent value="billing" className="mt-0 border-none p-12 text-center text-muted-foreground font-bold">
+              No billing data available.
+            </TabsContent>
+            <TabsContent value="notifications" className="mt-0 border-none p-12 text-center text-muted-foreground font-bold">
+              No notifications available.
+            </TabsContent>
+            <TabsContent value="settings" className="mt-0 border-none p-12 text-center text-muted-foreground font-bold">
+              Settings content goes here.
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Improved Pagination Section */}
