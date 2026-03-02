@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   DataTable,
+  DataListWrapper,
   SimpleLineTabs,
   SimpleStatusCarousel,
   SimpleSearchDialog,
@@ -14,8 +15,9 @@ import {
   type SortingState,
   type RowSelectionState,
   type StatusCarouselTab,
+  type IconTabItem,
 } from '@b1dx/ui';
-import { Eye } from 'lucide-react';
+import { Eye, LayoutGrid, Package, Truck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
@@ -35,6 +37,14 @@ import {
   type ProcessingOrder,
   type OrderPageFilters,
 } from '@/features/orders';
+
+/* ── Mock icon tabs ───────────────────────────────────────────────── */
+
+const MOCK_ICON_TABS: IconTabItem[] = [
+  { value: 'overview', label: 'Overview', icon: LayoutGrid },
+  { value: 'details',  label: 'Details',  icon: Package    },
+  { value: 'shipping', label: 'Shipping', icon: Truck      },
+];
 
 /* ── Component ────────────────────────────────────────────────────── */
 
@@ -90,6 +100,7 @@ export default function ProcessingOrdersPage() {
   const [pageSize,             setPageSize]             = useState(10);
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false);
   const [isSortOpen,           setIsSortOpen]           = useState(false);
+  const [mockTabValue,         setMockTabValue]         = useState('overview');
 
   const pagedData = useMemo(
     () => MOCK_ORDERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
@@ -268,13 +279,13 @@ export default function ProcessingOrdersPage() {
           <ExportExcelButton>{t('common.export_excel')}</ExportExcelButton>
         }
       />
-            
-      <SimpleLineTabs name="warehouse" control={control} tabs={warehouseTabs} />
 
+       <SimpleLineTabs name="warehouse" control={control} tabs={warehouseTabs} />
+            
       <SimpleStatusCarousel
         name="activeTab"
         control={control}
-        tabs={statusTabs}        
+        tabs={statusTabs}
       />
 
       <OrderSearchSection
@@ -290,22 +301,28 @@ export default function ProcessingOrdersPage() {
         printStatusOptions={printOptions}
       />
 
-      <DataTable
-        columns={columns}
-        data={pagedData}
-        sorting={sorting}
-        onSortingChange={setSorting}
-        rowSelection={rowSelection}
-        onRowSelectionChange={setRowSelection}
-        pagination={{
-          pageIndex,
-          pageSize,
-          total: MOCK_ORDERS.length,
-          onPageChange: setPageIndex,
-          pageSizeOptions: [10, 20, 50],
-          onPageSizeChange: (size) => { setPageSize(size); setPageIndex(0); },
-        }}
-      />
+      <DataListWrapper
+        tabs={MOCK_ICON_TABS}
+        tabValue={mockTabValue}
+        onTabChange={setMockTabValue}
+      >
+        <DataTable
+          columns={columns}
+          data={pagedData}
+          sorting={sorting}
+          onSortingChange={setSorting}
+          rowSelection={rowSelection}
+          onRowSelectionChange={setRowSelection}
+          pagination={{
+            pageIndex,
+            pageSize,
+            total: MOCK_ORDERS.length,
+            onPageChange: setPageIndex,
+            pageSizeOptions: [10, 20, 50],
+            onPageSizeChange: (size) => { setPageSize(size); setPageIndex(0); },
+          }}
+        />
+      </DataListWrapper>
 
       <SimpleSortDialog
         isOpen={isSortOpen}
