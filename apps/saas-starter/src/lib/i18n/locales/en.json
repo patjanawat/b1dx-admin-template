@@ -92,7 +92,8 @@
     "print_not_scheduled": "Not yet scheduled",
     "print_printed": "Printed",
     "search_placeholder": "Enter search keywords...",
-    "showing_results": "Showing {{from}}–{{to}} of {{total}} results"
+    "showing_results": "Showing {{from}}–{{to}} of {{total}} results",
+    "tabs_select_hint": "Select rows to enable"
   },
   "status": {
     "wait_confirm": "Wait for Confirm",
