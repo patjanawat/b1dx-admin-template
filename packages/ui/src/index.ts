@@ -113,3 +113,5 @@ export type { DataListWrapperProps } from './components/app/DataListWrapper';
 export { RadioGroup, RadioGroupItem } from './components/app/RadioGroup';
 export { SimpleRadioGroupField } from './components/forms/inputs/SimpleRadioGroupField';
 export type { SimpleRadioGroupFieldProps, RadioOption } from './components/forms/inputs/SimpleRadioGroupField';
+export { SimpleDecimalField } from './components/forms/inputs/SimpleDecimalField';
+export type { SimpleDecimalFieldProps } from './components/forms/inputs/SimpleDecimalField';
