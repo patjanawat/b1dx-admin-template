@@ -10,7 +10,7 @@ import {
   TableHead, 
   TableCell 
 } from './ui/table';
-import { Download, Search } from 'lucide-react';
+import { Download, Search, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -95,46 +95,51 @@ export const ProductFilterPage: React.FC = () => {
   const FilterContent = (
     <div className="space-y-6 pt-4">
       {/* Filter Controls */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-muted-foreground w-40">จำนวน SKU ในออเดอร์ :</span>
-            <div className="flex items-center gap-2">
-              <input type="radio" name="sku-filter" id="sku-all" defaultChecked className="w-4 h-4 accent-primary" />
-              <label htmlFor="sku-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <span className="text-sm font-bold text-muted-foreground">จำนวน SKU</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <input type="radio" name="sku-filter" id="sku-all" defaultChecked className="w-4 h-4 accent-primary" />
+                <label htmlFor="sku-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="radio" name="sku-filter" id="sku-range" className="w-4 h-4 accent-primary" />
+                <label htmlFor="sku-range" className="text-sm font-medium text-foreground/80">จาก</label>
+              </div>
+              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
+              <span className="text-sm text-muted-foreground">ถึง</span>
+              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
             </div>
-            <div className="flex items-center gap-2">
-              <input type="radio" name="sku-filter" id="sku-range" className="w-4 h-4 accent-primary" />
-              <label htmlFor="sku-range" className="text-sm font-medium text-foreground/80">จาก</label>
-            </div>
-            <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
-            <span className="text-sm text-muted-foreground">ถึง</span>
-            <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
-            <span className="text-sm font-medium text-muted-foreground">SKU</span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-muted-foreground w-40">จำนวน ชิ้น ในออเดอร์ :</span>
-            <div className="flex items-center gap-2">
-              <input type="radio" name="item-filter" id="item-all" defaultChecked className="w-4 h-4 accent-primary" />
-              <label htmlFor="item-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
+          <div className="space-y-2">
+            <span className="text-sm font-bold text-muted-foreground">จำนวนชิ้น</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <input type="radio" name="item-filter" id="item-all" defaultChecked className="w-4 h-4 accent-primary" />
+                <label htmlFor="item-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="radio" name="item-filter" id="item-range" className="w-4 h-4 accent-primary" />
+                <label htmlFor="item-range" className="text-sm font-medium text-foreground/80">จาก</label>
+              </div>
+              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
+              <span className="text-sm text-muted-foreground">ถึง</span>
+              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
             </div>
-            <div className="flex items-center gap-2">
-              <input type="radio" name="item-filter" id="item-range" className="w-4 h-4 accent-primary" />
-              <label htmlFor="item-range" className="text-sm font-medium text-foreground/80">จาก</label>
-            </div>
-            <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
-            <span className="text-sm text-muted-foreground">ถึง</span>
-            <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
-            <span className="text-sm font-medium text-muted-foreground">ชิ้น</span>
           </div>
         </div>
-        <div className="relative w-full md:w-80">
+        <div className="relative w-full md:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
           <Input placeholder="ค้นหา" className="pl-10 h-11 border-border/50 bg-muted/10" />
         </div>
       </div>
 
       {/* Table */}
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-sm font-bold text-foreground">เลือกทั้งหมด 4 รายการ</span>
+      </div>
       <div className="border border-border rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
@@ -181,10 +186,7 @@ export const ProductFilterPage: React.FC = () => {
       </div>
 
       {/* Action Section under Table */}
-      <div className="flex items-center justify-between bg-muted/5 rounded-xl p-4 mt-4">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-foreground">เลือกทั้งหมด 4 รายการ</span>
-        </div>
+      <div className="flex items-center justify-end bg-muted/5 rounded-xl p-4 mt-4">
         <Button 
           onClick={handleProcess}
           className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-10 h-11 rounded-lg shadow-sm"
@@ -199,14 +201,21 @@ export const ProductFilterPage: React.FC = () => {
     <div className="flex flex-col min-h-screen pb-24 relative">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-2">
-        <h1 className="text-2xl font-bold text-foreground">ตัวกรองสินค้า</h1>
-        <Button 
-          variant="outline" 
-          onClick={handleExport}
-          className="text-emerald-500 border-emerald-500 hover:bg-emerald-50 font-bold gap-2 h-10 px-6"
-        >
-          <Download size={18} /> EXPORT EXCEL
-        </Button>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="text-muted-foreground hover:text-primary">
+            <ArrowLeft size={20} />
+          </Button>
+          <h1 className="text-2xl font-bold text-foreground">ตัวกรองสินค้า</h1>
+        </div>
+        <div className="flex items-center gap-6">
+          <Button 
+            variant="outline" 
+            onClick={handleExport}
+            className="text-emerald-500 border-emerald-500 hover:bg-emerald-50 font-bold gap-2 h-10 px-6"
+          >
+            <Download size={18} /> EXPORT EXCEL
+          </Button>
+        </div>
       </div>
       
       <p className="text-muted-foreground text-sm mb-8">
@@ -238,7 +247,19 @@ export const ProductFilterPage: React.FC = () => {
           </div>
 
           <div className="min-h-[400px]">
-            {FilterContent}
+            {selectedWarehouse === 'all' || selectedWarehouse === 'sauce-thai' ? (
+              FilterContent
+            ) : (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <div className="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mb-4">
+                  <Search className="text-muted-foreground/40" size={32} />
+                </div>
+                <h3 className="text-lg font-bold text-foreground mb-1">ไม่พบข้อมูลในคลังสินค้านี้</h3>
+                <p className="text-sm text-muted-foreground max-w-xs">
+                  ยังไม่มีรายการสินค้าหรือออเดอร์ที่ต้องจัดการใน {warehouses.find(w => w.id === selectedWarehouse)?.label} ในขณะนี้
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
