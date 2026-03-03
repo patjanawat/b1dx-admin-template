@@ -17,7 +17,8 @@ import {
   type StatusCarouselTab,
   type IconTabItem,
 } from '@b1dx/ui';
-import { Eye, LayoutGrid, Package, Truck } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Eye, LayoutGrid, Package, SlidersHorizontal, Truck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import {
@@ -41,15 +42,17 @@ import {
 /* ── Mock icon tabs ───────────────────────────────────────────────── */
 
 const MOCK_ICON_TABS: IconTabItem[] = [
-  { value: 'overview', label: 'Overview', icon: LayoutGrid },
-  { value: 'details',  label: 'Details',  icon: Package    },
-  { value: 'shipping', label: 'Shipping', icon: Truck      },
+  { value: 'overview',        label: 'Overview',      icon: LayoutGrid        },
+  { value: 'details',         label: 'Details',       icon: Package           },
+  { value: 'shipping',        label: 'Shipping',      icon: Truck             },
+  { value: 'filter-products', label: 'ตัวกรองสินค้า', icon: SlidersHorizontal },
 ];
 
 /* ── Component ────────────────────────────────────────────────────── */
 
 export default function ProcessingOrdersPage() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   /* ── Memoised options ────────────────────────────────────────────── */
   const channelOptions   = useMemo(() => getChannelOptions(t),     [t]);
@@ -308,7 +311,13 @@ export default function ProcessingOrdersPage() {
       <DataListWrapper
         tabs={MOCK_ICON_TABS}
         tabValue={mockTabValue}
-        onTabChange={setMockTabValue}
+        onTabChange={(val) => {
+          if (val === 'filter-products') {
+            router.push('/processing-orders/filter-products');
+          } else {
+            setMockTabValue(val);
+          }
+        }}
         disabled={Object.keys(rowSelection).length === 0}
         disabledTooltip={t('common.tabs_select_hint')}
       >
