@@ -3,6 +3,7 @@
 import { AppPageHeader, ExportExcelButton } from '@b1dx/ui';
 import { toast } from 'sonner';
 import { FilterProductsSection } from '@/features/orders';
+import { t } from 'i18next';
 
 export default function FilterProductsPage() {
   const handleExport = () => {
@@ -18,7 +19,7 @@ export default function FilterProductsPage() {
         title="ตัวกรองสินค้า"
         description="จัดการและกรองรายการสินค้าตามเงื่อนไขที่ต้องการ เพื่อความสะดวกในการแพ็คและจัดส่ง"
         actions={
-          <ExportExcelButton onClick={handleExport}>EXPORT EXCEL</ExportExcelButton>
+          <ExportExcelButton>{t('common.export_excel')}</ExportExcelButton>
         }
       />
 
