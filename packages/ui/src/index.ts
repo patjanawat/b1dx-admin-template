@@ -69,6 +69,8 @@ export { LineTabs } from './components/app/LineTabs';
 export type { LineTab, LineTabsProps } from './components/app/LineTabs';
 export { TabsWithFormWrapper } from './components/ui/TabsWithFormWrapper';
 export type { TabsWithFormWrapperProps } from './components/ui/TabsWithFormWrapper';
+export { TabPlaceholder } from './components/ui/TabPlaceholder';
+export type { TabPlaceholderProps } from './components/ui/TabPlaceholder';
 export { AppShell } from './components/app/AppShell';
 export type { AppShellProps } from './components/app/AppShell';
 export { Sidebar } from './components/app/Sidebar';

@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
   TabsWithFormWrapper,
+  TabPlaceholder,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
@@ -33,6 +34,8 @@ export function FilterProductsSection() {
           value={selectedWarehouse}
           onValueChange={setSelectedWarehouse}
         >
+
+        {selectedWarehouse === 'all' ? (<>
 
         {/* Filter controls */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -130,6 +133,10 @@ export function FilterProductsSection() {
             ดำเนินการ
           </Button>
         </div>
+
+        </>) : (
+          <TabPlaceholder label={FILTER_WAREHOUSES.find((w) => w.id === selectedWarehouse)?.label} />
+        )}
 
         </TabsWithFormWrapper>
       </div>
