@@ -155,6 +155,27 @@
     "email_too_long": "Email is too long",
     "email_invalid": "Invalid email format"
   },
+  "filter_products": {
+    "sku_filter_label": "SKU Count per Order",
+    "item_filter_label": "Item Count per Order",
+    "filter_from": "From",
+    "filter_to": "to",
+    "filter_unit_items": "items",
+    "col_no": "No",
+    "col_name": "Name",
+    "col_barcode": "Barcode",
+    "col_orders": "Order Qty",
+    "col_to_pack": "To Pack",
+    "col_stock": "In Stock",
+    "col_shortage": "Shortage",
+    "col_sku": "SKU",
+    "col_cf_code": "CF Code",
+    "col_shelf": "Shelf",
+    "select_all_count": "Select all {{count}} items",
+    "btn_process": "Process",
+    "toast_success": "Process completed",
+    "toast_success_desc": "Selected items have been processed"
+  },
   "dashboard": {
     "title": "Dashboard Overview",
     "welcome": "Welcome back, Alex. Here's what's happening today.",
