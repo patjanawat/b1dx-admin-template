@@ -20,7 +20,8 @@ export interface SimpleTableProps<TData, TFieldValues extends FieldValues, TValu
   control: Control<TFieldValues>;
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  total: number;
+  /** Total row count. Defaults to data.length for client-side pagination. */
+  total?: number;
   label?: React.ReactNode;
   description?: React.ReactNode;
   required?: boolean;
@@ -52,6 +53,28 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
       control={control}
       render={({ field, fieldState, formState }) => {
         const value = field.value as SimpleTableValue;
+        const totalCount = total ?? data.length;
+
+        // Client-side sort across full dataset
+        let sorted = data;
+        if (value.sorting.length) {
+          sorted = [...data].sort((a, b) => {
+            for (const { id, desc } of value.sorting) {
+              const aVal = (a as Record<string, unknown>)[id];
+              const bVal = (b as Record<string, unknown>)[id];
+              if (aVal == null && bVal == null) continue;
+              if (aVal == null) return desc ? -1 : 1;
+              if (bVal == null) return desc ? 1 : -1;
+              if (aVal < bVal) return desc ? 1 : -1;
+              if (aVal > bVal) return desc ? -1 : 1;
+            }
+            return 0;
+          });
+        }
+
+        // Slice for current page before passing to DataTable (manualPagination: true)
+        const start = value.pageIndex * value.pageSize;
+        const pagedData = sorted.slice(start, start + value.pageSize);
 
         return (
           <FormField
@@ -65,14 +88,15 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
           >
             <DataTable
               columns={columns}
-              data={data}
+              data={pagedData}
               sorting={value.sorting}
               onSortingChange={(updaterOrValue) => {
                 const next =
                   typeof updaterOrValue === 'function'
                     ? updaterOrValue(value.sorting)
                     : updaterOrValue;
-                field.onChange({ ...value, sorting: next });
+                // Reset to first page when sort changes
+                field.onChange({ ...value, sorting: next, pageIndex: 0 });
               }}
               rowSelection={value.rowSelection}
               onRowSelectionChange={(updaterOrValue) => {
@@ -85,7 +109,7 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
               pagination={{
                 pageIndex: value.pageIndex,
                 pageSize: value.pageSize,
-                total,
+                total: totalCount,
                 pageSizeOptions,
                 onPageChange: (pageIndex) => {
                   field.onChange({ ...value, pageIndex });
