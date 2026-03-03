@@ -17,7 +17,7 @@ import {
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
-import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../../__mocks__/mockProducts';
+import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../__mocks__/mockProducts';
 
 interface FilterProductFormValues {
   skuFilter:  'all' | 'range';
@@ -195,15 +195,15 @@ export function FilterProductsSection() {
               control={control}
               options={filterModeOptions}
             />
-              <SimpleDecimalField 
-                name="skuFrom" 
-                control={control} 
-                placeholder="1" 
-                inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} /> 
-                {t('filter_products.filter_to')} 
-                <SimpleDecimalField 
-                  name="skuTo" 
-                  control={control} 
+              <SimpleDecimalField
+                name="skuFrom"
+                control={control}
+                placeholder="1"
+                inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
+                {t('filter_products.filter_to')}
+                <SimpleDecimalField
+                  name="skuTo"
+                  control={control}
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
             </div>
           </div>
@@ -215,16 +215,16 @@ export function FilterProductsSection() {
               control={control}
               options={filterModeOptions}
             />
-              <SimpleDecimalField 
-                name="itemFrom" 
-                control={control} 
-                placeholder="1" 
-                inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} /> 
-                {t('filter_products.filter_to')} 
-                <SimpleDecimalField 
-                  name="itemTo" 
-                  control={control} 
-                  inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} /> 
+              <SimpleDecimalField
+                name="itemFrom"
+                control={control}
+                placeholder="1"
+                inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
+                {t('filter_products.filter_to')}
+                <SimpleDecimalField
+                  name="itemTo"
+                  control={control}
+                  inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                   {t('filter_products.filter_unit_items')}
             </div>
           </div>
@@ -244,7 +244,7 @@ export function FilterProductsSection() {
             control={control}
             columns={columns}
             data={MOCK_PRODUCTS}
-            total={MOCK_PRODUCTS.length}                        
+            total={MOCK_PRODUCTS.length}
           />
         </div>
 

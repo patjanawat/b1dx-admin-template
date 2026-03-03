@@ -58,7 +58,7 @@ export function OrderSearchSection({
         />
 
         <SimpleInputField
-          className="lg:col-span-4"        
+          className="lg:col-span-4"
           name="searchQuery"
           control={control}
           placeholder={t('common.search_placeholder')}
