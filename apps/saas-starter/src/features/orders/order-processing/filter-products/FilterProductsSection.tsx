@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Input,
   Button,
@@ -12,13 +13,40 @@ import {
   TableRow,
   TabsWithFormWrapper,
   TabPlaceholder,
+  SimpleRadioGroupField,
+  SimpleDecimalField,
+  type RadioOption,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { MOCK_PRODUCTS, FILTER_WAREHOUSES } from '../../__mocks__/mockProducts';
 
+interface FilterProductFormValues {
+  skuFilter:  'all' | 'range';
+  skuFrom:    string;
+  skuTo:      string;
+  itemFilter: 'all' | 'range';
+  itemFrom:   string;
+  itemTo:     string;
+}
+
+const FILTER_MODE_OPTIONS: RadioOption[] = [
+  { value: 'all',   label: 'ทั้งหมด' },
+  { value: 'range', label: 'จาก' },
+];
+
 export function FilterProductsSection() {
   const [selectedWarehouse, setSelectedWarehouse] = React.useState('all');
+  const { control } = useForm<FilterProductFormValues>({
+    defaultValues: {
+      skuFilter:  'all',
+      skuFrom:    '',
+      skuTo:      '',
+      itemFilter: 'all',
+      itemFrom:   '',
+      itemTo:     '',
+    },
+  });
 
   const handleProcess = () => {
     toast.success('ดำเนินการเรียบร้อยแล้ว', {
@@ -39,36 +67,30 @@ export function FilterProductsSection() {
 
         {/* Filter controls */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-bold text-muted-foreground w-40">จำนวน SKU ในออเดอร์ :</span>
-              <div className="flex items-center gap-2">
-                <input type="radio" name="sku-filter" id="sku-all" defaultChecked className="w-4 h-4 accent-primary" />
-                <label htmlFor="sku-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="radio" name="sku-filter" id="sku-range" className="w-4 h-4 accent-primary" />
-                <label htmlFor="sku-range" className="text-sm font-medium text-foreground/80">จาก</label>
-              </div>
-              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
-              <span className="text-sm text-muted-foreground">ถึง</span>
-              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
-              <span className="text-sm font-medium text-muted-foreground">SKU</span>
+          <div className="space-y-4 mt-2 mb-4">
+            <div className="flex items-end gap-4">
+              <SimpleRadioGroupField
+                name="skuFilter"
+                control={control}
+                label="จำนวน SKU ในออเดอร์"
+                options={FILTER_MODE_OPTIONS}                
+              />
+              <SimpleDecimalField name="skuFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
+              <span className="text-sm text-muted-foreground pb-1">ถึง</span>
+              <SimpleDecimalField name="skuTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
+              <span className="text-sm font-medium text-muted-foreground pb-1">SKU</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-bold text-muted-foreground w-40">จำนวน ชิ้น ในออเดอร์ :</span>
-              <div className="flex items-center gap-2">
-                <input type="radio" name="item-filter" id="item-all" defaultChecked className="w-4 h-4 accent-primary" />
-                <label htmlFor="item-all" className="text-sm font-medium text-foreground/80">ทั้งหมด</label>
-              </div>
-              <div className="flex items-center gap-2">
-                <input type="radio" name="item-filter" id="item-range" className="w-4 h-4 accent-primary" />
-                <label htmlFor="item-range" className="text-sm font-medium text-foreground/80">จาก</label>
-              </div>
-              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="1" />
-              <span className="text-sm text-muted-foreground">ถึง</span>
-              <Input className="w-20 h-9 bg-muted/20 border-border/50" placeholder="" />
-              <span className="text-sm font-medium text-muted-foreground">ชิ้น</span>
+            <div className="flex items-end gap-4">
+              <SimpleRadioGroupField
+                name="itemFilter"
+                control={control}
+                label="จำนวน ชิ้น ในออเดอร์"
+                options={FILTER_MODE_OPTIONS}                  
+              />
+              <SimpleDecimalField name="itemFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
+              <span className="text-sm text-muted-foreground pb-1">ถึง</span>
+              <SimpleDecimalField name="itemTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
+              <span className="text-sm font-medium text-muted-foreground pb-1">ชิ้น</span>
             </div>
           </div>
           <div className="relative w-full md:w-80">
