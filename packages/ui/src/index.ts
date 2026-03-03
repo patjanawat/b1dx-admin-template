@@ -67,6 +67,8 @@ export { RHFCheckbox } from './components/forms/inputs/RHFCheckbox';
 export type { RHFCheckboxProps } from './components/forms/inputs/RHFCheckbox';
 export { LineTabs } from './components/app/LineTabs';
 export type { LineTab, LineTabsProps } from './components/app/LineTabs';
+export { TabsWithFormWrapper } from './components/ui/TabsWithFormWrapper';
+export type { TabsWithFormWrapperProps } from './components/ui/TabsWithFormWrapper';
 export { AppShell } from './components/app/AppShell';
 export type { AppShellProps } from './components/app/AppShell';
 export { Sidebar } from './components/app/Sidebar';

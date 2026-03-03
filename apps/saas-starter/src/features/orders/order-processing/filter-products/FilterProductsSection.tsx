@@ -10,6 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TabsWithFormWrapper,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
@@ -27,30 +28,11 @@ export function FilterProductsSection() {
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
       <div className="p-6 space-y-6">
-
-        {/* Warehouse tabs */}
-        <div className="border-b border-border w-full">
-          <div className="flex items-center gap-8">
-            {FILTER_WAREHOUSES.map((w) => (
-              <button
-                key={w.id}
-                type="button"
-                onClick={() => setSelectedWarehouse(w.id)}
-                className={[
-                  'relative pb-4 text-sm font-bold transition-colors duration-200 cursor-pointer',
-                  selectedWarehouse === w.id
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-foreground',
-                ].join(' ')}
-              >
-                {w.label}
-                {selectedWarehouse === w.id && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
+        <TabsWithFormWrapper
+          tabs={FILTER_WAREHOUSES.map((w) => ({ value: w.id, label: w.label }))}
+          value={selectedWarehouse}
+          onValueChange={setSelectedWarehouse}
+        >
 
         {/* Filter controls */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -149,6 +131,7 @@ export function FilterProductsSection() {
           </Button>
         </div>
 
+        </TabsWithFormWrapper>
       </div>
     </div>
   );
