@@ -102,5 +102,7 @@ export { AppStatusCarousel } from './components/app/AppStatusCarousel';
 export type { AppStatusCarouselProps, StatusCarouselTab } from './components/app/AppStatusCarousel';
 export { IconTabs } from './components/app/IconTabs';
 export type { IconTabItem, IconTabsProps } from './components/app/IconTabs';
+export { TabsRoot, TabsList, TabsTrigger, TabsContent } from './components/app/Tabs';
+export type { TabsVariant, TabsRootProps, TabsListProps, TabsTriggerProps, TabsContentProps } from './components/app/Tabs';
 export { DataListWrapper } from './components/app/DataListWrapper';
 export type { DataListWrapperProps } from './components/app/DataListWrapper';
