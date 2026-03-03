@@ -66,40 +66,41 @@ export function FilterProductsSection() {
         {selectedWarehouse === 'all' ? (<>
 
         {/* Filter controls */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-4 mt-2 mb-4">
-            <div className="flex items-end gap-4">
+
+        <div className="flex flex-wrap gap-x-8 gap-y-4 mt-2 mb-4">
+          <div className="space-y-2">
+            <p>จำนวน SKU ในออเดอร์</p>
+            <div className="flex items-center gap-3 flex-wrap">
               <SimpleRadioGroupField
-                name="skuFilter"
-                control={control}
-                label="จำนวน SKU ในออเดอร์"
-                options={FILTER_MODE_OPTIONS}                
-              />
-              <SimpleDecimalField name="skuFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
-              <span className="text-sm text-muted-foreground pb-1">ถึง</span>
-              <SimpleDecimalField name="skuTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
-              <span className="text-sm font-medium text-muted-foreground pb-1">SKU</span>
-            </div>
-            <div className="flex items-end gap-4">
-              <SimpleRadioGroupField
-                name="itemFilter"
-                control={control}
-                label="จำนวน ชิ้น ในออเดอร์"
-                options={FILTER_MODE_OPTIONS}                  
-              />
-              <SimpleDecimalField name="itemFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
-              <span className="text-sm text-muted-foreground pb-1">ถึง</span>
-              <SimpleDecimalField name="itemTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
-              <span className="text-sm font-medium text-muted-foreground pb-1">ชิ้น</span>
+              name="skuFilter"
+              control={control}              
+              options={FILTER_MODE_OPTIONS}
+            />
+              <SimpleDecimalField name="skuFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ถึง <SimpleDecimalField name="skuTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
             </div>
           </div>
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-            <Input placeholder="ค้นหา" className="pl-10 h-11 border-border/50 bg-muted/10" />
+          <div className="space-y-2">
+            <p>จำนวน ชิ้น ในออเดอร์</p>
+            <div className="flex items-center gap-3 flex-wrap">
+              <SimpleRadioGroupField
+              name="itemFilter"
+              control={control}             
+              options={FILTER_MODE_OPTIONS}
+            />
+              <SimpleDecimalField name="itemFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ถึง <SimpleDecimalField name="itemTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ชิ้น
+            </div>
           </div>
         </div>
 
         {/* Product table */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-bold text-foreground">เลือกทั้งหมด {MOCK_PRODUCTS.length} รายการ</span>
+            <div className="relative w-80">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
+              <Input placeholder="ค้นหา" className="pl-10 h-11 border-border/50 bg-muted/10" />
+            </div>
+          </div>
         <div className="border border-border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
@@ -147,10 +148,10 @@ export function FilterProductsSection() {
             </TableBody>
           </Table>
         </div>
+        </div>
 
         {/* Action bar */}
-        <div className="flex items-center justify-between bg-muted/5 rounded-xl p-4">
-          <span className="text-sm font-bold text-foreground">เลือกทั้งหมด {MOCK_PRODUCTS.length} รายการ</span>
+        <div className="flex items-center justify-end bg-muted/5 rounded-xl p-4">
           <Button onClick={handleProcess} className="px-10 h-11">
             ดำเนินการ
           </Button>
