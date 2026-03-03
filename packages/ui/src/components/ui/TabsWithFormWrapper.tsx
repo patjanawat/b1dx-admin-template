@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { LineTabs } from './LineTabs';
 import type { LineTab } from './LineTabs';
 
