@@ -3,23 +3,20 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  Input,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Input,
   TabsWithFormWrapper,
   TabPlaceholder,
   SimpleRadioGroupField,
   SimpleDecimalField,
+  SimpleTable,
+  type SimpleTableValue,
+  type ColumnDef,
   type RadioOption,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
-import { MOCK_PRODUCTS, FILTER_WAREHOUSES } from '../../__mocks__/mockProducts';
+import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../../__mocks__/mockProducts';
 
 interface FilterProductFormValues {
   skuFilter:  'all' | 'range';
@@ -28,11 +25,124 @@ interface FilterProductFormValues {
   itemFilter: 'all' | 'range';
   itemFrom:   string;
   itemTo:     string;
+  table:      SimpleTableValue;
 }
 
 const FILTER_MODE_OPTIONS: RadioOption[] = [
   { value: 'all',   label: 'ทั้งหมด' },
   { value: 'range', label: 'จาก' },
+];
+
+const PRODUCT_COLUMNS: ColumnDef<MockProduct>[] = [
+  {
+    id: 'select',
+    enableSorting: false,
+    header: ({ table }) => (
+      <input
+        type="checkbox"
+        className="rounded border-border"
+        checked={table.getIsAllPageRowsSelected()}
+        onChange={(e) => table.toggleAllPageRowsSelected(e.target.checked)}
+      />
+    ),
+    cell: ({ row }) => (
+      <input
+        type="checkbox"
+        className="rounded border-border"
+        checked={row.getIsSelected()}
+        onChange={(e) => row.toggleSelected(e.target.checked)}
+      />
+    ),
+  },
+  {
+    accessorKey: 'id',
+    header: 'No',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-muted-foreground block text-center">{getValue<number>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'shop',
+    header: 'ร้านค้า',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-foreground/80">{getValue<string>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'name',
+    header: 'ชื่อ',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-foreground/90 max-w-62.5 block">{getValue<string>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'barcode',
+    header: 'Barcode',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-muted-foreground font-mono">{getValue<string>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'orders',
+    header: 'จำนวนออเดอร์',
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-foreground/80 block text-center">{getValue<number>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'toPack',
+    header: 'จำนวนต้องแพ็ค',
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-foreground/80 block text-center">{getValue<number>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'stock',
+    header: 'สต็อกที่มี',
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-foreground/80 block text-center">{getValue<number>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'shortage',
+    header: 'ขาดสต็อก',
+    cell: ({ getValue }) => {
+      const v = getValue<number>();
+      return (
+        <span className={['text-[12px] font-bold block text-center', v < 0 ? 'text-rose-500' : 'text-foreground/80'].join(' ')}>
+          {v}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: 'sku',
+    header: 'SKU',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-muted-foreground font-mono">{getValue<string>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'cfCode',
+    header: 'รหัส CF',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-muted-foreground">{getValue<string>()}</span>
+    ),
+  },
+  {
+    accessorKey: 'shelf',
+    header: 'ชั้นวาง',
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <span className="text-[12px] font-medium text-muted-foreground font-mono">{getValue<string>()}</span>
+    ),
+  },
 ];
 
 export function FilterProductsSection() {
@@ -45,6 +155,12 @@ export function FilterProductsSection() {
       itemFilter: 'all',
       itemFrom:   '',
       itemTo:     '',
+      table: {
+        rowSelection: {},
+        sorting:      [],
+        pageIndex:    0,
+        pageSize:     10,
+      },
     },
   });
 
@@ -73,7 +189,7 @@ export function FilterProductsSection() {
             <div className="flex items-center gap-3 flex-wrap">
               <SimpleRadioGroupField
               name="skuFilter"
-              control={control}              
+              control={control}
               options={FILTER_MODE_OPTIONS}
             />
               <SimpleDecimalField name="skuFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ถึง <SimpleDecimalField name="skuTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} />
@@ -84,7 +200,7 @@ export function FilterProductsSection() {
             <div className="flex items-center gap-3 flex-wrap">
               <SimpleRadioGroupField
               name="itemFilter"
-              control={control}             
+              control={control}
               options={FILTER_MODE_OPTIONS}
             />
               <SimpleDecimalField name="itemFrom" control={control} placeholder="1" inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ถึง <SimpleDecimalField name="itemTo" control={control} inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={0} /> ชิ้น
@@ -101,53 +217,13 @@ export function FilterProductsSection() {
               <Input placeholder="ค้นหา" className="pl-10 h-11 border-border/50 bg-muted/10" />
             </div>
           </div>
-        <div className="border border-border rounded-lg overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-muted/10 hover:bg-muted/10">
-                <TableHead className="w-[50px] pl-4">
-                  <input type="checkbox" defaultChecked className="rounded border-border" />
-                </TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center">No</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">ร้านค้า</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">ชื่อ</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Barcode</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center">จำนวนออเดอร์</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center">จำนวนต้องแพ็ค</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center">สต็อกที่มี</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider text-center">ขาดสต็อก</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">SKU</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">รหัส CF</TableHead>
-                <TableHead className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">ชั้นวาง</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {MOCK_PRODUCTS.map((product) => (
-                <TableRow key={product.id} className="border-border/50 hover:bg-muted/5 transition-colors">
-                  <TableCell className="pl-4">
-                    <input type="checkbox" defaultChecked className="rounded border-border" />
-                  </TableCell>
-                  <TableCell className="text-[12px] font-medium text-muted-foreground text-center">{product.id}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-foreground/80">{product.shop}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-foreground/90 max-w-[250px]">{product.name}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-muted-foreground font-mono">{product.barcode}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-foreground/80 text-center">{product.orders}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-foreground/80 text-center">{product.toPack}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-foreground/80 text-center">{product.stock}</TableCell>
-                  <TableCell className={[
-                    'text-[12px] font-bold text-center',
-                    product.shortage < 0 ? 'text-rose-500' : 'text-foreground/80',
-                  ].join(' ')}>
-                    {product.shortage}
-                  </TableCell>
-                  <TableCell className="text-[12px] font-medium text-muted-foreground font-mono">{product.sku}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-muted-foreground">{product.cfCode}</TableCell>
-                  <TableCell className="text-[12px] font-medium text-muted-foreground font-mono">{product.shelf}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+          <SimpleTable<MockProduct, FilterProductFormValues>
+            name="table"
+            control={control}
+            columns={PRODUCT_COLUMNS}
+            data={MOCK_PRODUCTS}
+            total={MOCK_PRODUCTS.length}
+          />
         </div>
 
         {/* Action bar */}
