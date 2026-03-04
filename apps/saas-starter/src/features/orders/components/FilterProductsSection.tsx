@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -11,31 +12,25 @@ import {
   SimpleRadioGroupField,
   SimpleDecimalField,
   SimpleTable,
-  type SimpleTableValue,
   type ColumnDef,
   type RadioOption,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../__mocks__/mockProducts';
-
-interface FilterProductFormValues {
-  skuFilter:  'all' | 'range';
-  skuFrom:    string;
-  skuTo:      string;
-  itemFilter: 'all' | 'range';
-  itemFrom:   string;
-  itemTo:     string;
-  table:      SimpleTableValue;
-}
+import { createFilterProductSchema } from '../schemas';
+import type { FilterProductFormValues } from '../types';
 
 export function FilterProductsSection() {
   const { t } = useTranslation();
   const [selectedWarehouse, setSelectedWarehouse] = React.useState('all');
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const filterProductSchema = useMemo(() => createFilterProductSchema(t), [t]);
 
-  const { control, setValue, getValues } = useForm<FilterProductFormValues>({
+  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { isSubmitting } } = useForm<FilterProductFormValues>({
+    resolver: zodResolver(filterProductSchema),
+    mode: 'onSubmit',
     defaultValues: {
       skuFilter:  'all',
       skuFrom:    '',
@@ -51,6 +46,17 @@ export function FilterProductsSection() {
       },
     },
   });
+  const skuFilter = watch('skuFilter');
+  const itemFilter = watch('itemFilter');
+  const skuFrom = watch('skuFrom');
+  const skuTo = watch('skuTo');
+  const itemFrom = watch('itemFrom');
+  const itemTo = watch('itemTo');
+  const rowSelection = useWatch({ control, name: 'table.rowSelection' });
+  const selectedItemCount = useMemo(
+    () => Object.values(rowSelection ?? {}).filter(Boolean).length,
+    [rowSelection]
+  );
 
   const filteredProducts = useMemo(() => {
     if (!debouncedSearch) return MOCK_PRODUCTS;
@@ -79,6 +85,26 @@ export function FilterProductsSection() {
     const currentTable = getValues('table');
     setValue('table', { ...currentTable, pageIndex: 0 });
   }, [debouncedSearch, getValues, setValue]);
+
+  useEffect(() => {
+    if (skuFilter === 'all') clearErrors(['skuFrom', 'skuTo']);
+  }, [skuFilter, clearErrors]);
+
+  useEffect(() => {
+    if (itemFilter === 'all') clearErrors(['itemFrom', 'itemTo']);
+  }, [itemFilter, clearErrors]);
+
+  useEffect(() => {
+    if (skuFilter === 'all' && (skuFrom.trim() || skuTo.trim())) {
+      setValue('skuFilter', 'range', { shouldDirty: true, shouldValidate: true });
+    }
+  }, [skuFilter, skuFrom, skuTo, setValue]);
+
+  useEffect(() => {
+    if (itemFilter === 'all' && (itemFrom.trim() || itemTo.trim())) {
+      setValue('itemFilter', 'range', { shouldDirty: true, shouldValidate: true });
+    }
+  }, [itemFilter, itemFrom, itemTo, setValue]);
 
   const filterModeOptions = useMemo<RadioOption[]>(() => [
     { value: 'all',   label: t('common.all') },
@@ -197,15 +223,32 @@ export function FilterProductsSection() {
     },
   ], [t]);
 
-  const handleProcess = () => {
+  const handleProcess = handleSubmit((values) => {
+    const selectedCount = Object.values(values.table.rowSelection).filter(Boolean).length;
+
+    console.log('FilterProducts submit', {
+      selectedCount,
+      selectedWarehouse,
+      searchInput: debouncedSearch,
+      formValues: {
+        skuFilter: values.skuFilter,
+        skuFrom: values.skuFrom,
+        skuTo: values.skuTo,
+        itemFilter: values.itemFilter,
+        itemFrom: values.itemFrom,
+        itemTo: values.itemTo,
+      },
+      table: values.table,
+    });
+
     toast.success(t('filter_products.toast_success'), {
       description: t('filter_products.toast_success_desc'),
     });
-  };
+  });
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-      <div className="p-6 space-y-6">
+      <form className="p-6 space-y-6" onSubmit={handleProcess} noValidate>
         <TabsWithFormWrapper
           tabs={FILTER_WAREHOUSES.map((w) => ({ value: w.id, label: w.label }))}
           value={selectedWarehouse}
@@ -216,7 +259,7 @@ export function FilterProductsSection() {
 
         {/* Filter controls */}
 
-        <div className="flex flex-wrap gap-x-8 gap-y-4 mt-4 mb-6">
+        <div className="grid gap-8 mt-4 mb-6 md:grid-cols-2">
           <div className="space-y-2">
             <p>{t('filter_products.sku_filter_label')}</p>
             <div className="flex items-center gap-3 flex-wrap">
@@ -229,11 +272,13 @@ export function FilterProductsSection() {
                 name="skuFrom"
                 control={control}
                 placeholder="1"
+                errorMode="tooltip"
                 inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                 {t('filter_products.filter_to')}
                 <SimpleDecimalField
                   name="skuTo"
                   control={control}
+                  errorMode="tooltip"
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
             </div>
           </div>
@@ -249,11 +294,13 @@ export function FilterProductsSection() {
                 name="itemFrom"
                 control={control}
                 placeholder="1"
+                errorMode="tooltip"
                 inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                 {t('filter_products.filter_to')}
                 <SimpleDecimalField
                   name="itemTo"
                   control={control}
+                  errorMode="tooltip"
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                   {t('filter_products.filter_unit_items')}
             </div>
@@ -263,7 +310,9 @@ export function FilterProductsSection() {
         {/* Product table */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold text-foreground">{t('filter_products.select_all_count', { count: filteredProducts.length })}</span>
+            <span className="text-sm font-bold text-foreground">
+              {t('filter_products.select_all_count', { count: selectedItemCount })}
+            </span>
             <div className="relative w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
               <Input
@@ -285,7 +334,7 @@ export function FilterProductsSection() {
 
         {/* Action bar */}
         <div className="flex items-center justify-end bg-muted/5 rounded-xl p-4">
-          <Button onClick={handleProcess} className="px-10 h-11">
+          <Button type="submit" className="px-10 h-11" disabled={isSubmitting}>
             {t('filter_products.btn_process')}
           </Button>
         </div>
@@ -295,7 +344,7 @@ export function FilterProductsSection() {
         )}
 
         </TabsWithFormWrapper>
-      </div>
+      </form>
     </div>
   );
 }

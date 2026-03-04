@@ -109,7 +109,7 @@ export const FormField = ({
                 role="tooltip"
                 id={errorId}
                 tabIndex={0}
-                className="absolute right-0 mt-2 w-56 rounded-md border border-destructive/30 bg-card p-2 text-xs text-destructive shadow-lg"
+                className="absolute right-0 top-full mt-1 w-56 pt-1 text-right text-xs text-destructive"
               >
                 {error}
               </div>
