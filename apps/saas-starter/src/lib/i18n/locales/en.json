@@ -174,7 +174,15 @@
     "select_all_count": "Select all {{count}} items",
     "btn_process": "Process",
     "toast_success": "Process completed",
-    "toast_success_desc": "Selected items have been processed"
+    "toast_success_desc": "Selected items have been processed",
+    "validation": {
+      "sku_from_required": "Please enter SKU from",
+      "sku_to_required": "Please enter SKU to",
+      "sku_range_invalid": "SKU to must be greater than or equal to SKU from",
+      "item_from_required": "Please enter item from",
+      "item_to_required": "Please enter item to",
+      "item_range_invalid": "Item to must be greater than or equal to item from"
+    }
   },
   "dashboard": {
     "title": "Dashboard Overview",

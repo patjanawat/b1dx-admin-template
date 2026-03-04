@@ -18,7 +18,7 @@ import {
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../__mocks__/mockProducts';
-import { filterProductSchema } from '../schemas';
+import { createFilterProductSchema } from '../schemas';
 import type { FilterProductFormValues } from '../types';
 
 export function FilterProductsSection() {
@@ -26,6 +26,7 @@ export function FilterProductsSection() {
   const [selectedWarehouse, setSelectedWarehouse] = React.useState('all');
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+  const filterProductSchema = useMemo(() => createFilterProductSchema(t), [t]);
 
   const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { isSubmitting, isValid } } = useForm<FilterProductFormValues>({
     resolver: zodResolver(filterProductSchema),

@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import type { TFunction } from 'i18next';
 
 import type { SimpleTableValue } from '@b1dx/ui';
 
-export const filterProductSchema = z.object({
+export const createFilterProductSchema = (t: TFunction) => z.object({
   skuFilter: z.enum(['all', 'range']),
   skuFrom: z.string(),
   skuTo: z.string(),
@@ -18,14 +19,14 @@ export const filterProductSchema = z.object({
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['skuFrom'],
-        message: 'Please enter SKU from',
+        message: t('filter_products.validation.sku_from_required'),
       });
     }
     if (!hasSkuTo) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['skuTo'],
-        message: 'Please enter SKU to',
+        message: t('filter_products.validation.sku_to_required'),
       });
     }
     if (hasSkuFrom && hasSkuTo) {
@@ -35,7 +36,7 @@ export const filterProductSchema = z.object({
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['skuTo'],
-          message: 'SKU to must be greater than or equal to SKU from',
+          message: t('filter_products.validation.sku_range_invalid'),
         });
       }
     }
@@ -48,14 +49,14 @@ export const filterProductSchema = z.object({
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['itemFrom'],
-        message: 'Please enter item from',
+        message: t('filter_products.validation.item_from_required'),
       });
     }
     if (!hasItemTo) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['itemTo'],
-        message: 'Please enter item to',
+        message: t('filter_products.validation.item_to_required'),
       });
     }
     if (hasItemFrom && hasItemTo) {
@@ -65,7 +66,7 @@ export const filterProductSchema = z.object({
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['itemTo'],
-          message: 'Item to must be greater than or equal to item from',
+          message: t('filter_products.validation.item_range_invalid'),
         });
       }
     }

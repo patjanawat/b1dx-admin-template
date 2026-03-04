@@ -174,7 +174,15 @@
     "select_all_count": "เลือกทั้งหมด {{count}} รายการ",
     "btn_process": "ดำเนินการ",
     "toast_success": "ดำเนินการเรียบร้อยแล้ว",
-    "toast_success_desc": "รายการสินค้าที่เลือกได้รับการประมวลผลแล้ว"
+    "toast_success_desc": "รายการสินค้าที่เลือกได้รับการประมวลผลแล้ว",
+    "validation": {
+      "sku_from_required": "กรุณากรอก SKU เริ่มต้น",
+      "sku_to_required": "กรุณากรอก SKU สิ้นสุด",
+      "sku_range_invalid": "SKU สิ้นสุดต้องมากกว่าหรือเท่ากับ SKU เริ่มต้น",
+      "item_from_required": "กรุณากรอกจำนวนชิ้นเริ่มต้น",
+      "item_to_required": "กรุณากรอกจำนวนชิ้นสิ้นสุด",
+      "item_range_invalid": "จำนวนชิ้นสิ้นสุดต้องมากกว่าหรือเท่ากับจำนวนชิ้นเริ่มต้น"
+    }
   },
   "dashboard": {
     "title": "ภาพรวมแดชบอร์ด",
