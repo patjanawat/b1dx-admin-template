@@ -2,7 +2,9 @@
 
 import React, { useMemo, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
 import {
   Button,
   Input,
@@ -18,6 +20,70 @@ import {
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../__mocks__/mockProducts';
+
+const filterProductSchema = z.object({
+  skuFilter:  z.enum(['all', 'range']),
+  skuFrom:    z.string(),
+  skuTo:      z.string(),
+  itemFilter: z.enum(['all', 'range']),
+  itemFrom:   z.string(),
+  itemTo:     z.string(),
+  table:      z.custom<SimpleTableValue>(),
+}).superRefine((values, ctx) => {
+  if (values.skuFilter === 'range') {
+    if (!values.skuFrom.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['skuFrom'],
+        message: 'Please enter SKU from',
+      });
+    }
+    if (!values.skuTo.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['skuTo'],
+        message: 'Please enter SKU to',
+      });
+    }
+
+    const skuFrom = Number(values.skuFrom);
+    const skuTo = Number(values.skuTo);
+    if (values.skuFrom.trim() && values.skuTo.trim() && Number.isFinite(skuFrom) && Number.isFinite(skuTo) && skuFrom > skuTo) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['skuTo'],
+        message: 'SKU to must be greater than or equal to SKU from',
+      });
+    }
+  }
+
+  if (values.itemFilter === 'range') {
+    if (!values.itemFrom.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['itemFrom'],
+        message: 'Please enter item from',
+      });
+    }
+    if (!values.itemTo.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['itemTo'],
+        message: 'Please enter item to',
+      });
+    }
+
+    const itemFrom = Number(values.itemFrom);
+    const itemTo = Number(values.itemTo);
+    if (values.itemFrom.trim() && values.itemTo.trim() && Number.isFinite(itemFrom) && Number.isFinite(itemTo) && itemFrom > itemTo) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['itemTo'],
+        message: 'Item to must be greater than or equal to item from',
+      });
+    }
+  }
+});
 
 interface FilterProductFormValues {
   skuFilter:  'all' | 'range';
@@ -35,7 +101,9 @@ export function FilterProductsSection() {
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const { control, setValue, getValues } = useForm<FilterProductFormValues>({
+  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { errors, isSubmitting, isValid } } = useForm<FilterProductFormValues>({
+    resolver: zodResolver(filterProductSchema),
+    mode: 'onSubmit',
     defaultValues: {
       skuFilter:  'all',
       skuFrom:    '',
@@ -51,6 +119,8 @@ export function FilterProductsSection() {
       },
     },
   });
+  const skuFilter = watch('skuFilter');
+  const itemFilter = watch('itemFilter');
 
   const filteredProducts = useMemo(() => {
     if (!debouncedSearch) return MOCK_PRODUCTS;
@@ -79,6 +149,14 @@ export function FilterProductsSection() {
     const currentTable = getValues('table');
     setValue('table', { ...currentTable, pageIndex: 0 });
   }, [debouncedSearch, getValues, setValue]);
+
+  useEffect(() => {
+    if (skuFilter === 'all') clearErrors(['skuFrom', 'skuTo']);
+  }, [skuFilter, clearErrors]);
+
+  useEffect(() => {
+    if (itemFilter === 'all') clearErrors(['itemFrom', 'itemTo']);
+  }, [itemFilter, clearErrors]);
 
   const filterModeOptions = useMemo<RadioOption[]>(() => [
     { value: 'all',   label: t('common.all') },
@@ -197,15 +275,15 @@ export function FilterProductsSection() {
     },
   ], [t]);
 
-  const handleProcess = () => {
+  const handleProcess = handleSubmit(() => {
     toast.success(t('filter_products.toast_success'), {
       description: t('filter_products.toast_success_desc'),
     });
-  };
+  });
 
   return (
     <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden">
-      <div className="p-6 space-y-6">
+      <form className="p-6 space-y-6" onSubmit={handleProcess} noValidate>
         <TabsWithFormWrapper
           tabs={FILTER_WAREHOUSES.map((w) => ({ value: w.id, label: w.label }))}
           value={selectedWarehouse}
@@ -236,6 +314,11 @@ export function FilterProductsSection() {
                   control={control}
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
             </div>
+            {(errors.skuFrom?.message || errors.skuTo?.message) && (
+              <p className="text-xs text-rose-500">
+                {errors.skuFrom?.message || errors.skuTo?.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <p>{t('filter_products.item_filter_label')}</p>
@@ -257,6 +340,11 @@ export function FilterProductsSection() {
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                   {t('filter_products.filter_unit_items')}
             </div>
+            {(errors.itemFrom?.message || errors.itemTo?.message) && (
+              <p className="text-xs text-rose-500">
+                {errors.itemFrom?.message || errors.itemTo?.message}
+              </p>
+            )}
           </div>
         </div>
 
@@ -285,7 +373,7 @@ export function FilterProductsSection() {
 
         {/* Action bar */}
         <div className="flex items-center justify-end bg-muted/5 rounded-xl p-4">
-          <Button onClick={handleProcess} className="px-10 h-11">
+          <Button type="submit" className="px-10 h-11" disabled={isSubmitting}>
             {t('filter_products.btn_process')}
           </Button>
         </div>
@@ -295,7 +383,7 @@ export function FilterProductsSection() {
         )}
 
         </TabsWithFormWrapper>
-      </div>
+      </form>
     </div>
   );
 }
