@@ -18,8 +18,8 @@ export function LineTabs({ tabs, value, onValueChange, className }: LineTabsProp
   return (
     <TabsRoot value={value} onValueChange={onValueChange}>
       <TabsList variant="line" className={className}>
-        {tabs.map((tab) => (
-          <TabsTrigger key={tab.value} value={tab.value}>
+        {tabs.map((tab,idx) => (
+          <TabsTrigger key={`${tab.value}-${idx}`} value={idx.toString()}>
             {tab.label}
           </TabsTrigger>
         ))}
