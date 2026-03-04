@@ -4,7 +4,6 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
 import {
   Button,
   Input,
@@ -13,87 +12,14 @@ import {
   SimpleRadioGroupField,
   SimpleDecimalField,
   SimpleTable,
-  type SimpleTableValue,
   type ColumnDef,
   type RadioOption,
 } from '@b1dx/ui';
 import { Search } from 'lucide-react';
 import { toast } from 'sonner';
 import { MOCK_PRODUCTS, FILTER_WAREHOUSES, type MockProduct } from '../__mocks__/mockProducts';
-
-const filterProductSchema = z.object({
-  skuFilter:  z.enum(['all', 'range']),
-  skuFrom:    z.string(),
-  skuTo:      z.string(),
-  itemFilter: z.enum(['all', 'range']),
-  itemFrom:   z.string(),
-  itemTo:     z.string(),
-  table:      z.custom<SimpleTableValue>(),
-}).superRefine((values, ctx) => {
-  if (values.skuFilter === 'range') {
-    if (!values.skuFrom.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['skuFrom'],
-        message: 'Please enter SKU from',
-      });
-    }
-    if (!values.skuTo.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['skuTo'],
-        message: 'Please enter SKU to',
-      });
-    }
-
-    const skuFrom = Number(values.skuFrom);
-    const skuTo = Number(values.skuTo);
-    if (values.skuFrom.trim() && values.skuTo.trim() && Number.isFinite(skuFrom) && Number.isFinite(skuTo) && skuFrom > skuTo) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['skuTo'],
-        message: 'SKU to must be greater than or equal to SKU from',
-      });
-    }
-  }
-
-  if (values.itemFilter === 'range') {
-    if (!values.itemFrom.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['itemFrom'],
-        message: 'Please enter item from',
-      });
-    }
-    if (!values.itemTo.trim()) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['itemTo'],
-        message: 'Please enter item to',
-      });
-    }
-
-    const itemFrom = Number(values.itemFrom);
-    const itemTo = Number(values.itemTo);
-    if (values.itemFrom.trim() && values.itemTo.trim() && Number.isFinite(itemFrom) && Number.isFinite(itemTo) && itemFrom > itemTo) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ['itemTo'],
-        message: 'Item to must be greater than or equal to item from',
-      });
-    }
-  }
-});
-
-interface FilterProductFormValues {
-  skuFilter:  'all' | 'range';
-  skuFrom:    string;
-  skuTo:      string;
-  itemFilter: 'all' | 'range';
-  itemFrom:   string;
-  itemTo:     string;
-  table:      SimpleTableValue;
-}
+import { filterProductSchema } from '../schemas';
+import type { FilterProductFormValues } from '../types';
 
 export function FilterProductsSection() {
   const { t } = useTranslation();
@@ -101,7 +27,7 @@ export function FilterProductsSection() {
   const [searchInput, setSearchInput] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { errors, isSubmitting, isValid } } = useForm<FilterProductFormValues>({
+  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { isSubmitting, isValid } } = useForm<FilterProductFormValues>({
     resolver: zodResolver(filterProductSchema),
     mode: 'onSubmit',
     defaultValues: {
@@ -294,7 +220,7 @@ export function FilterProductsSection() {
 
         {/* Filter controls */}
 
-        <div className="flex flex-wrap gap-x-8 gap-y-4 mt-4 mb-6">
+        <div className="grid gap-8 mt-4 mb-6 md:grid-cols-2">
           <div className="space-y-2">
             <p>{t('filter_products.sku_filter_label')}</p>
             <div className="flex items-center gap-3 flex-wrap">
@@ -307,18 +233,15 @@ export function FilterProductsSection() {
                 name="skuFrom"
                 control={control}
                 placeholder="1"
+                errorMode="tooltip"
                 inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                 {t('filter_products.filter_to')}
                 <SimpleDecimalField
                   name="skuTo"
                   control={control}
+                  errorMode="tooltip"
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
             </div>
-            {(errors.skuFrom?.message || errors.skuTo?.message) && (
-              <p className="text-xs text-rose-500">
-                {errors.skuFrom?.message || errors.skuTo?.message}
-              </p>
-            )}
           </div>
           <div className="space-y-2">
             <p>{t('filter_products.item_filter_label')}</p>
@@ -332,19 +255,16 @@ export function FilterProductsSection() {
                 name="itemFrom"
                 control={control}
                 placeholder="1"
+                errorMode="tooltip"
                 inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                 {t('filter_products.filter_to')}
                 <SimpleDecimalField
                   name="itemTo"
                   control={control}
+                  errorMode="tooltip"
                   inputClassName="w-20 h-9 bg-muted/20 border-border/50" scale={2} />
                   {t('filter_products.filter_unit_items')}
             </div>
-            {(errors.itemFrom?.message || errors.itemTo?.message) && (
-              <p className="text-xs text-rose-500">
-                {errors.itemFrom?.message || errors.itemTo?.message}
-              </p>
-            )}
           </div>
         </div>
 
