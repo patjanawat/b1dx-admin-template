@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import {
@@ -32,8 +32,10 @@ interface FilterProductFormValues {
 export function FilterProductsSection() {
   const { t } = useTranslation();
   const [selectedWarehouse, setSelectedWarehouse] = React.useState('all');
+  const [searchInput, setSearchInput] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const { control } = useForm<FilterProductFormValues>({
+  const { control, setValue, getValues } = useForm<FilterProductFormValues>({
     defaultValues: {
       skuFilter:  'all',
       skuFrom:    '',
@@ -49,6 +51,34 @@ export function FilterProductsSection() {
       },
     },
   });
+
+  const filteredProducts = useMemo(() => {
+    if (!debouncedSearch) return MOCK_PRODUCTS;
+    const query = debouncedSearch.toLowerCase();
+    return MOCK_PRODUCTS.filter((product) =>
+      [
+        product.name,
+        product.shop,
+        product.barcode,
+        product.sku,
+        product.cfCode,
+        product.shelf,
+        String(product.id),
+      ].some((value) => value.toLowerCase().includes(query))
+    );
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchInput.trim());
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
+    const currentTable = getValues('table');
+    setValue('table', { ...currentTable, pageIndex: 0 });
+  }, [debouncedSearch, getValues, setValue]);
 
   const filterModeOptions = useMemo<RadioOption[]>(() => [
     { value: 'all',   label: t('common.all') },
@@ -233,18 +263,23 @@ export function FilterProductsSection() {
         {/* Product table */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold text-foreground">{t('filter_products.select_all_count', { count: MOCK_PRODUCTS.length })}</span>
+            <span className="text-sm font-bold text-foreground">{t('filter_products.select_all_count', { count: filteredProducts.length })}</span>
             <div className="relative w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-              <Input placeholder={t('common.search')} className="pl-10 h-11 border-border/50 bg-muted/10" />
+              <Input
+                placeholder={t('common.search')}
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                className="pl-10 h-11 border-border/50 bg-muted/10"
+              />
             </div>
           </div>
           <SimpleTable<MockProduct, FilterProductFormValues>
             name="table"
             control={control}
             columns={columns}
-            data={MOCK_PRODUCTS}
-            total={MOCK_PRODUCTS.length}
+            data={filteredProducts}
+            total={filteredProducts.length}
           />
         </div>
 
