@@ -155,6 +155,27 @@
     "email_too_long": "อีเมลยาวเกินไป",
     "email_invalid": "รูปแบบอีเมลไม่ถูกต้อง"
   },
+  "filter_products": {
+    "sku_filter_label": "จำนวน SKU ในออเดอร์",
+    "item_filter_label": "จำนวน ชิ้น ในออเดอร์",
+    "filter_from": "จาก",
+    "filter_to": "ถึง",
+    "filter_unit_items": "ชิ้น",
+    "col_no": "No",
+    "col_name": "ชื่อ",
+    "col_barcode": "Barcode",
+    "col_orders": "จำนวนออเดอร์",
+    "col_to_pack": "จำนวนต้องแพ็ค",
+    "col_stock": "สต็อกที่มี",
+    "col_shortage": "ขาดสต็อก",
+    "col_sku": "SKU",
+    "col_cf_code": "รหัส CF",
+    "col_shelf": "ชั้นวาง",
+    "select_all_count": "เลือกทั้งหมด {{count}} รายการ",
+    "btn_process": "ดำเนินการ",
+    "toast_success": "ดำเนินการเรียบร้อยแล้ว",
+    "toast_success_desc": "รายการสินค้าที่เลือกได้รับการประมวลผลแล้ว"
+  },
   "dashboard": {
     "title": "ภาพรวมแดชบอร์ด",
     "welcome": "ยินดีต้อนรับกลับ Alex นี่คือข้อมูลล่าสุดวันนี้",

@@ -56,3 +56,8 @@ apps/storybook/storybook-static
 # ================================
 .claude/settings.local.json
 .claude/worktrees/
+
+# ================================
+# Kiro local settings
+# ================================
+.kiro/

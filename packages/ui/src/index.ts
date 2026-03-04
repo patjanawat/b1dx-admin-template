@@ -115,3 +115,5 @@ export { SimpleRadioGroupField } from './components/forms/inputs/SimpleRadioGrou
 export type { SimpleRadioGroupFieldProps, RadioOption } from './components/forms/inputs/SimpleRadioGroupField';
 export { SimpleDecimalField } from './components/forms/inputs/SimpleDecimalField';
 export type { SimpleDecimalFieldProps } from './components/forms/inputs/SimpleDecimalField';
+export { SimpleTable } from './components/forms/inputs/SimpleTable';
+export type { SimpleTableProps, SimpleTableValue } from './components/forms/inputs/SimpleTable';

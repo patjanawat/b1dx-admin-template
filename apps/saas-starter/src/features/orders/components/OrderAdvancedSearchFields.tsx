@@ -15,7 +15,7 @@ import {
   getLogisticsOptions,
   getDefaultShopOptions,
   getDefaultPaymentStatusOptions,
-} from '../../__mocks__/mockOptions';
+} from '../__mocks__/mockOptions';
 
 /* ── Props ───────────────────────────────────────────────────────── */
 
