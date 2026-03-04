@@ -1,12 +1,21 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
-import type { ColumnDef, RowSelectionState, SortingState } from '@tanstack/react-table';
-import { DataTable } from '../../ui/DataTable';
-import { FormField } from '../FormField';
+import React from "react";
+import {
+  Controller,
+  type Control,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
+import type {
+  ColumnDef,
+  RowSelectionState,
+  SortingState,
+} from "@tanstack/react-table";
+import { DataTable } from "../../ui/DataTable";
+import { FormField } from "../FormField";
 
-type ErrorMode = 'inline' | 'tooltip';
+type ErrorMode = "inline" | "tooltip";
 
 export interface SimpleTableValue {
   rowSelection: RowSelectionState;
@@ -15,7 +24,11 @@ export interface SimpleTableValue {
   pageSize: number;
 }
 
-export interface SimpleTableProps<TData, TFieldValues extends FieldValues, TValue = unknown> {
+export interface SimpleTableProps<
+  TData,
+  TFieldValues extends FieldValues,
+  TValue = unknown,
+> {
   name: FieldPath<TFieldValues>;
   control: Control<TFieldValues>;
   columns: ColumnDef<TData, TValue>[];
@@ -30,9 +43,14 @@ export interface SimpleTableProps<TData, TFieldValues extends FieldValues, TValu
   pageSizeOptions?: number[];
   noResultsText?: string;
   isLoading?: boolean;
+  enableRowSelection?: boolean;
 }
 
-export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = unknown>({
+export const SimpleTable = <
+  TData,
+  TFieldValues extends FieldValues,
+  TValue = unknown,
+>({
   name,
   control,
   columns,
@@ -41,11 +59,12 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
   label,
   description,
   required,
-  errorMode = 'inline',
+  errorMode = "inline",
   className,
   pageSizeOptions = [10, 20, 50],
   noResultsText,
   isLoading,
+  enableRowSelection=false,
 }: SimpleTableProps<TData, TFieldValues, TValue>) => (
   <div className={className}>
     <Controller
@@ -75,7 +94,7 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
         // Slice for current page before passing to DataTable (manualPagination: true)
         const start = value.pageIndex * value.pageSize;
         const pagedData = sorted.slice(start, start + value.pageSize);
-
+        
         return (
           <FormField
             label={label}
@@ -92,20 +111,23 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
               sorting={value.sorting}
               onSortingChange={(updaterOrValue) => {
                 const next =
-                  typeof updaterOrValue === 'function'
+                  typeof updaterOrValue === "function"
                     ? updaterOrValue(value.sorting)
                     : updaterOrValue;
-                // Reset to first page when sort changes
+
                 field.onChange({ ...value, sorting: next, pageIndex: 0 });
               }}
-              rowSelection={value.rowSelection}
-              onRowSelectionChange={(updaterOrValue) => {
-                const next =
-                  typeof updaterOrValue === 'function'
-                    ? updaterOrValue(value.rowSelection)
-                    : updaterOrValue;
-                field.onChange({ ...value, rowSelection: next });
-              }}
+              {...(enableRowSelection && {
+                rowSelection: value.rowSelection,
+                onRowSelectionChange: (updaterOrValue: any) => {
+                  const next =
+                    typeof updaterOrValue === "function"
+                      ? updaterOrValue(value.rowSelection)
+                      : updaterOrValue;
+
+                  field.onChange({ ...value, rowSelection: next });
+                },
+              })}
               pagination={{
                 pageIndex: value.pageIndex,
                 pageSize: value.pageSize,
@@ -118,8 +140,6 @@ export const SimpleTable = <TData, TFieldValues extends FieldValues, TValue = un
                   field.onChange({ ...value, pageIndex: 0, pageSize });
                 },
               }}
-              noResultsText={noResultsText}
-              isLoading={isLoading}
             />
           </FormField>
         );
