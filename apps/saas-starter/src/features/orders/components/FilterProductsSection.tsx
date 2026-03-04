@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,7 +28,7 @@ export function FilterProductsSection() {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const filterProductSchema = useMemo(() => createFilterProductSchema(t), [t]);
 
-  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { isSubmitting, isValid } } = useForm<FilterProductFormValues>({
+  const { control, setValue, getValues, handleSubmit, clearErrors, watch, formState: { isSubmitting } } = useForm<FilterProductFormValues>({
     resolver: zodResolver(filterProductSchema),
     mode: 'onSubmit',
     defaultValues: {
@@ -48,6 +48,15 @@ export function FilterProductsSection() {
   });
   const skuFilter = watch('skuFilter');
   const itemFilter = watch('itemFilter');
+  const skuFrom = watch('skuFrom');
+  const skuTo = watch('skuTo');
+  const itemFrom = watch('itemFrom');
+  const itemTo = watch('itemTo');
+  const rowSelection = useWatch({ control, name: 'table.rowSelection' });
+  const selectedItemCount = useMemo(
+    () => Object.values(rowSelection ?? {}).filter(Boolean).length,
+    [rowSelection]
+  );
 
   const filteredProducts = useMemo(() => {
     if (!debouncedSearch) return MOCK_PRODUCTS;
@@ -84,6 +93,18 @@ export function FilterProductsSection() {
   useEffect(() => {
     if (itemFilter === 'all') clearErrors(['itemFrom', 'itemTo']);
   }, [itemFilter, clearErrors]);
+
+  useEffect(() => {
+    if (skuFilter === 'all' && (skuFrom.trim() || skuTo.trim())) {
+      setValue('skuFilter', 'range', { shouldDirty: true, shouldValidate: true });
+    }
+  }, [skuFilter, skuFrom, skuTo, setValue]);
+
+  useEffect(() => {
+    if (itemFilter === 'all' && (itemFrom.trim() || itemTo.trim())) {
+      setValue('itemFilter', 'range', { shouldDirty: true, shouldValidate: true });
+    }
+  }, [itemFilter, itemFrom, itemTo, setValue]);
 
   const filterModeOptions = useMemo<RadioOption[]>(() => [
     { value: 'all',   label: t('common.all') },
@@ -202,7 +223,24 @@ export function FilterProductsSection() {
     },
   ], [t]);
 
-  const handleProcess = handleSubmit(() => {
+  const handleProcess = handleSubmit((values) => {
+    const selectedCount = Object.values(values.table.rowSelection).filter(Boolean).length;
+
+    console.log('FilterProducts submit', {
+      selectedCount,
+      selectedWarehouse,
+      searchInput: debouncedSearch,
+      formValues: {
+        skuFilter: values.skuFilter,
+        skuFrom: values.skuFrom,
+        skuTo: values.skuTo,
+        itemFilter: values.itemFilter,
+        itemFrom: values.itemFrom,
+        itemTo: values.itemTo,
+      },
+      table: values.table,
+    });
+
     toast.success(t('filter_products.toast_success'), {
       description: t('filter_products.toast_success_desc'),
     });
@@ -272,7 +310,9 @@ export function FilterProductsSection() {
         {/* Product table */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-bold text-foreground">{t('filter_products.select_all_count', { count: filteredProducts.length })}</span>
+            <span className="text-sm font-bold text-foreground">
+              {t('filter_products.select_all_count', { count: selectedItemCount })}
+            </span>
             <div className="relative w-80">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
               <Input

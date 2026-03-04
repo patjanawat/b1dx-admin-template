@@ -172,6 +172,7 @@
     "col_cf_code": "CF Code",
     "col_shelf": "Shelf",
     "select_all_count": "Select all {{count}} items",
+    "selected_count": "Selected {{count}} items",
     "btn_process": "Process",
     "toast_success": "Process completed",
     "toast_success_desc": "Selected items have been processed",

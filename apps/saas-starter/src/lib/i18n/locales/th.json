@@ -172,6 +172,7 @@
     "col_cf_code": "รหัส CF",
     "col_shelf": "ชั้นวาง",
     "select_all_count": "เลือกทั้งหมด {{count}} รายการ",
+    "selected_count": "เลือกแล้ว {{count}} รายการ",
     "btn_process": "ดำเนินการ",
     "toast_success": "ดำเนินการเรียบร้อยแล้ว",
     "toast_success_desc": "รายการสินค้าที่เลือกได้รับการประมวลผลแล้ว",
