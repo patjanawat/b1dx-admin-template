@@ -9,7 +9,7 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import { createFilterProductSchema } from "../schemas";
 
 export type FilterProductGroupProps = {
-  control: Control<FilterProductFormValues>;  
+  control: Control<FilterProductFormValues>;
   filteredProducts: MockProduct[];
   searchInput: string;
   onSearchInputChange: (value: string) => void;
@@ -18,62 +18,59 @@ export type FilterProductGroupProps = {
   className?: string;
 };
 
+export function FilterProductGroup  (props: FilterProductGroupProps) {
+  const filterProductSchema = useMemo(() => createFilterProductSchema(t), [t]);
+  const {
+    control,
+    setValue,
+    getValues,
+    handleSubmit,
+    clearErrors,
+    watch,
+    formState: { isSubmitting },
+  } = useForm<FilterProductFormValues>({
+    resolver: zodResolver(filterProductSchema),
+    mode: "onSubmit",
+    defaultValues: {
+      skuFilter: "all",
+      skuFrom: "",
+      skuTo: "",
+      itemFilter: "all",
+      itemFrom: "",
+      itemTo: "",
+      table: {
+        rowSelection: {},
+        sorting: [],
+        pageIndex: 0,
+        pageSize: 10,
+      },
+    },
+  });
 
-const FilterProductGroup = (props: FilterProductGroupProps) => {
-     const filterProductSchema = useMemo(() => createFilterProductSchema(t), [t]);
-    const {
-        control,
-        setValue,
-        getValues,
-        handleSubmit,
-        clearErrors,
-        watch,
-        formState: { isSubmitting },
-      } = useForm<FilterProductFormValues>({
-        resolver: zodResolver(filterProductSchema),
-        mode: "onSubmit",
-        defaultValues: {
-          skuFilter: "all",
-          skuFrom: "",
-          skuTo: "",
-          itemFilter: "all",
-          itemFrom: "",
-          itemTo: "",
-          table: {
-            rowSelection: {},
-            sorting: [],
-            pageIndex: 0,
-            pageSize: 10,
-          },
-        },
-      });
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const rowSelection = useWatch({ control, name: "table.rowSelection" });
+  const selectedItemCount = useMemo(
+    () => Object.values(rowSelection ?? {}).filter(Boolean).length,
+    [rowSelection],
+  );
 
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-    const [searchInput, setSearchInput] = useState("");
-    const rowSelection = useWatch({ control, name: "table.rowSelection" });
-     const selectedItemCount = useMemo(
-        () => Object.values(rowSelection ?? {}).filter(Boolean).length,
-        [rowSelection],
-      );
-     
-     
+  const filteredProducts = useMemo(() => {
+    if (!debouncedSearch) return MOCK_PRODUCTS;
+    const query = debouncedSearch.toLowerCase();
+    return MOCK_PRODUCTS.filter((product) =>
+      [
+        product.name,
+        product.shop,
+        product.barcode,
+        product.sku,
+        product.cfCode,
+        product.shelf,
+        String(product.id),
+      ].some((value) => value.toLowerCase().includes(query)),
+    );
+  }, [debouncedSearch]);
 
-       const filteredProducts = useMemo(() => {
-          if (!debouncedSearch) return MOCK_PRODUCTS;
-          const query = debouncedSearch.toLowerCase();
-          return MOCK_PRODUCTS.filter((product) =>
-            [
-              product.name,
-              product.shop,
-              product.barcode,
-              product.sku,
-              product.cfCode,
-              product.shelf,
-              String(product.id),
-            ].some((value) => value.toLowerCase().includes(query)),
-          );
-        }, [debouncedSearch]);
-      
   const columns = useMemo<ColumnDef<MockProduct>[]>(
     () => [
       {
@@ -229,6 +226,4 @@ const FilterProductGroup = (props: FilterProductGroupProps) => {
       />
     </div>
   );
-};
-
-export default FilterProductGroup;
+}

@@ -21,9 +21,9 @@ import {
 } from "../__mocks__/mockProducts";
 import { createFilterProductSchema } from "../schemas";
 import type { FilterProductFormValues } from "../types";
-import FilterProductGroup from "./FilterProductGroup";
 import FilterProductSKU from "./FilterProductSKU";
 import FilterProductNumberItem from "./FilterProductNumberItem";
+import { FilterProductGroup } from "./FilterProductGroup";
 
 export function FilterProductsSection() {
   const { t } = useTranslation();
