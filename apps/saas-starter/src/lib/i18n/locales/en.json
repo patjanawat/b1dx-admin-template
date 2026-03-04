@@ -74,6 +74,7 @@
     "search": "Search",
     "advanced": "Advanced",
     "sort": "Sort",
+    "back": "Back",
     "export_excel": "Export Excel",
     "search_by": "Search By",
     "keyword": "Keyword",
@@ -156,6 +157,8 @@
     "email_invalid": "Invalid email format"
   },
   "filter_products": {
+    "title": "Filter Products",
+    "subtitle": "Manage and filter product lists by your selected conditions for easier packing and shipping.",
     "sku_filter_label": "SKU Count per Order",
     "item_filter_label": "Item Count per Order",
     "filter_from": "From",
