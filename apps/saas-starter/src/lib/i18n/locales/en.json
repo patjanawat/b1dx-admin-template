@@ -195,6 +195,22 @@
       "processing": "Processing",
       "failed": "Failed Data"
     },
+    "table": {
+      "description": "Select orders to reserve stock for processing.",
+      "columns": {
+        "select": "Select all rows",
+        "select_row": "Select row",
+        "order": "Order",
+        "reference": "Reference No.",
+        "channel": "Channel",
+        "shipping_service": "Shipping Service",
+        "status": "Status"
+      },
+      "status": {
+        "ready": "Ready",
+        "waiting": "Waiting"
+      }
+    },
     "placeholders": {
       "processing_title": "Processing Placeholder",
       "processing_description": "This tab will contain reserve stock data ready for processing.",
