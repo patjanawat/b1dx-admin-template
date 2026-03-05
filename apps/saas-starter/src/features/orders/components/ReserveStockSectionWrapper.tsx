@@ -16,9 +16,10 @@ export function ReserveStockSectionWrapper() {
   );
   const [activeTab, setActiveTab] = useState<string>("0"); // TODO: Use real tab value when navigation is implemented.
   const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>([]);
+  const [selectedMethod, setSelectedMethod] = useState<string>('');
 
   return (
-    <div className="p-6 space-y-6 bg-card rounded-xl border border-border shadow-sm overflow-hidden">
+    <div className="min-h-[680px] p-6 space-y-6 bg-card rounded-xl border border-border shadow-sm overflow-hidden">
       <TabsWithFormWrapper
         tabs={tabs}
         value={activeTab}
@@ -26,7 +27,10 @@ export function ReserveStockSectionWrapper() {
       >
         <div className="mt-4">
           {activeTab === '0' ? (
-            <ReserveStockProcessingTab onSelectedOrderIdsChange={setSelectedOrderIds} />
+            <ReserveStockProcessingTab
+              onSelectedOrderIdsChange={setSelectedOrderIds}
+              onSelectedMethodChange={setSelectedMethod}
+            />
           ) : (
             <ReserveStockFailedTab />
           )}
@@ -39,6 +43,7 @@ export function ReserveStockSectionWrapper() {
           className="px-8"
           onClick={() => {
             console.log('Selected order ids:', selectedOrderIds);
+            console.log('Selected reserve method:', selectedMethod);
           }}
         >
           {t('reserve_stock.actions.process')}

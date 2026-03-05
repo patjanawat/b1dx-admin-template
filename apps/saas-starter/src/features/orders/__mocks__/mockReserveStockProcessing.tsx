@@ -1,5 +1,5 @@
 import type { TFunction } from 'i18next';
-import type { ColumnDef } from '@b1dx/ui';
+import type { ColumnDef, ComboboxOption } from '@b1dx/ui';
 
 export interface ReserveStockProcessingRow {
   orderId: string;
@@ -8,6 +8,14 @@ export interface ReserveStockProcessingRow {
   shippingService: string;
   status: string;
 }
+
+export const MOCK_RESERVE_STOCK_METHODS = ['FEFO', 'FIFO'] as const;
+
+export const getReserveStockMethodOptions = (t: TFunction): ComboboxOption[] =>
+  MOCK_RESERVE_STOCK_METHODS.map((method) => ({
+    value: method,
+    label: t(`reserve_stock.processing.method.options.${method.toLowerCase()}`),
+  }));
 
 export const MOCK_RESERVE_STOCK_PROCESSING_ROWS: ReserveStockProcessingRow[] = [
   {

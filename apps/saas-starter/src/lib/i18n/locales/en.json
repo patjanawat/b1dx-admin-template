@@ -218,6 +218,16 @@
         "retry": "Retry Required"
       }
     },
+    "processing": {
+      "method": {
+        "label": "Reserve Method",
+        "placeholder": "Select reserve method",
+        "options": {
+          "fefo": "FEFO",
+          "fifo": "FIFO"
+        }
+      }
+    },
     "placeholders": {
       "processing_title": "Processing Placeholder",
       "processing_description": "This tab will contain reserve stock data ready for processing.",

@@ -218,6 +218,16 @@
         "retry": "ต้องดำเนินการซ้ำ"
       }
     },
+    "processing": {
+      "method": {
+        "label": "รูปแบบการจองสต๊อก",
+        "placeholder": "เลือกรูปแบบการจองสต๊อก",
+        "options": {
+          "fefo": "FEFO",
+          "fifo": "FIFO"
+        }
+      }
+    },
     "placeholders": {
       "processing_title": "พื้นที่ตัวอย่างแท็บดำเนินการ",
       "processing_description": "แท็บนี้จะใช้สำหรับแสดงข้อมูลจองสต๊อกที่พร้อมดำเนินการ",
