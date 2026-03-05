@@ -211,6 +211,13 @@
         "waiting": "Waiting"
       }
     },
+    "failed_table": {
+      "description": "Review orders that could not reserve stock successfully.",
+      "status": {
+        "failed": "Failed",
+        "retry": "Retry Required"
+      }
+    },
     "placeholders": {
       "processing_title": "Processing Placeholder",
       "processing_description": "This tab will contain reserve stock data ready for processing.",
