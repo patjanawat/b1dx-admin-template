@@ -18,7 +18,7 @@ export function ReserveStockSectionWrapper() {
   const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>([]);
 
   return (
-    <div className="space-y-6">
+    <div className="p-6 space-y-6 bg-card rounded-xl border border-border shadow-sm overflow-hidden">
       <TabsWithFormWrapper
         tabs={tabs}
         value={activeTab}
