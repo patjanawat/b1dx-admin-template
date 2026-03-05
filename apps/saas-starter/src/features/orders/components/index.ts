@@ -1,6 +1,7 @@
 export { FilterProductsSection } from './FilterProductsSection';
+export { ChangeStatusSectionWrapper as ChangeStatusSection } from './ChangeStatusSectionWrapper';
 export { OrderAdvancedSearchFields } from './OrderAdvancedSearchFields';
-export { OrderProcessing } from './OrderProcessing';
+export { OrderProcessingWrapper as OrderProcessing } from './OrderProcessingWrapper';
 export { OrderSearchSection, type OrderSearchSectionProps } from './OrderSearchSection';
 export { OrderSortFields, type OrderSortFieldsProps } from './OrderSortFields';
 export { ReserveStockSectionWrapper as ReserveStockSection } from './ReserveStockSectionWrapper';

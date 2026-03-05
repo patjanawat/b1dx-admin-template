@@ -110,6 +110,33 @@
     "title": "Orders Overview",
     "subtitle": "Efficiently manage all incoming customer orders across channels."
   },
+  "change_status": {
+    "title": "Change Status",
+    "subtitle": "Update status for selected processing orders in one action.",
+    "tabs": {
+      "processing": "Processing",
+      "failed": "Failed Data"
+    },
+    "table": {
+      "description": "Select orders and choose a target status for update."
+    },
+    "processing": {
+      "status": {
+        "label": "Target Status",
+        "placeholder": "Select target status"
+      }
+    },
+    "form": {
+      "title": "Change Order Status",
+      "description": "Choose the destination status and apply it to selected orders.",
+      "target_status": "Target Status"
+    },
+    "actions": {
+      "process": "Process"
+    },
+    "toast_success": "Status updated",
+    "toast_success_desc": "Selected orders have been updated to {{status}}"
+  },
   "sort_dialog": {
     "title": "Sort Orders",
     "field_label": "Sort By Field",
