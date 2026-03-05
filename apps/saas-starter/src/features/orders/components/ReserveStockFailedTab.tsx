@@ -9,6 +9,7 @@ import {
   MOCK_RESERVE_STOCK_FAILED_ROWS,
   type ReserveStockFailedRow,
 } from '../__mocks__/mockReserveStockFailed';
+import { Section } from 'lucide-react';
 
 interface ReserveStockFailedFormValues {
   table: SimpleTableValue;
@@ -28,7 +29,7 @@ export function ReserveStockFailedTab() {
     },
   });
 
-  return (
+  return ( 
     <div className="space-y-3">
       <p className="text-sm text-muted-foreground">{t('reserve_stock.failed_table.description')}</p>
       <SimpleTable<ReserveStockFailedRow, ReserveStockFailedFormValues>
