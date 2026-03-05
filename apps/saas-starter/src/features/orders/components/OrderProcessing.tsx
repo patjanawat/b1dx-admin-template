@@ -39,10 +39,11 @@ import { OrderAdvancedSearchFields } from './OrderAdvancedSearchFields';
 import { OrderSearchSection } from './OrderSearchSection';
 import { OrderSortFields } from './OrderSortFields';
 
+// TODO: Replace MOCK_ICON_TABS with real tabs when features are implemented
 const MOCK_ICON_TABS: IconTabItem[] = [
   { value: 'overview', label: 'Overview', icon: LayoutGrid },
   { value: 'details', label: 'Details', icon: Package },
-  { value: 'shipping', label: 'Shipping', icon: Truck },
+  { value: 'reserveStock', label: 'Reserve Stock', icon: Truck },
   { value: 'filter-products', label: 'ตัวกรองสินค้า', icon: SlidersHorizontal },
 ];
 
@@ -319,9 +320,13 @@ export function OrderProcessing() {
         tabs={MOCK_ICON_TABS}
         tabValue={mockTabValue}
         onTabChange={(val) => {
-          if (val === 'filter-products') {
+          // TODO: Implement real tab navigation when all tabs are ready.
+          if (val === 'filter-products') { 
             router.push('/processing-orders/filter-products');
-          } else {
+          }  else if (val === 'reserveStock') {
+            router.push('/processing-orders/reserve-stock');
+          }
+          else {
             setMockTabValue(val);
           }
         }}
